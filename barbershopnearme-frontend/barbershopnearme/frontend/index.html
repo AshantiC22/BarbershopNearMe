@@ -2,20 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#050403" />
-    <meta name="description" content="Barbershopnearme — Est. 1931. Hattiesburg's sharpest blade." />
-    <title>Barbershopnearme</title>
-    <!-- Fonts — preconnect for performance -->
+
+    <!-- ── PWA ── -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#070504" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BarberNearMe" />
+
+    <!-- ── Icons ── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png" />
+
+    <!-- ── SEO ── -->
+    <title>Barbershopnearme — Sharp Fades, Clean Lines</title>
+    <meta name="description" content="Book your next cut online. Sharp fades, hot shaves, clean lines. Barbershopnearme — Hattiesburg's sharpest blade." />
+    <meta name="keywords" content="barbershop, barber, haircut, fade, Hattiesburg, book barber online" />
+    <meta name="author" content="Barbershopnearme" />
+
+    <!-- ── Open Graph (social sharing) ── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://barbersnearme.xyz" />
+    <meta property="og:title" content="Barbershopnearme — Sharp Fades, Clean Lines" />
+    <meta property="og:description" content="Book your next cut online. Sharp fades, hot shaves, clean lines." />
+    <meta property="og:image" content="https://barbersnearme.xyz/icons/icon-512.png" />
+
+    <!-- ── Twitter Card ── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Barbershopnearme" />
+    <meta name="twitter:description" content="Book your next cut online." />
+    <meta name="twitter:image" content="https://barbersnearme.xyz/icons/icon-512.png" />
+
+    <!-- ── Fonts ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boogaloo&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boogaloo&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
     <!-- Prevent flash of unstyled content -->
-    <style>body{background:#050403;}</style>
+    <style>body{background:#070504;margin:0;}</style>
   </head>
   <body>
     <div id="root"></div>

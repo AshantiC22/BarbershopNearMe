@@ -8,6 +8,7 @@ import api from '@/services/api.js'
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
+  const { subscribe, unsubscribe } = usePushNotifications()
   const [user,    setUser]    = useState(() => {
     try { return JSON.parse(localStorage.getItem('bsnm_user')) } catch { return null }
   })
@@ -22,9 +23,12 @@ export function AuthProvider({ children }) {
     localStorage.setItem('bsnm_user', JSON.stringify(userData))
     // token stored — api.js interceptor picks it up automatically
     setUser(userData)
+    // subscribe to push notifications after login
+    setTimeout(() => subscribe().catch(() => {}), 2000)
   }
 
   function clearSession() {
+    unsubscribe().catch(() => {})
     localStorage.removeItem('bsnm_token')
     localStorage.removeItem('bsnm_refresh')
     localStorage.removeItem('bsnm_user')

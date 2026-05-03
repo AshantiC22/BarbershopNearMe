@@ -1779,6 +1779,25 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             ).get(pk=appt.pk)
             send_booking_confirmation(appt_full)
             sms_booking_confirmation(appt_full)
+            # Push notification — client
+            try:
+                send_push_notification(
+                    user  = appt_full.user,
+                    title = "✂️ Booking Confirmed!",
+                    body  = f"{appt_full.service.name} with {appt_full.barber.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')}",
+                    data  = {"type": "booking_confirmed", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt_full.id}
+                )
+            except Exception: pass
+            # Push notification — barber
+            try:
+                if appt_full.barber.user:
+                    send_push_notification(
+                        user  = appt_full.barber.user,
+                        title = "📅 New Booking!",
+                        body  = f"{appt_full.user.username} booked {appt_full.service.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')}",
+                        data  = {"type": "new_booking", "url": f"{FRONTEND_URL}/barber-dashboard"}
+                    )
+            except Exception: pass
         except IntegrityError:
             raise serializers.ValidationError("That time slot is already booked. Please choose another.")
 
@@ -1802,6 +1821,25 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 # Notify barber
                 send_cancellation_email(appt_full, cancelled_by="client")
                 sms_cancellation(appt_full, cancelled_by="client")
+                # Push to barber
+                try:
+                    if appt_full.barber.user:
+                        send_push_notification(
+                            user  = appt_full.barber.user,
+                            title = "🚫 Appointment Cancelled",
+                            body  = f"{appt_full.user.username} cancelled {appt_full.service.name} on {str(appt_full.date)}",
+                            data  = {"type": "cancelled", "url": f"{FRONTEND_URL}/barber-dashboard"}
+                        )
+                except Exception: pass
+                # Push to client confirming cancel
+                try:
+                    send_push_notification(
+                        user  = appt_full.user,
+                        title = "Appointment Cancelled",
+                        body  = f"Your {appt_full.service.name} on {str(appt_full.date)} has been cancelled.",
+                        data  = {"type": "cancel_confirmed", "url": f"{FRONTEND_URL}/dashboard"}
+                    )
+                except Exception: pass
                 # Confirm cancellation to client
                 try:
                     client_email = appt_full.user.email
@@ -5174,6 +5212,14 @@ class RescheduleResponseView(APIView):
             ).get(pk=rr.pk)
             send_reschedule_response_email(rr_full, accepted=True)
             sms_reschedule_response(rr_full, accepted=True)
+            try:
+                send_push_notification(
+                    user  = rr_full.appointment.user,
+                    title = "✅ Reschedule Approved!",
+                    body  = f"Your reschedule to {str(rr_full.new_date)} at {str(rr_full.new_time)[:5]} is confirmed.",
+                    data  = {"type": "reschedule_accepted", "url": f"{FRONTEND_URL}/dashboard"}
+                )
+            except Exception: pass
             return Response({"status": "accepted", "message": "Reschedule approved — client has been notified."}, status=200)
         else:
             rr.status = "rejected"
@@ -5185,6 +5231,14 @@ class RescheduleResponseView(APIView):
             ).get(pk=rr.pk)
             send_reschedule_response_email(rr_full, accepted=False)
             sms_reschedule_response(rr_full, accepted=False)
+            try:
+                send_push_notification(
+                    user  = rr_full.appointment.user,
+                    title = "❌ Reschedule Declined",
+                    body  = "Your reschedule request was declined. Your original appointment stands.",
+                    data  = {"type": "reschedule_declined", "url": f"{FRONTEND_URL}/dashboard"}
+                )
+            except Exception: pass
             return Response({"status": "rejected", "message": "Reschedule declined — client has been notified."}, status=200)
 
 
@@ -5354,3 +5408,4 @@ class PublicReviewsView(APIView):
             } for r in qs])
         except Exception:
             return Response([])
+
