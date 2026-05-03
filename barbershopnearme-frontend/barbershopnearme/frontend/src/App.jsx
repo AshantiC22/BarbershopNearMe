@@ -14,6 +14,7 @@ import ReviewPage         from '@/pages/ReviewPage.jsx'
 import ReschedulePage     from '@/pages/ReschedulePage.jsx'
 import TermsPage          from '@/pages/TermsPage.jsx'
 import NotFound           from '@/pages/NotFound.jsx'
+import PushTestPage       from '@/pages/PushTestPage.jsx'
 
 /*
   PageWrap — no animation here.
