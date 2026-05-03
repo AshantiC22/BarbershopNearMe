@@ -3,7 +3,7 @@
    Handles: PWA install, offline cache, push notifications
    ============================================================ */
 
-const CACHE    = 'bsnm-v1'
+const CACHE    = 'bsnm-v2'
 const PRECACHE = ['/', '/index.html']
 
 /* ── Install: pre-cache shell ── */
