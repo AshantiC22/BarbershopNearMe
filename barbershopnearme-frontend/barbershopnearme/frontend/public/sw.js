@@ -35,6 +35,8 @@ self.addEventListener('fetch', e => {
   }
   /* API calls — always network, never cache */
   if (e.request.url.includes('/api/')) return
+  /* Barber data — always network so photos update instantly */
+  if (e.request.url.includes('barbers')) return
   /* Static assets — cache first */
   e.respondWith(
     caches.match(e.request).then(cached =>
