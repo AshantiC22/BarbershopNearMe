@@ -194,23 +194,8 @@ export default function Navbar({ onBookNow }) {
             )}
           </ul>
 
-          {/* ── MOBILE HAMBURGER ── */}
-          <div style={{display:'flex',alignItems:'center',gap:8}}>
-            {/* News badge pill — visible on mobile next to hamburger */}
-            {newsUnread > 0 && (
-              <div style={{
-                fontFamily:"'Courier Prime',monospace",fontSize:9,fontWeight:900,
-                background:'#8B1A1A',color:'#E8DFC8',
-                padding:'3px 8px',borderRadius:20,
-                border:'2px solid #070504',
-                boxShadow:'0 0 8px rgba(139,26,26,.8)',
-                animation:'badgePulse 2s ease-in-out infinite',
-                letterSpacing:'.1em',
-                display:'flex',alignItems:'center',gap:4,
-              }}>
-                📣 {newsUnread}
-              </div>
-            )}
+          {/* ── MOBILE HAMBURGER — always in DOM, hidden on desktop via CSS ── */}
+          <div style={{position:'relative'}}>
             <button
               className={`navbar-hamburger${menuOpen?' open':''}`}
               onClick={()=>setMenuOpen(o=>!o)}
@@ -218,6 +203,24 @@ export default function Navbar({ onBookNow }) {
             >
               <span/><span/><span/>
             </button>
+            {/* Red dot on hamburger when there are unread news posts */}
+            {newsUnread > 0 && (
+              <span style={{
+                position:'absolute', top:-4, right:-4,
+                minWidth:18, height:18, borderRadius:9,
+                background:'#8B1A1A', color:'#E8DFC8',
+                fontFamily:"'Courier Prime',monospace",
+                fontSize:9, fontWeight:900,
+                display:'flex', alignItems:'center', justifyContent:'center',
+                padding:'0 4px',
+                border:'2px solid #070504',
+                boxShadow:'0 0 8px rgba(139,26,26,.9)',
+                animation:'badgePulse 2s ease-in-out infinite',
+                pointerEvents:'none', zIndex:10,
+              }}>
+                {newsUnread > 99 ? '99+' : newsUnread}
+              </span>
+            )}
           </div>
         </div>
       </nav>
