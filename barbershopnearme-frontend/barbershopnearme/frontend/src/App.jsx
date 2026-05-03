@@ -56,6 +56,7 @@ function AppInner() {
       <Route path="/review"           element={<PageWrap><ReviewPage /></PageWrap>} />
       <Route path="/reschedule"       element={<PageWrap><ReschedulePage /></PageWrap>} />
       <Route path="/terms"            element={<PageWrap><TermsPage /></PageWrap>} />
+      <Route path="/push-test"        element={<PageWrap><PushTestPage /></PageWrap>} />
       <Route path="*"                 element={<PageWrap><NotFound /></PageWrap>} />
     </Routes>
   )

@@ -69,6 +69,7 @@ from core.views import (
     # Push notifications + reviews
     PushSubscriptionView,
     WelcomePushView,
+    TestPushView,
     TriggerReviewNotificationView,
     HaircutReviewView,
     BarberReviewsView,
@@ -178,6 +179,7 @@ urlpatterns = [
     # Push notifications
     path("push/subscribe/",              PushSubscriptionView.as_view(),             name="push_subscribe"),
     path("push/welcome/",               WelcomePushView.as_view(),                  name="push_welcome"),
+    path("push/test/",                  TestPushView.as_view(),                     name="push_test"),
     path("push/vapid-key/",              VapidPublicKeyView.as_view(),               name="vapid_key"),
     path("review/trigger/<int:pk>/",     TriggerReviewNotificationView.as_view(),    name="review_trigger"),
     path("review/submit/",               HaircutReviewView.as_view(),                name="review_submit"),

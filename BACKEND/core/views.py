@@ -1444,17 +1444,30 @@ def send_push_notification(user, title, body, data=None):
         from pywebpush import webpush, WebPushException
         sub = PushSubscription.objects.get(user=user)
         payload = json.dumps({"title": title, "body": body, "data": data or {}})
+
+        # VAPID private key — strip PEM headers if present, pywebpush wants raw base64
+        vapid_key = settings.VAPID_PRIVATE_KEY or ""
+        if "BEGIN" in vapid_key:
+            # Extract raw base64 from PEM format
+            lines = [l.strip() for l in vapid_key.strip().splitlines()]
+            vapid_key = "".join(l for l in lines if not l.startswith("-----"))
+
+        vapid_email = settings.VAPID_CLAIM_EMAIL or "admin@barbershopnearme.com"
+
         webpush(
             subscription_info={
                 "endpoint": sub.endpoint,
                 "keys": {"p256dh": sub.p256dh, "auth": sub.auth},
             },
             data=payload,
-            vapid_private_key=settings.VAPID_PRIVATE_KEY,
-            vapid_claims={"sub": f"mailto:{settings.VAPID_CLAIM_EMAIL}"},
+            vapid_private_key=vapid_key,
+            vapid_claims={"sub": f"mailto:{vapid_email}"},
         )
-    except Exception:
-        pass
+        logger.info(f"[Push] sent to {user.username}: {title}")
+    except PushSubscription.DoesNotExist:
+        pass  # User has no push subscription — normal
+    except Exception as e:
+        logger.warning(f"[Push] failed for {user.username}: {e}")
 
 
 def get_barber_for_user(user):
@@ -4059,6 +4072,32 @@ class NewsletterMarkSeenView(APIView):
         except Exception:
             pass
         return Response({"status": "ok"})
+
+
+class TestPushView(APIView):
+    """POST push/test/ — sends a test push to the logged-in user immediately.
+       Use this to verify push notifications are working."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        # Check they have a subscription
+        if not PushSubscription.objects.filter(user=user).exists():
+            return Response({
+                "status": "error",
+                "message": "No push subscription found. Make sure you allowed notifications after logging in."
+            }, status=400)
+
+        try:
+            send_push_notification(
+                user  = user,
+                title = "✂️ Test Notification!",
+                body  = f"Hey {user.first_name or user.username}! Push notifications are working perfectly.",
+                data  = {"type": "test", "url": f"{FRONTEND_URL}/dashboard"}
+            )
+            return Response({"status": "sent", "message": "Test push sent! Check your phone."})
+        except Exception as e:
+            return Response({"status": "error", "message": str(e)}, status=500)
 
 
 class WelcomePushView(APIView):
