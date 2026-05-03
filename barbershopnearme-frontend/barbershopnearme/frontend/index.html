@@ -4,46 +4,75 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <!-- ── PWA ── -->
+    <!-- ── PWA Core ── -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#070504" />
-    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- ── Apple PWA ── -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="BarberNearMe" />
+    <meta name="apple-mobile-web-app-title" content="Barbers" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
-    <!-- ── Icons ── -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- ── Apple Touch Icons (every size iOS might request) ── -->
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="72x72"   href="/icons/icon-72.png" />
+    <link rel="apple-touch-icon" sizes="96x96"   href="/icons/icon-96.png" />
+    <link rel="apple-touch-icon" sizes="128x128" href="/icons/icon-128.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png" />
     <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png" />
+
+    <!-- ── Apple Splash Screens — full black with scissors centered ── -->
+    <!-- iPhone SE / 5 (320x568) -->
+    <link rel="apple-touch-startup-image" media="(device-width:320px) and (device-height:568px) and (-webkit-device-pixel-ratio:2)" href="/icons/splash-640x1136.png" />
+    <!-- iPhone 8 / SE2 (375x667) -->
+    <link rel="apple-touch-startup-image" media="(device-width:375px) and (device-height:667px) and (-webkit-device-pixel-ratio:2)" href="/icons/splash-750x1334.png" />
+    <!-- iPhone X/11 Pro / 12 mini (375x812) -->
+    <link rel="apple-touch-startup-image" media="(device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3)" href="/icons/splash-1125x2436.png" />
+    <!-- iPhone 11 / XR (414x896) -->
+    <link rel="apple-touch-startup-image" media="(device-width:414px) and (device-height:896px) and (-webkit-device-pixel-ratio:2)" href="/icons/splash-828x1792.png" />
+    <!-- iPhone 12/13/14 (390x844) -->
+    <link rel="apple-touch-startup-image" media="(device-width:390px) and (device-height:844px) and (-webkit-device-pixel-ratio:3)" href="/icons/splash-1170x2532.png" />
+    <!-- iPhone 14 Pro / 15 (393x852) -->
+    <link rel="apple-touch-startup-image" media="(device-width:393px) and (device-height:852px) and (-webkit-device-pixel-ratio:3)" href="/icons/splash-1179x2556.png" />
+    <!-- iPhone Plus / Max (428x926) -->
+    <link rel="apple-touch-startup-image" media="(device-width:428px) and (device-height:926px) and (-webkit-device-pixel-ratio:3)" href="/icons/splash-1284x2778.png" />
+
+    <!-- ── Favicon ── -->
+    <link rel="icon" type="image/png" href="/icons/icon-96.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- ── SEO ── -->
     <title>Barbershopnearme — Sharp Fades, Clean Lines</title>
     <meta name="description" content="Book your next cut online. Sharp fades, hot shaves, clean lines. Barbershopnearme — Hattiesburg's sharpest blade." />
     <meta name="keywords" content="barbershop, barber, haircut, fade, Hattiesburg, book barber online" />
-    <meta name="author" content="Barbershopnearme" />
 
-    <!-- ── Open Graph (social sharing) ── -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://barbersnearme.xyz" />
-    <meta property="og:title" content="Barbershopnearme — Sharp Fades, Clean Lines" />
+    <!-- ── Open Graph ── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://barbersnearme.xyz" />
+    <meta property="og:title"       content="Barbershopnearme — Sharp Fades, Clean Lines" />
     <meta property="og:description" content="Book your next cut online. Sharp fades, hot shaves, clean lines." />
-    <meta property="og:image" content="https://barbersnearme.xyz/icons/icon-512.png" />
-
-    <!-- ── Twitter Card ── -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Barbershopnearme" />
-    <meta name="twitter:description" content="Book your next cut online." />
-    <meta name="twitter:image" content="https://barbersnearme.xyz/icons/icon-512.png" />
+    <meta property="og:image"       content="https://barbersnearme.xyz/icons/icon-512.png" />
+    <meta name="twitter:card"       content="summary_large_image" />
+    <meta name="twitter:image"      content="https://barbersnearme.xyz/icons/icon-512.png" />
 
     <!-- ── Fonts ── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boogaloo&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
 
-    <!-- Prevent flash of unstyled content -->
-    <style>body{background:#070504;margin:0;}</style>
+    <!-- No FOUC -->
+    <style>
+      html,body{background:#070504;margin:0;padding:0;}
+      /* PWA launch screen style */
+      #root:empty::before{
+        content:'';display:block;width:100vw;height:100vh;
+        background:#070504;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

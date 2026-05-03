@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#070504"/>
+  <rect width="512" height="512" rx="80" fill="#8B1A1A" opacity="0.15"/>
+  <!-- scissors -->
+  <g stroke="#E8DFC8" stroke-width="28" stroke-linecap="round" fill="none">
+    <circle cx="148" cy="148" r="72"/>
+    <circle cx="148" cy="364" r="72"/>
+    <line x1="210" y1="186" x2="420" y2="396"/>
+    <line x1="210" y1="326" x2="420" y2="116"/>
+  </g>
+  <!-- blood accent dots -->
+  <circle cx="148" cy="148" r="28" fill="#8B1A1A"/>
+  <circle cx="148" cy="364" r="28" fill="#8B1A1A"/>
+</svg>
