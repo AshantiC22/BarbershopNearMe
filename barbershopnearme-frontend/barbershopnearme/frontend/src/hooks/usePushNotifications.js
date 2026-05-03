@@ -35,6 +35,7 @@ export function usePushNotifications() {
 
       /* Check if already subscribed */
       let sub = await reg.pushManager.getSubscription()
+      const isNewSubscription = !sub
       if (!sub) {
         sub = await reg.pushManager.subscribe({
           userVisibleOnly: true,
@@ -49,10 +50,11 @@ export function usePushNotifications() {
         auth:      btoa(String.fromCharCode(...new Uint8Array(sub.getKey('auth')))),
       })
       console.log('[Push] subscribed successfully')
-      // Ask backend to send a welcome push immediately
-      try {
-        await api.post('push/welcome/', {})
-      } catch (_) {}
+      // Only send welcome push on FIRST subscription (signup flow)
+      // Backend tracks welcome_push_sent so it only fires once ever
+      if (isNewSubscription) {
+        try { await api.post('push/welcome/', {}) } catch (_) {}
+      }
     } catch (err) {
       console.warn('[Push] subscription failed:', err)
     }

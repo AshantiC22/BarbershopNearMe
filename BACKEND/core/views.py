@@ -4136,6 +4136,7 @@ class WelcomePushView(APIView):
                 try:
                     profile.welcome_push_sent = True
                     profile.save(update_fields=["welcome_push_sent"])
+                    logger.info(f"[Push] Welcome push sent once to {request.user.username}")
                 except Exception:
                     pass
         except Exception:

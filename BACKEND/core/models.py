@@ -21,6 +21,8 @@ class UserProfile(models.Model):
                                          help_text="Mobile number for SMS e.g. +16015551234")
     last_seen_newsletter = models.DateTimeField(null=True, blank=True,
                                          help_text="Last time user visited /newsletter")
+    welcome_push_sent    = models.BooleanField(default=False,
+                                         help_text="Welcome push notification sent once on first login after signup")
 
     def get_deposit_fee(self):
         """Base $10 + $1.50 for every strike beyond the first."""
