@@ -1339,7 +1339,7 @@ export default function BarberDashboardPage(){
                     </span>
                   )}
                 </span>
-                <span style={{fontSize:isMobile?"clamp(7px,2vw,9px)":"7px"}}>{label}</span>
+                <span style={{fontSize:isMobile?"clamp(6px,2vw,9px)":"7px"}}>{label}</span>
               </button>
             );
           })}
@@ -1347,7 +1347,7 @@ export default function BarberDashboardPage(){
       </nav>
 
       {/* ══════════════════════════ MAIN ══════════════════════════ */}
-      <div style={{position:"relative",zIndex:10,maxWidth:1280,margin:"0 auto",padding:isMobile?"116px 14px max(40px,env(safe-area-inset-bottom))":"120px 32px 64px"}}>
+      <div style={{position:"relative",zIndex:10,maxWidth:1280,margin:"0 auto",padding:isMobile?"116px max(14px,env(safe-area-inset-left)) max(40px,env(safe-area-inset-bottom))":"120px 32px 64px"}}>
 
         {/* ── GREETING + STATS ── */}
         <div className="bd-enter" style={{marginBottom:28,paddingBottom:28,borderBottom:`1px solid ${T.border}`}}>

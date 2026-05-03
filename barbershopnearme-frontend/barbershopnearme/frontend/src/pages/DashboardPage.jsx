@@ -345,7 +345,7 @@ export default function DashboardPage(){
 
       {/* ── NAVBAR ── */}
       <nav style={{position:'sticky',top:0,zIndex:100,background:`rgba(7,5,4,.96)`,backdropFilter:'blur(16px)',borderBottom:`3px solid ${T.bone3}`,height:64}}>
-        <div style={{maxWidth:1100,margin:'0 auto',padding:'0 28px',height:'100%',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div style={{maxWidth:1100,margin:'0 auto',padding:'0 max(16px,env(safe-area-inset-left))',height:'100%',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <Link to="/" style={{...sf,fontSize:18,letterSpacing:'.2em',textTransform:'uppercase',color:T.bone,textDecoration:'none',transition:'color .2s'}}
             onMouseEnter={e=>e.currentTarget.style.color=T.blood}
             onMouseLeave={e=>e.currentTarget.style.color=T.bone}>
@@ -366,7 +366,7 @@ export default function DashboardPage(){
         </div>
       </nav>
 
-      <div style={{position:'relative',zIndex:10,maxWidth:1100,margin:'0 auto',padding:'48px 28px 80px'}}>
+      <div style={{position:'relative',zIndex:10,maxWidth:1100,margin:'0 auto',padding:'32px max(16px,env(safe-area-inset-left)) max(80px,calc(40px + env(safe-area-inset-bottom)))'}}>
 
         {/* ── HEADER ── */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-end',flexWrap:'wrap',gap:20,marginBottom:40,animation:'rhFadeUp .5s cubic-bezier(.16,1,.3,1) both'}}>
@@ -429,7 +429,7 @@ export default function DashboardPage(){
 
         {/* ── CONTENT ── */}
         {loading ? (
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))',gap:16}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(340px,100%),1fr))',gap:16}}>
             {[1,2,3].map(i=>(
               <div key={i} style={{height:200,borderRadius:RH[i%4],background:`linear-gradient(90deg,rgba(232,223,200,.02) 25%,rgba(232,223,200,.05) 50%,rgba(232,223,200,.02) 75%)`,backgroundSize:'200% 100%',animation:'rhShimmer 1.5s infinite'}}/>
             ))}
@@ -437,7 +437,7 @@ export default function DashboardPage(){
         ) : shown.length===0 ? (
           <EmptyState tab={tab} onBook={()=>navigate('/portal')}/>
         ) : (
-          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(340px,1fr))',gap:18,animation:'rhFadeUp .4s cubic-bezier(.16,1,.3,1) both'}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(340px,100%),1fr))',gap:18,animation:'rhFadeUp .4s cubic-bezier(.16,1,.3,1) both'}}>
             {shown.map((a,i)=><ApptCard key={a.id} appt={a} onCancel={onCancel} onRequestCancel={requestCancel} i={i}/>)}
           </div>
         )}
