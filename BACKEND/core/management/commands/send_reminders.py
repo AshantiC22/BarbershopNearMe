@@ -261,6 +261,16 @@ class Command(BaseCommand):
                         appt.save(update_fields=["reminder_sent"])
                         sent += 1
                         logger.info(f"CLIENT 24HR → {client_email} ({appt_time})")
+                        # Push reminder
+                        try:
+                            from core.views import send_push_notification
+                            send_push_notification(
+                                user  = appt.user,
+                                title = "⏰ Appointment Tomorrow!",
+                                body  = f"{svc_name} with {barber_nm} — {appt_date} at {appt_time}. Don't forget!",
+                                data  = {"type": "reminder_24hr", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt.id}
+                            )
+                        except Exception: pass
             except Exception as e:
                 logger.error(f"CLIENT 24HR failed {appt.id}: {e}")
 
@@ -298,6 +308,16 @@ class Command(BaseCommand):
                             pass
                         sent += 1
                         logger.info(f"CLIENT 2HR → {client_email} ({appt_time})")
+                        # Push 1hr before reminder (fires in 2hr window but feels like 1hr)
+                        try:
+                            from core.views import send_push_notification, FRONTEND_URL
+                            send_push_notification(
+                                user  = appt.user,
+                                title = "✂️ Your cut is soon!",
+                                body  = f"{svc_name} with {barber_nm} at {appt_time} — heading out soon? 📍 123 Noir Alley, Hattiesburg MS",
+                                data  = {"type": "reminder_1hr", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt.id}
+                            )
+                        except Exception: pass
             except Exception as e:
                 logger.error(f"CLIENT 2HR failed {appt.id}: {e}")
 
@@ -336,6 +356,17 @@ class Command(BaseCommand):
                             pass
                         sent += 1
                         logger.info(f"BARBER 2HR → {barber_email} ({appt_time})")
+                        # Push to barber
+                        try:
+                            from core.views import send_push_notification, FRONTEND_URL
+                            if appt.barber and appt.barber.user:
+                                send_push_notification(
+                                    user  = appt.barber.user,
+                                    title = f"⚡ {client_nm} in 2 hours!",
+                                    body  = f"{svc_name} at {appt_time} today. Get set up!",
+                                    data  = {"type": "barber_reminder_2hr", "url": f"{FRONTEND_URL}/barber-dashboard"}
+                                )
+                        except Exception: pass
             except Exception as e:
                 logger.error(f"BARBER 2HR failed {appt.id}: {e}")
 

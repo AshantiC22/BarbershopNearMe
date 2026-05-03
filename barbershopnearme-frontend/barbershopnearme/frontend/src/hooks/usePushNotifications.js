@@ -49,6 +49,10 @@ export function usePushNotifications() {
         auth:      btoa(String.fromCharCode(...new Uint8Array(sub.getKey('auth')))),
       })
       console.log('[Push] subscribed successfully')
+      // Ask backend to send a welcome push immediately
+      try {
+        await api.post('push/welcome/', {})
+      } catch (_) {}
     } catch (err) {
       console.warn('[Push] subscription failed:', err)
     }

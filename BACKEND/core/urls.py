@@ -18,7 +18,7 @@ from core.views import (
     ChangePasswordView,
     BarberWorkingDaysView,
     AvailableSlotsView,
-    BarbershopNearMeTokenView,
+    HeadzUpTokenView,
     # Account recovery
     SetSecurityQuestionView,
     RecoveryStep1View,
@@ -28,8 +28,6 @@ from core.views import (
     SecurityQuestionsListView,
     # Newsletter
     NewsletterPostListView,
-    GalleryView,
-    PublicReviewsView,
     NewsletterPostManageView,
     AcceptTermsView,
     UpdatePhoneView,
@@ -75,8 +73,6 @@ from core.views import (
     VapidPublicKeyView,
     TestSMSView,
     TestEmailView,
-    GalleryView,
-    PublicReviewsView,
 )
 
 router = DefaultRouter()
@@ -87,7 +83,7 @@ router.register(r"profiles",     UserProfileViewSet, basename="profile")
 
 urlpatterns = [
     # Auth — custom token view embeds is_staff in JWT payload
-    path("token/",         BarbershopNearMeTokenView.as_view(),  name="token_obtain_pair"),
+    path("token/",         HeadzUpTokenView.as_view(),  name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(),  name="token_refresh"),
     path("register/",        RegisterView.as_view(),        name="register"),
     path("barber/register/", BarberRegisterView.as_view(),  name="barber_register"),
@@ -108,9 +104,6 @@ urlpatterns = [
     path("recovery/step3/",              RecoveryStep3View.as_view(),           name="recovery_step3"),
 
     # Newsletter / news feed
-    # Public endpoints for home page sections
-    path("gallery/",                  GalleryView.as_view(),              name="gallery"),
-    path("reviews/",                  PublicReviewsView.as_view(),         name="reviews_public"),
     path("newsletter/",             NewsletterPostListView.as_view(),   name="newsletter_list"),
     path("newsletter/manage/",      NewsletterPostManageView.as_view(), name="newsletter_manage"),
     path("newsletter/manage/<int:pk>/", NewsletterPostManageView.as_view(), name="newsletter_manage_detail"),

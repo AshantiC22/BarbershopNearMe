@@ -18,7 +18,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 # ── Custom JWT — adds is_staff to token payload so frontend can read it instantly
-class BarbershopNearMeTokenSerializer(TokenObtainPairSerializer):
+class HeadzUpTokenSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -26,8 +26,8 @@ class BarbershopNearMeTokenSerializer(TokenObtainPairSerializer):
         token["username"]  = user.username
         return token
 
-class BarbershopNearMeTokenView(TokenObtainPairView):
-    serializer_class = BarbershopNearMeTokenSerializer
+class HeadzUpTokenView(TokenObtainPairView):
+    serializer_class = HeadzUpTokenSerializer
 import math
 import json
 
@@ -41,8 +41,8 @@ stripe.api_key = (_test_key if _mode == "test" and _test_key
 User = get_user_model()
 logger = logging.getLogger(__name__)
 
-FRONTEND_URL = getattr(settings, "FRONTEND_URL", "https://barbershopnearme-barbershop-website.vercel.app")
-BACKEND_URL  = getattr(settings, "BACKEND_URL",  "https://barbershopnearme-barbershop-website-production.up.railway.app")
+FRONTEND_URL = getattr(settings, "FRONTEND_URL", "https://headzup-barbershop-website.vercel.app")
+BACKEND_URL  = getattr(settings, "BACKEND_URL",  "https://headzup-barbershop-website-production.up.railway.app")
 
 
 # ── Email confirmation helper ────────────────────────────────────────────────
@@ -70,31 +70,31 @@ def send_booking_confirmation(appointment):
             f"Service:  {svc_name}\nBarber:   {barber_name}\n"
             f"Date:     {appt_date}\nTime:     {appt_time}\n"
             f"Payment:  {pay_label}\n\n"
-            f"Please arrive 5 min early.\n\nBarbershopnearme · 123 Noir Alley, Hattiesburg MS"
+            f"Please arrive 5 min early.\n\nHEADZ UP · 2509 W 4th St, Hattiesburg MS"
         )
         client_html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
 <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-<tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
+<tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
 <tr><td style="padding-bottom:16px;"><div style="width:48px;height:48px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:inline-flex;align-items:center;justify-content:center;font-size:22px;">✅</div></td></tr>
-<tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Booking<br><span style="color:#8B1A1A;font-style:italic;">Confirmed_</span></h1></td></tr>
+<tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Booking<br><span style="color:#f59e0b;font-style:italic;">Confirmed_</span></h1></td></tr>
 <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;">Hey <strong style="color:white;">{client_name}</strong>, you're all set. See you soon.</p></td></tr>
 <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:22px;">
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Service</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{svc_name}</p></td></tr>
     <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Barber</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{barber_name}</p></td></tr>
-    <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:15px;color:#8B1A1A;margin:0;font-weight:700;">{appt_date} at {appt_time}</p></td></tr>
+    <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:15px;color:#f59e0b;margin:0;font-weight:700;">{appt_date} at {appt_time}</p></td></tr>
     <tr><td style="padding:10px 0;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Payment</p><p style="font-size:14px;color:white;margin:0;">{pay_label}</p></td></tr>
-    {"<tr><td style='padding:10px 0;border-top:1px solid rgba(255,255,255,0.05);'><p style='font-family:Courier New,monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;'>Your Notes</p><p style='font-size:13px;color:#8B1A1A;margin:0;font-style:italic;'>"+notes+"</p></td></tr>" if notes else ""}
+    {"<tr><td style='padding:10px 0;border-top:1px solid rgba(255,255,255,0.05);'><p style='font-family:Courier New,monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;'>Your Notes</p><p style='font-size:13px;color:#f59e0b;margin:0;font-style:italic;'>"+notes+"</p></td></tr>" if notes else ""}
   </table>
 </td></tr>
-<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Booking &rarr;</a></td></tr>
-<tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">📍 123 Noir Alley, Hattiesburg, MS 39401 · Please arrive 5 min early.</p></td></tr>
-<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Booking &rarr;</a></td></tr>
+<tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">📍 2509 W 4th St, Hattiesburg, MS 39401 · Please arrive 5 min early.</p></td></tr>
+<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
-        _sendgrid_send(client_email, f"✅ Booking Confirmed — {svc_name} at Barbershopnearme", client_plain, client_html)
+        _sendgrid_send(client_email, f"✅ Booking Confirmed — {svc_name} at HEADZ UP", client_plain, client_html)
 
     # ── Email BARBER ──────────────────────────────────────────────────────────
     if barber_email:
@@ -107,26 +107,26 @@ def send_booking_confirmation(appointment):
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
 <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-<tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
+<tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
 <tr><td style="padding-bottom:16px;"><div style="width:48px;height:48px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);display:inline-flex;align-items:center;justify-content:center;font-size:22px;">📅</div></td></tr>
-<tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">New<br><span style="color:#8B1A1A;font-style:italic;">Booking_</span></h1></td></tr>
+<tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">New<br><span style="color:#f59e0b;font-style:italic;">Booking_</span></h1></td></tr>
 <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;">Hey <strong style="color:white;">{barber_name}</strong>, you have a new appointment.</p></td></tr>
 <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:22px;">
   <table width="100%" cellpadding="0" cellspacing="0">
     <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Client</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{client_name}</p></td></tr>
     <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Service</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{svc_name}</p></td></tr>
-    <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:15px;color:#8B1A1A;margin:0;font-weight:700;">{appt_date} at {appt_time}</p></td></tr>
+    <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:15px;color:#f59e0b;margin:0;font-weight:700;">{appt_date} at {appt_time}</p></td></tr>
     <tr><td style="padding:10px 0;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Payment</p><p style="font-size:14px;color:white;margin:0;">{pay_label}</p></td></tr>
-    {"<tr><td style='padding:10px 0;border-top:1px solid rgba(255,255,255,0.05);'><p style='font-family:Courier New,monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;'>Client Notes</p><p style='font-size:13px;color:#8B1A1A;margin:0;font-style:italic;'>"+notes+"</p></td></tr>" if notes else ""}
+    {"<tr><td style='padding:10px 0;border-top:1px solid rgba(255,255,255,0.05);'><p style='font-family:Courier New,monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;'>Client Notes</p><p style='font-size:13px;color:#f59e0b;margin:0;font-style:italic;'>"+notes+"</p></td></tr>" if notes else ""}
   </table>
 </td></tr>
-<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a></td></tr>
-<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a></td></tr>
+<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
         _sendgrid_send(barber_email, f"📅 New Booking — {client_name} at {appt_time}", barber_plain, barber_html)
 
-def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, cta_label, footer="Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401"):
+def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, cta_label, footer="HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401"):
     """Shared HTML email shell."""
     return f"""<!DOCTYPE html>
 <html>
@@ -137,7 +137,7 @@ def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, 
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:28px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:20px;">{icon_html}</td></tr>
@@ -151,7 +151,7 @@ def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, 
           <table width="100%" cellpadding="0" cellspacing="0">{body_rows}</table>
         </td></tr>
         {"" if not cta_url else f'''<tr><td style="padding:20px 0;">
-          <a href="{cta_url}" style="display:inline-block;padding:14px 28px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">{cta_label} &rarr;</a>
+          <a href="{cta_url}" style="display:inline-block;padding:14px 28px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">{cta_label} &rarr;</a>
         </td></tr>'''}
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;">
           <p style="font-size:11px;color:#3f3f46;margin:0;line-height:1.7;">{footer}</p>
@@ -195,7 +195,7 @@ def _sendgrid_send(to_email, subject, plain, html):
 
     match        = re.search(r'<(.+?)>', from_email)
     sender_email = match.group(1) if match else from_email
-    sender_name  = from_email.split("<")[0].strip() if "<" in from_email else "Barbershopnearme"
+    sender_name  = from_email.split("<")[0].strip() if "<" in from_email else "HEADZ UP"
 
     if not sender_email:
         logger.error(f"DEFAULT_FROM_EMAIL malformed: {from_email!r}")
@@ -275,12 +275,12 @@ def send_reschedule_request_email(reschedule_request):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:28px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:20px;">
           <div style="width:52px;height:52px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);display:inline-flex;align-items:center;justify-content:center;">
-            <span style="color:#8B1A1A;font-size:24px;">↻</span>
+            <span style="color:#f59e0b;font-size:24px;">↻</span>
           </div>
         </td></tr>
         <tr><td style="padding-bottom:8px;">
@@ -296,7 +296,7 @@ def send_reschedule_request_email(reschedule_request):
         </td></tr>
         {cta_buttons_html}
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;line-height:1.7;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;line-height:1.7;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
@@ -305,7 +305,7 @@ def send_reschedule_request_email(reschedule_request):
 </html>"""
 
     def _row(label, value, highlight=False):
-        color = "#8B1A1A" if highlight else "white"
+        color = "#f59e0b" if highlight else "white"
         return f"""<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:0;">
           <tr><td style="padding:10px 0;">
             <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">{label}</p>
@@ -334,7 +334,7 @@ def send_reschedule_request_email(reschedule_request):
                     )
                     html_b = _build_reschedule_html(
                         headline       = "Request_",
-                        headline_color = "#8B1A1A",
+                        headline_color = "#f59e0b",
                         subhead        = f"{client_name} wants to reschedule their appointment with you. Review the request below and approve or decline.",
                         rows_html      = rows_html,
                         cta_buttons_html = _approve_reject_btns(),
@@ -346,11 +346,11 @@ def send_reschedule_request_email(reschedule_request):
                         f"Requested: {new_date_str} at {new_time_str}\n\n"
                         f"Approve: {accept_url}\n"
                         f"Decline: {reject_url}\n\n"
-                        f"— Barbershopnearme"
+                        f"— HEADZ UP Barbershop"
                     )
                     _sendgrid_send(
                         barber_email,
-                        f"↻ Reschedule Request from {client_name} — Barbershopnearme",
+                        f"↻ Reschedule Request from {client_name} — HEADZ UP",
                         plain_b, html_b
                     )
                     logger.info(f"Reschedule request email sent to barber: {barber_email}")
@@ -370,7 +370,7 @@ def send_reschedule_request_email(reschedule_request):
                         subhead        = f"Hi {client_name}! Your reschedule request has been sent to {barber_name}. You'll get an email as soon as they approve or decline. Your original appointment on {old_date} at {old_time} remains active until then.",
                         rows_html      = rows_html,
                         cta_buttons_html = f"""<tr><td style="padding:20px 0 0;">
-                          <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;">View My Dashboard &rarr;</a>
+                          <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;">View My Dashboard &rarr;</a>
                         </td></tr>""",
                     )
                     plain_c = (
@@ -380,11 +380,11 @@ def send_reschedule_request_email(reschedule_request):
                         f"Service: {service_name}\n\n"
                         f"You'll get an email once {barber_name} approves or declines.\n"
                         f"Your original appointment ({old_date} at {old_time}) remains active until then.\n\n"
-                        f"— Barbershopnearme"
+                        f"— HEADZ UP Barbershop"
                     )
                     _sendgrid_send(
                         client_email,
-                        f"✓ Reschedule Request Received — Barbershopnearme",
+                        f"✓ Reschedule Request Received — HEADZ UP",
                         plain_c, html_c
                     )
                     logger.info(f"Reschedule confirmation email sent to client: {client_email}")
@@ -402,7 +402,7 @@ def send_reschedule_request_email(reschedule_request):
                     )
                     html = _build_reschedule_html(
                         headline       = "Proposed_",
-                        headline_color = "#8B1A1A",
+                        headline_color = "#f59e0b",
                         subhead        = f"{barber_name} has proposed a new time for your appointment. Please accept or decline below.",
                         rows_html      = rows_html,
                         cta_buttons_html = f"""<tr><td style="padding:20px 0 0;">
@@ -417,11 +417,11 @@ def send_reschedule_request_email(reschedule_request):
                         f"Proposed: {new_date_str} at {new_time_str}\n\n"
                         f"Accept: {accept_url}\n"
                         f"Decline: {reject_url}\n\n"
-                        f"— Barbershopnearme"
+                        f"— HEADZ UP Barbershop"
                     )
                     _sendgrid_send(
                         client_email,
-                        f"↻ Appointment Reschedule Proposed — Barbershopnearme",
+                        f"↻ Appointment Reschedule Proposed — HEADZ UP",
                         plain, html
                     )
                     logger.info(f"Barber reschedule proposal sent to client: {client_email}")
@@ -458,7 +458,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
             if rr.initiated_by == "client":
                 if accepted:
                     # ── APPROVED — email client their new confirmed time ──
-                    subject = f"✅ Reschedule Approved — {service_name} at Barbershopnearme"
+                    subject = f"✅ Reschedule Approved — {service_name} at HEADZ UP"
                     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
@@ -467,7 +467,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:28px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:20px;">
@@ -506,7 +506,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
             </td></tr>
             <tr><td style="padding:10px 0;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Location</p>
-              <p style="font-size:14px;color:white;margin:0;">123 Noir Alley, Hattiesburg, MS 39401</p>
+              <p style="font-size:14px;color:white;margin:0;">2509 W 4th St, Hattiesburg, MS 39401</p>
             </td></tr>
           </table>
         </td></tr>
@@ -517,13 +517,13 @@ def send_reschedule_response_email(reschedule_request, accepted):
           <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:14px 28px;background:#22c55e;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">View My Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body></html>"""
-                    plain = f"Hi {client_name},\n\nYour reschedule has been APPROVED by {barber_name}.\n\nNew Time: {new_date_str} at {new_time_str}\nService: {service_name}\nLocation: 123 Noir Alley, Hattiesburg, MS 39401\n\nSee you then!\n— Barbershopnearme"
+                    plain = f"Hi {client_name},\n\nYour reschedule has been APPROVED by {barber_name}.\n\nNew Time: {new_date_str} at {new_time_str}\nService: {service_name}\nLocation: 2509 W 4th St, Hattiesburg, MS 39401\n\nSee you then!\n— HEADZ UP Barbershop"
                     _sendgrid_send(client_email, subject, plain, html)
 
                 else:
@@ -537,7 +537,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:28px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:20px;">
@@ -566,13 +566,13 @@ def send_reschedule_response_email(reschedule_request, accepted):
               <p style="font-size:14px;color:white;margin:0;font-weight:700;">{barber_name}</p>
             </td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-              <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#8B1A1A;text-transform:uppercase;margin:0 0 4px;">Your Appointment (unchanged)</p>
-              <p style="font-size:18px;color:#8B1A1A;margin:0;font-weight:900;">{orig_date_str}</p>
-              <p style="font-size:18px;color:#8B1A1A;margin:4px 0 0;font-weight:900;">{orig_time_str}</p>
+              <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#f59e0b;text-transform:uppercase;margin:0 0 4px;">Your Appointment (unchanged)</p>
+              <p style="font-size:18px;color:#f59e0b;margin:0;font-weight:900;">{orig_date_str}</p>
+              <p style="font-size:18px;color:#f59e0b;margin:4px 0 0;font-weight:900;">{orig_time_str}</p>
             </td></tr>
             <tr><td style="padding:10px 0;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Location</p>
-              <p style="font-size:14px;color:white;margin:0;">123 Noir Alley, Hattiesburg, MS 39401</p>
+              <p style="font-size:14px;color:white;margin:0;">2509 W 4th St, Hattiesburg, MS 39401</p>
             </td></tr>
           </table>
         </td></tr>
@@ -580,16 +580,16 @@ def send_reschedule_response_email(reschedule_request, accepted):
           <p style="font-size:12px;color:#71717a;margin:0;line-height:1.6;">Need to cancel instead? You can do so from your dashboard up to 2 hours before your appointment.</p>
         </td></tr>
         <tr><td style="padding-bottom:32px;">
-          <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:14px 28px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">View My Dashboard &rarr;</a>
+          <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:14px 28px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">View My Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body></html>"""
-                    plain = f"Hi {client_name},\n\nYour reschedule request was declined by {barber_name}.\n\nYour original appointment still stands:\n{orig_date_str} at {orig_time_str}\nService: {service_name}\n\n— Barbershopnearme"
+                    plain = f"Hi {client_name},\n\nYour reschedule request was declined by {barber_name}.\n\nYour original appointment still stands:\n{orig_date_str} at {orig_time_str}\nService: {service_name}\n\n— HEADZ UP Barbershop"
                     _sendgrid_send(client_email, subject, plain, html)
         except Exception as e:
             import logging
@@ -632,7 +632,7 @@ def send_cancellation_email(appointment, cancelled_by="client"):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:16px;">
@@ -671,10 +671,10 @@ def send_cancellation_email(appointment, cancelled_by="client"):
           </table>
         </td></tr>
         <tr><td style="padding:20px 0 0;">
-          <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
+          <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
@@ -684,9 +684,9 @@ def send_cancellation_email(appointment, cancelled_by="client"):
                     f"{client_name} cancelled their appointment.\n\n"
                     f"Service: {service_name}\n"
                     f"Date: {appt_date} at {appt_time}\n\n"
-                    f"That slot is now open.\n— Barbershopnearme"
+                    f"That slot is now open.\n— HEADZ UP Barbershop"
                 )
-                _sendgrid_send(barber_email, f"📅 Appointment Cancelled by {client_name} — Barbershopnearme", plain, html)
+                _sendgrid_send(barber_email, f"📅 Appointment Cancelled by {client_name} — HEADZ UP", plain, html)
                 logger.info(f"Cancellation email sent to barber: {barber_email}")
 
             elif cancelled_by == "barber" and client_email:
@@ -699,7 +699,7 @@ def send_cancellation_email(appointment, cancelled_by="client"):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:16px;">
@@ -734,10 +734,10 @@ def send_cancellation_email(appointment, cancelled_by="client"):
           </table>
         </td></tr>
         <tr><td style="padding:20px 0 0;">
-          <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a>
+          <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
@@ -747,9 +747,9 @@ def send_cancellation_email(appointment, cancelled_by="client"):
                     f"Hey {client_name},\n\nYour appointment with {barber_name} has been cancelled.\n\n"
                     f"Service: {service_name}\nDate: {appt_date} at {appt_time}\n\n"
                     f"Please rebook at your convenience: {FRONTEND_URL}/book\n\n"
-                    f"— Barbershopnearme"
+                    f"— HEADZ UP Barbershop"
                 )
-                _sendgrid_send(client_email, f"Your Appointment Has Been Cancelled — Barbershopnearme", plain, html)
+                _sendgrid_send(client_email, f"Your Appointment Has Been Cancelled — HEADZ UP", plain, html)
                 logger.info(f"Cancellation email sent to client: {client_email}")
 
         except Exception as e:
@@ -771,7 +771,7 @@ def send_welcome_email(user):
 
     def _send():
         try:
-            subject = "✂️ Welcome to Barbershopnearme"
+            subject = "✂️ Welcome to HEADZ UP Barbershop"
             html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
@@ -780,17 +780,17 @@ def send_welcome_email(user):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
           <p style="font-family:'Courier New',monospace;font-size:28px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:8px;">
           <h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;line-height:1.1;">
-            Welcome<br><span style="color:#8B1A1A;font-style:italic;">{name}_</span>
+            Welcome<br><span style="color:#f59e0b;font-style:italic;">{name}_</span>
           </h1>
         </td></tr>
         <tr><td style="padding-bottom:28px;">
           <p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">
-            Your Barbershopnearme account is ready. Book your first appointment in under a minute — pick your barber, choose a time, and lock in your spot.
+            Your HEADZ UP account is ready. Book your first appointment in under a minute — pick your barber, choose a time, and lock in your spot.
           </p>
         </td></tr>
         <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:24px;margin-bottom:20px;">
@@ -810,28 +810,28 @@ def send_welcome_email(user):
           </table>
         </td></tr>
         <tr><td style="padding:24px 0 0;">
-          <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:16px 32px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">Book Your First Appointment &rarr;</a>
+          <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:16px 32px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">Book Your First Appointment &rarr;</a>
         </td></tr>
         <tr><td style="padding:24px 0 0;">
           <p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">
-            📍 123 Noir Alley, Hattiesburg, MS 39401<br>
+            📍 2509 W 4th St, Hattiesburg, MS 39401<br>
             Mon–Fri 9AM–6PM &middot; Sat 9AM–4PM &middot; Closed Sundays
           </p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body></html>"""
             plain = (
-                f"Welcome to Barbershopnearme, {name}!\n\n"
+                f"Welcome to HEADZ UP, {name}!\n\n"
                 f"Your account is ready. Book your first appointment at:\n"
                 f"{FRONTEND_URL}/book\n\n"
-                f"📍 123 Noir Alley, Hattiesburg, MS 39401\n"
+                f"📍 2509 W 4th St, Hattiesburg, MS 39401\n"
                 f"Mon–Fri 9AM–6PM · Sat 9AM–4PM · Closed Sundays\n\n"
-                f"— Barbershopnearme"
+                f"— HEADZ UP Barbershop"
             )
             _sendgrid_send(user.email, subject, plain, html)
             logger.info(f"Welcome email sent to {user.email}")
@@ -866,7 +866,7 @@ def send_deposit_paid_email(appointment):
 
     def _send():
         try:
-            subject = f"💰 Deposit Received from {client_name} — Barbershopnearme"
+            subject = f"💰 Deposit Received from {client_name} — HEADZ UP"
             html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
@@ -875,7 +875,7 @@ def send_deposit_paid_email(appointment):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:16px;">
@@ -905,7 +905,7 @@ def send_deposit_paid_email(appointment):
             </td></tr>
             <tr><td style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date & Time</p>
-              <p style="font-size:14px;color:#8B1A1A;margin:0;font-weight:700;">{appt_date} at {appt_time}</p>
+              <p style="font-size:14px;color:#f59e0b;margin:0;font-weight:700;">{appt_date} at {appt_time}</p>
             </td></tr>
             <tr><td style="padding:10px 0;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Deposit Paid</p>
@@ -914,10 +914,10 @@ def send_deposit_paid_email(appointment):
           </table>
         </td></tr>
         <tr><td style="padding:20px 0 0;">
-          <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
+          <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
@@ -927,7 +927,7 @@ def send_deposit_paid_email(appointment):
                 f"Hey {barber_name},\n\n"
                 f"{client_name} paid their ${deposit_amt} deposit. Booking is confirmed.\n\n"
                 f"Service: {service_name}\nDate: {appt_date} at {appt_time}\n\n"
-                f"— Barbershopnearme"
+                f"— HEADZ UP Barbershop"
             )
             _sendgrid_send(barber_email, subject, plain, html)
             logger.info(f"Deposit paid email sent to barber: {barber_email}")
@@ -970,7 +970,7 @@ def send_review_request_email(appointment):
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
           <p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">
-            Barbershopnearme
+            HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span>
           </p>
         </td></tr>
         <tr><td style="padding-bottom:16px;">
@@ -980,7 +980,7 @@ def send_review_request_email(appointment):
         </td></tr>
         <tr><td style="padding-bottom:8px;">
           <h1 style="font-family:'Courier New',monospace;font-size:24px;font-weight:900;text-transform:uppercase;margin:0;line-height:1.1;">
-            How was<br><span style="color:#8B1A1A;font-style:italic;">Your Cut_</span>
+            How was<br><span style="color:#f59e0b;font-style:italic;">Your Cut_</span>
           </h1>
         </td></tr>
         <tr><td style="padding-bottom:28px;">
@@ -994,16 +994,16 @@ def send_review_request_email(appointment):
           <p style="font-family:'Courier New',monospace;font-size:10px;color:#52525b;margin:8px 0 0;letter-spacing:0.3em;text-transform:uppercase;">Rate your experience</p>
         </td></tr>
         <tr><td style="text-align:center;padding-bottom:20px;">
-          <a href="{review_url}" style="display:inline-block;padding:16px 32px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">Leave a Review &rarr;</a>
+          <a href="{review_url}" style="display:inline-block;padding:16px 32px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">Leave a Review &rarr;</a>
         </td></tr>
         <tr><td style="padding:16px 0 0;">
           <p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">
             Ready to book your next appointment? We're always here.<br>
-            <a href="{FRONTEND_URL}/book" style="color:#8B1A1A;text-decoration:none;">Book again &rarr;</a>
+            <a href="{FRONTEND_URL}/book" style="color:#f59e0b;text-decoration:none;">Book again &rarr;</a>
           </p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
@@ -1014,7 +1014,7 @@ def send_review_request_email(appointment):
                 f"Hope you're looking fresh after your {service_name} with {barber_name}.\n\n"
                 f"Leave a quick review — it means a lot:\n{review_url}\n\n"
                 f"Ready to book again? {FRONTEND_URL}/book\n\n"
-                f"— Barbershopnearme"
+                f"— HEADZ UP Barbershop"
             )
             _sendgrid_send(client_email, subject, plain, html)
             logger.info(f"Review request email sent to {client_email}")
@@ -1111,7 +1111,7 @@ class TestSMSView(APIView):
         data = urllib.parse.urlencode({
             "To":   to_phone,
             "From": from_number,
-            "Body": "✂️ Barbershopnearme test SMS — Twilio is working!",
+            "Body": "✂️ HEADZ UP test SMS — Twilio is working!",
         }).encode("utf-8")
         creds = base64.b64encode(f"{account_sid}:{auth_token}".encode()).decode()
 
@@ -1185,11 +1185,11 @@ class TestEmailView(APIView):
 
         payload = {
             "personalizations": [{"to": [{"email": to_email}]}],
-            "from": {"email": sender, "name": "Barbershopnearme Test"},
-            "subject": "✅ Barbershopnearme — SendGrid Test Email",
+            "from": {"email": sender, "name": "HEADZ UP Test"},
+            "subject": "✅ HEADZ UP — SendGrid Test Email",
             "content": [
-                {"type": "text/plain", "value": "This is a test email from Barbershopnearme. SendGrid is working!"},
-                {"type": "text/html",  "value": "<h1>Barbershopnearme</h1><p>SendGrid is working! ✅</p>"},
+                {"type": "text/plain", "value": "This is a test email from HEADZ UP. SendGrid is working!"},
+                {"type": "text/html",  "value": "<h1>HEADZ UP</h1><p>SendGrid is working! ✅</p>"},
             ],
         }
         try:
@@ -1248,15 +1248,15 @@ def sms_booking_confirmation(appointment):
     def _send():
         if client_phone:
             _twilio_send(client_phone,
-                f"✂️ Barbershopnearme: Booking confirmed!\n"
+                f"✂️ HEADZ UP: Booking confirmed!\n"
                 f"{service_name} w/ {barber_name}\n"
                 f"{appt_date} at {appt_time}\n"
-                f"123 Noir Alley, Hattiesburg MS\n"
+                f"2509 W 4th St, Hattiesburg MS\n"
                 f"Manage: {FRONTEND_URL}/dashboard"
             )
         if barber_phone:
             _twilio_send(barber_phone,
-                f"📅 Barbershopnearme: New booking!\n"
+                f"📅 HEADZ UP: New booking!\n"
                 f"Client: {client_name}\n"
                 f"Service: {service_name}\n"
                 f"{appt_date} at {appt_time}"
@@ -1284,14 +1284,14 @@ def sms_reschedule_request(reschedule_request):
     def _send():
         if client_phone:
             _twilio_send(client_phone,
-                f"↻ Barbershopnearme: Reschedule request received.\n"
+                f"↻ HEADZ UP: Reschedule request received.\n"
                 f"Requested: {new_date} at {new_time}\n"
                 f"Original: {old_date} at {old_time}\n"
                 f"{barber_name} will review and confirm soon."
             )
         if barber_phone:
             _twilio_send(barber_phone,
-                f"↻ Barbershopnearme: {client_name} wants to reschedule.\n"
+                f"↻ HEADZ UP: {client_name} wants to reschedule.\n"
                 f"New: {new_date} at {new_time}\n"
                 f"Check your email or dashboard to approve/decline:\n"
                 f"{FRONTEND_URL}/barber-dashboard"
@@ -1318,13 +1318,13 @@ def sms_reschedule_response(reschedule_request, accepted):
         if client_phone:
             if accepted:
                 _twilio_send(client_phone,
-                    f"✅ Barbershopnearme: Reschedule APPROVED by {barber_name}!\n"
+                    f"✅ HEADZ UP: Reschedule APPROVED by {barber_name}!\n"
                     f"New appointment: {new_date} at {new_time}\n"
-                    f"123 Noir Alley, Hattiesburg MS"
+                    f"2509 W 4th St, Hattiesburg MS"
                 )
             else:
                 _twilio_send(client_phone,
-                    f"❌ Barbershopnearme: Reschedule declined by {barber_name}.\n"
+                    f"❌ HEADZ UP: Reschedule declined by {barber_name}.\n"
                     f"Your original appointment stands:\n"
                     f"{old_date} at {old_time}"
                 )
@@ -1346,13 +1346,13 @@ def sms_cancellation(appointment, cancelled_by="client"):
 
     if cancelled_by == "client" and barber_phone:
         _twilio_send(barber_phone,
-            f"📅 Barbershopnearme: {client_name} cancelled.\n"
+            f"📅 HEADZ UP: {client_name} cancelled.\n"
             f"Service: {service_name}\n"
             f"{appt_date} at {appt_time} — slot is now open."
         )
     elif cancelled_by == "barber" and client_phone:
         _twilio_send(client_phone,
-            f"📅 Barbershopnearme: Your appointment with {barber_name} was cancelled.\n"
+            f"📅 HEADZ UP: Your appointment with {barber_name} was cancelled.\n"
             f"Was: {appt_date} at {appt_time}\n"
             f"Please rebook: {FRONTEND_URL}/book"
         )
@@ -1372,7 +1372,7 @@ def sms_strike(user, profile, reason):
     def _send():
         if phone:
             _twilio_send(phone,
-                f"⚡ Barbershopnearme: Strike #{strikes} added ({label}).\n"
+                f"⚡ HEADZ UP: Strike #{strikes} added ({label}).\n"
                 f"Your next deposit: ${deposit:.2f}\n"
                 f"View account: {FRONTEND_URL}/dashboard"
             )
@@ -1388,10 +1388,10 @@ def sms_welcome(user):
         return
     if phone:
         _twilio_send(phone,
-            f"✂️ Welcome to Barbershopnearme, {name}!\n"
+            f"✂️ Welcome to HEADZ UP, {name}!\n"
             f"Book your first appointment:\n"
             f"{FRONTEND_URL}/book\n"
-            f"123 Noir Alley, Hattiesburg MS"
+            f"2509 W 4th St, Hattiesburg MS"
         )
 
 
@@ -1407,7 +1407,7 @@ def sms_review_request(appointment):
     def _send():
         if phone:
             _twilio_send(phone,
-                f"⭐ Barbershopnearme: How was your cut with {barber_name}?\n"
+                f"⭐ HEADZ UP: How was your cut with {barber_name}?\n"
                 f"Leave a quick review:\n"
                 f"{FRONTEND_URL}/dashboard"
             )
@@ -1430,7 +1430,7 @@ def sms_deposit_paid(appointment):
     def _send():
         if barber_phone:
             _twilio_send(barber_phone,
-                f"💰 Barbershopnearme: Deposit received!\n"
+                f"💰 HEADZ UP: Deposit received!\n"
                 f"{client_name} paid ${deposit_amt}\n"
                 f"{service_name} — {appt_date} at {appt_time}"
             )
@@ -1458,26 +1458,10 @@ def send_push_notification(user, title, body, data=None):
 
 
 def get_barber_for_user(user):
-    """Return the Barber row for this user, auto-creating one for staff if missing."""
-    # Try the reverse OneToOne relation first
     try:
-        b = user.barber_profile
-        if b is not None:
-            return b
+        return user.barber_profile
     except Exception:
-        pass
-    # Fallback: direct filter (handles mis-linked rows)
-    b = Barber.objects.filter(user=user).first()
-    if b:
-        return b
-    # Auto-create for staff users who signed up via BarberRegisterView
-    # but whose related_name lookup failed
-    if user.is_staff:
-        name = user.get_full_name() or user.username
-        b = Barber.objects.create(user=user, name=name, bio='')
-        logger.info(f"Auto-created Barber profile for staff user {user.username}")
-        return b
-    return None
+        return None
 
 
 def is_barber(user):
@@ -1501,14 +1485,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             appt_full = Appointment.objects.select_related(
                 "user", "barber", "barber__user", "service"
             ).get(pk=appt.pk)
-            try:
-                send_booking_confirmation(appt_full)
-            except Exception as e:
-                logger.warning(f"Booking confirmation email skipped: {e}")
-            try:
-                sms_booking_confirmation(appt_full)
-            except Exception as e:
-                logger.warning(f"Booking confirmation SMS skipped: {e}")
+            send_booking_confirmation(appt_full)
+            sms_booking_confirmation(appt_full)
         except IntegrityError:
             raise serializers.ValidationError("This time slot is already booked.")
 
@@ -1558,18 +1536,11 @@ class RegisterView(APIView):
                 if phone:
                     profile.phone = phone
                     profile.save(update_fields=["phone"])
-                # Send welcome email + SMS — non-fatal if not configured
-                try:
-                    send_welcome_email(user)
-                except Exception as email_err:
-                    logger.warning(f"Welcome email skipped: {email_err}")
-                try:
-                    sms_welcome(user)
-                except Exception as sms_err:
-                    logger.warning(f"Welcome SMS skipped: {sms_err}")
+                # Send welcome email + SMS
+                send_welcome_email(user)
+                sms_welcome(user)
                 return Response({"message": "Account created successfully"}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                logger.error(f"RegisterView error: {e}", exc_info=True)
                 return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1587,7 +1558,7 @@ class BarberRegisterView(APIView):
 
         # Validate invite code — case insensitive
         invite_code = request.data.get("invite_code", "").strip().upper()
-        valid_code  = getattr(django_settings, "BARBER_INVITE_CODE", "BARBERSHOPNEARME2026").strip().upper()
+        valid_code  = getattr(django_settings, "BARBER_INVITE_CODE", "HEADZUP2026").strip().upper()
         if invite_code != valid_code:
             return Response({"invite_code": "Invalid invite code. Contact the shop owner."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -1630,20 +1601,11 @@ class BarberRegisterView(APIView):
             user.is_staff = True
             user.save()
 
-            # Save name and phone to UserProfile
-            profile, _ = UserProfile.objects.get_or_create(
-                user=user,
-                defaults={"name": full_name}
-            )
-            update_fields = []
-            if not profile.name:
-                profile.name = full_name
-                update_fields.append("name")
+            # Save phone to UserProfile
+            profile, _ = UserProfile.objects.get_or_create(user=user)
             if phone:
                 profile.phone = phone
-                update_fields.append("phone")
-            if update_fields:
-                profile.save(update_fields=update_fields)
+                profile.save(update_fields=["phone"])
 
             # Create linked Barber profile
             Barber.objects.create(
@@ -1652,35 +1614,33 @@ class BarberRegisterView(APIView):
                 bio="",
             )
 
-            # Send welcome SMS — non-fatal if Twilio not configured
+            # Send welcome SMS to the new barber — synchronous
             if phone:
-                try:
-                    first = full_name.split()[0]
-                    _twilio_send(phone,
-                        f"✂️ Welcome to Barbershopnearme, {first}!\n"
-                        f"You're officially part of the team. 🔥\n"
-                        f"Log in to your dashboard: {FRONTEND_URL}/barber-dashboard"
-                    )
-                except Exception as sms_err:
-                    logger.warning(f"Barber welcome SMS skipped: {sms_err}")
+                first = full_name.split()[0]
+                _twilio_send(phone,
+                    f"✂️ Welcome to HEADZ UP, {first}!\n"
+                    f"You're officially part of the team. 🔥\n"
+                    f"Log in to your dashboard to set your hours and start taking bookings:\n"
+                    f"{FRONTEND_URL}/barber-dashboard"
+                )
 
-            # Send welcome email — non-fatal if SendGrid not configured
+            # Send welcome email to the new barber
             if email:
                 try:
                     first = full_name.split()[0]
                     _sendgrid_send(
                         email,
-                        f"Welcome to Barbershopnearme ✂️ — You're on the Team",
-                        f"Hey {first}! Welcome to Barbershopnearme. Log into your dashboard to set your schedule and start taking bookings: {FRONTEND_URL}/barber-dashboard",
+                        f"Welcome to HEADZ UP ✂️ — You're on the Team",
+                        f"Hey {first}! Welcome to HEADZ UP Barbershop. Log into your dashboard to set your schedule and start taking bookings: {FRONTEND_URL}/barber-dashboard",
                         f"""<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
     <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-      <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
-      <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Welcome to<br><span style="color:#8B1A1A;font-style:italic;">The Team_</span></h1></td></tr>
-      <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">Hey <strong style="color:white;">{first}</strong>! You're officially part of the <strong style="color:#8B1A1A;">Barbershopnearme</strong> team. Set your schedule and start taking bookings right away.</p></td></tr>
-      <tr><td style="padding-bottom:28px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:14px 28px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Go to Dashboard &rarr;</a></td></tr>
-      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+      <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
+      <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Welcome to<br><span style="color:#f59e0b;font-style:italic;">The Team_</span></h1></td></tr>
+      <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">Hey <strong style="color:white;">{first}</strong>! You're officially part of the <strong style="color:#f59e0b;">HEADZ UP</strong> team. Set your schedule and start taking bookings right away.</p></td></tr>
+      <tr><td style="padding-bottom:28px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:14px 28px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Go to Dashboard &rarr;</a></td></tr>
+      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
     </table></td></tr>
   </table>
 </body></html>"""
@@ -1703,26 +1663,13 @@ class BarberRegisterView(APIView):
 class BarberViewSet(viewsets.ModelViewSet):
     queryset = Barber.objects.all()
     serializer_class = BarberSerializer
-
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        return [IsAuthenticated()]
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['request'] = self.request
-        return context
+    permission_classes = [IsAuthenticated]
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
-
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [AllowAny()]
-        return [IsAuthenticated()]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         """
@@ -1779,25 +1726,6 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             ).get(pk=appt.pk)
             send_booking_confirmation(appt_full)
             sms_booking_confirmation(appt_full)
-            # Push notification — client
-            try:
-                send_push_notification(
-                    user  = appt_full.user,
-                    title = "✂️ Booking Confirmed!",
-                    body  = f"{appt_full.service.name} with {appt_full.barber.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')}",
-                    data  = {"type": "booking_confirmed", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt_full.id}
-                )
-            except Exception: pass
-            # Push notification — barber
-            try:
-                if appt_full.barber.user:
-                    send_push_notification(
-                        user  = appt_full.barber.user,
-                        title = "📅 New Booking!",
-                        body  = f"{appt_full.user.username} booked {appt_full.service.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')}",
-                        data  = {"type": "new_booking", "url": f"{FRONTEND_URL}/barber-dashboard"}
-                    )
-            except Exception: pass
         except IntegrityError:
             raise serializers.ValidationError("That time slot is already booked. Please choose another.")
 
@@ -1821,25 +1749,6 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 # Notify barber
                 send_cancellation_email(appt_full, cancelled_by="client")
                 sms_cancellation(appt_full, cancelled_by="client")
-                # Push to barber
-                try:
-                    if appt_full.barber.user:
-                        send_push_notification(
-                            user  = appt_full.barber.user,
-                            title = "🚫 Appointment Cancelled",
-                            body  = f"{appt_full.user.username} cancelled {appt_full.service.name} on {str(appt_full.date)}",
-                            data  = {"type": "cancelled", "url": f"{FRONTEND_URL}/barber-dashboard"}
-                        )
-                except Exception: pass
-                # Push to client confirming cancel
-                try:
-                    send_push_notification(
-                        user  = appt_full.user,
-                        title = "Appointment Cancelled",
-                        body  = f"Your {appt_full.service.name} on {str(appt_full.date)} has been cancelled.",
-                        data  = {"type": "cancel_confirmed", "url": f"{FRONTEND_URL}/dashboard"}
-                    )
-                except Exception: pass
                 # Confirm cancellation to client
                 try:
                     client_email = appt_full.user.email
@@ -1851,13 +1760,13 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                     if client_email:
                         _sendgrid_send(
                             client_email,
-                            f"Appointment Cancelled — Barbershopnearme",
+                            f"Appointment Cancelled — HEADZ UP",
                             f"Hey {client_name}, your {svc_name} on {appt_date} at {appt_time} with {barber_name} has been cancelled. Book again anytime: {FRONTEND_URL}/book",
                             f"""<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
     <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-      <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
+      <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
       <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Appointment<br><span style="color:#f87171;font-style:italic;">Cancelled_</span></h1></td></tr>
       <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">Hey <strong style="color:white;">{client_name}</strong>, your appointment has been cancelled as requested.</p></td></tr>
       <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:22px;margin-bottom:24px;">
@@ -1867,8 +1776,8 @@ class AppointmentViewSet(viewsets.ModelViewSet):
           <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Barber</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{barber_name}</p></td></tr>
         </table>
       </td></tr>
-      <tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a></td></tr>
-      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+      <tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a></td></tr>
+      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
     </table></td></tr>
   </table>
 </body></html>"""
@@ -1877,7 +1786,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                     client_phone = _get_client_phone(appt_full.user)
                     if client_phone:
                         _twilio_send(client_phone,
-                            f"✅ Barbershopnearme: Your {svc_name} on {appt_full.date.strftime('%a %b %d')} at {appt_time} has been cancelled. Book again: {FRONTEND_URL}/book"
+                            f"✅ HEADZ UP: Your {svc_name} on {appt_full.date.strftime('%a %b %d')} at {appt_time} has been cancelled. Book again: {FRONTEND_URL}/book"
                         )
                 except Exception as client_notify_err:
                     import logging
@@ -2341,7 +2250,7 @@ class DepositCheckoutView(APIView):
                     "price_data": {
                         "currency":     "usd",
                         "product_data": {
-                            "name":        f"Barbershopnearme — Deposit for {service.name}",
+                            "name":        f"HEADZ UP — Deposit for {service.name}",
                             "description": (
                                 f"${deposit:.2f} deposit to secure your chair with {barber.name}. "
                                 f"Remaining balance ${remaining:.2f} due at appointment."
@@ -2355,7 +2264,7 @@ class DepositCheckoutView(APIView):
                 automatic_tax={"enabled": True},
                 payment_intent_data={
                     "transfer_data": {"destination": barber.stripe_account_id},
-                    "description":   f"Barbershopnearme Deposit — {service.name} with {barber.name}",
+                    "description":   f"HEADZ UP Deposit — {service.name} with {barber.name}",
                 },
                 success_url=f"{BACKEND_URL}/api/deposit-success/?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"{FRONTEND_URL}/book?deposit_canceled=true",
@@ -2465,12 +2374,12 @@ def send_strike_email(user, profile, reason, appt):
     service_name = appt.service.name if appt.service else "your appointment"
     appt_date    = appt.date.strftime("%B %d, %Y") if appt.date else "—"
 
-    subject = f"⚡ Strike Added to Your Barbershopnearme Account"
+    subject = f"⚡ Strike Added to Your HEADZ UP Account"
 
     plain = f"""
 Hi {user.username},
 
-A strike has been added to your Barbershopnearme account.
+A strike has been added to your HEADZ UP account.
 
 Reason: {reason_label}
 Appointment: {service_name} on {appt_date}
@@ -2484,17 +2393,17 @@ next booking deposit. Your current deposit is ${next_deposit:.2f}
 
 Please review our Deposit & Cancellation Policy when you next book.
 
-Questions? Contact Barbershopnearme directly.
+Questions? Contact HEADZ UP Barbershop directly.
 
-— Barbershopnearme
-123 Noir Alley, Hattiesburg, MS 39401
+— HEADZ UP Barbershop
+2509 W 4th St, Hattiesburg, MS 39401
 """
 
     html = f"""
 <div style="background:#000;color:#fff;font-family:'Helvetica Neue',Arial,sans-serif;max-width:520px;margin:0 auto;padding:0;">
-  <div style="background:linear-gradient(to right,#ef4444,#8B1A1A);height:3px;"></div>
+  <div style="background:linear-gradient(to right,#ef4444,#f59e0b);height:3px;"></div>
   <div style="padding:32px 28px;">
-    <p style="font-size:11px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(245,158,11,0.7);margin:0 0 8px;">Barbershopnearme BARBERSHOP</p>
+    <p style="font-size:11px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(245,158,11,0.7);margin:0 0 8px;">HEADZ UP BARBERSHOP</p>
     <h1 style="font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;margin:0 0 24px;color:#fff;">
       ⚡ Strike Added
     </h1>
@@ -2505,7 +2414,7 @@ Questions? Contact Barbershopnearme directly.
     </div>
     <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);padding:16px 18px;margin-bottom:24px;">
       <p style="font-size:11px;color:rgba(245,158,11,0.6);text-transform:uppercase;letter-spacing:0.4em;margin:0 0 10px;">Your Next Deposit</p>
-      <p style="font-size:28px;font-weight:900;color:#8B1A1A;margin:0 0 6px;">${next_deposit:.2f}</p>
+      <p style="font-size:28px;font-weight:900;color:#f59e0b;margin:0 0 6px;">${next_deposit:.2f}</p>
       <p style="font-size:12px;color:#71717a;margin:0;line-height:1.6;">
         {"Your deposit stays at $10.00 for now — this is your first strike and serves as a warning." if profile.strike_count == 1 else f"Base $10.00 + ${increase:.2f} increase from {profile.strike_count - 1} previous strike{'s' if profile.strike_count > 2 else ''}."}<br/>
         Each additional strike adds $1.50 to your next booking deposit.
@@ -2515,10 +2424,10 @@ Questions? Contact Barbershopnearme directly.
       No-shows and last-minute cancellations cost your barber real money. Our deposit policy protects their time. Please review the Deposit &amp; Cancellation Policy next time you book.
     </p>
     <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;">
-      <p style="font-size:11px;color:#27272a;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p>
+      <p style="font-size:11px;color:#27272a;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p>
     </div>
   </div>
-  <div style="background:linear-gradient(to right,#ef4444,#8B1A1A);height:2px;"></div>
+  <div style="background:linear-gradient(to right,#ef4444,#f59e0b);height:2px;"></div>
 </div>
 """
     _sendgrid_send(email, subject, plain, html)
@@ -2647,7 +2556,7 @@ class StripeConnectOnboardView(APIView):
                         "transfers":     {"requested": True},
                     },
                     business_profile={
-                        "name":  f"{barber.name} — Barbershopnearme",
+                        "name":  f"{barber.name} — HEADZ UP Barbershop",
                         "mcc":   "7230",  # Barber shops
                         "url":   FRONTEND_URL,
                     },
@@ -2719,7 +2628,7 @@ class StripeConnectTestSetupView(APIView):
             account = stripe.Account.create(
                 type="express",
                 country="US",
-                email=request.user.email or f"barber_{barber.id}@barbershopnearmep.com",
+                email=request.user.email or f"barber_{barber.id}@headzupp.com",
                 capabilities={
                     "card_payments": {"requested": True},
                     "transfers":     {"requested": True},
@@ -2829,7 +2738,7 @@ class CreateCheckoutSessionView(APIView):
                     "price_data": {
                         "currency":     "usd",
                         "product_data": {
-                            "name":        f"Barbershopnearme — {service.name}",
+                            "name":        f"HEADZ UP — {service.name}",
                             "description": f"Appointment with {barber.name} · {service.duration_minutes} min",
                         },
                         "unit_amount": amount_cents,
@@ -2844,7 +2753,7 @@ class CreateCheckoutSessionView(APIView):
                     "transfer_data": {
                         "destination": barber.stripe_account_id,
                     },
-                    "description": f"Barbershopnearme — {service.name} with {barber.name}",
+                    "description": f"HEADZ UP — {service.name} with {barber.name}",
                 },
                 success_url=f"{BACKEND_URL}/api/payment-success/?session_id={{CHECKOUT_SESSION_ID}}",
                 cancel_url=f"{FRONTEND_URL}/book?canceled=true",
@@ -3038,14 +2947,11 @@ class BarberWorkingDaysView(APIView):
             else:
                 # No row saved for this day — treat as not working if barber has ANY schedule
                 # If barber has NO schedule at all, treat every day as potentially available
-                # No row saved: if barber has partial schedule, unlisted days = off
-                # If barber has NO schedule at all: default Mon-Sat open 9-6, Sun closed
-                default_working = (not has_any_schedule) and (dow != 6)
                 all_days.append({
                     "day_of_week": dow,
-                    "is_working":  default_working,
-                    "start_time":  "09:00:00" if default_working else None,
-                    "end_time":    "18:00:00" if default_working else None,
+                    "is_working":  not has_any_schedule,  # unknown = allow if no schedule set
+                    "start_time":  None,
+                    "end_time":    None,
                 })
 
         # Also get time-off dates for the next 180 days
@@ -3065,7 +2971,7 @@ class BarberWorkingDaysView(APIView):
 
 
 class AvailableSlotsView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         barber_id  = request.query_params.get("barber")
@@ -3222,12 +3128,7 @@ class BarberMeView(APIView):
     def get(self, request):
         barber = get_barber_for_user(request.user)
         if not barber:
-            # Auto-create a Barber profile for staff users who don't have one yet
-            if request.user.is_staff:
-                name = request.user.get_full_name() or request.user.username
-                barber = Barber.objects.create(user=request.user, name=name, bio='')
-            else:
-                return Response({"error": "Not a barber account"}, status=403)
+            return Response({"error": "Not a barber account"}, status=403)
         today       = date_type.today()
         today_appts = Appointment.objects.filter(barber=barber, date=today, status__in=["confirmed","completed"]).count()
         total_appts = Appointment.objects.filter(barber=barber).count()
@@ -3530,7 +3431,7 @@ class WalkInBookingView(APIView):
                 time_str = str(time_val)
 
             welcome_msg = (
-                f"Hey {client_name}! Welcome to Barbershopnearme ✂️\n"
+                f"Hey {client_name}! Welcome to HEADZ UP ✂️\n"
                 f"Booked: {service.name} · {date_str} at {time_str} with {target_barber.name}.\n\n"
                 f"Join the family & book online anytime:\n"
                 f"{FRONTEND_URL}/login\n\n"
@@ -3566,7 +3467,7 @@ class WalkInBookingView(APIView):
     <tr><td align="center">
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
         <tr><td style="padding-bottom:24px;">
-          <p style="font-family:'Courier New',monospace;font-size:24px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p>
+          <p style="font-family:'Courier New',monospace;font-size:24px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p>
         </td></tr>
         <tr><td style="padding-bottom:16px;">
           <div style="width:52px;height:52px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);display:inline-flex;align-items:center;justify-content:center;">
@@ -3575,7 +3476,7 @@ class WalkInBookingView(APIView):
         </td></tr>
         <tr><td style="padding-bottom:8px;">
           <h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;line-height:1.1;">
-            You're In The<br><span style="color:#8B1A1A;font-style:italic;">Chair_</span>
+            You're In The<br><span style="color:#f59e0b;font-style:italic;">Chair_</span>
           </h1>
         </td></tr>
         <tr><td style="padding-bottom:24px;">
@@ -3587,7 +3488,7 @@ class WalkInBookingView(APIView):
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr><td style="padding-bottom:14px;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p>
-              <p style="font-size:18px;color:#8B1A1A;margin:0;font-weight:900;font-family:'Courier New',monospace;">{date_str} · {time_str}</p>
+              <p style="font-size:18px;color:#f59e0b;margin:0;font-weight:900;font-family:'Courier New',monospace;">{date_str} · {time_str}</p>
             </td></tr>
             <tr><td style="padding-bottom:14px;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Service</p>
@@ -3600,38 +3501,38 @@ class WalkInBookingView(APIView):
           </table>
         </td></tr>
         <tr><td style="padding:24px 0 16px;">
-          <div style="background:linear-gradient(135deg,#ef4444 0%,#ef4444 48%,#8B1A1A 48%,#8B1A1A 100%);padding:24px 22px;position:relative;overflow:hidden;">
+          <div style="background:linear-gradient(135deg,#ef4444 0%,#ef4444 48%,#f59e0b 48%,#f59e0b 100%);padding:24px 22px;position:relative;overflow:hidden;">
             <div style="position:absolute;top:0;bottom:0;left:47%;width:2px;background:rgba(0,0,0,0.25);transform:skewX(-3deg);"></div>
-            <p style="font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:black;margin:0 0 6px;">Join The Barbershopnearme Family</p>
+            <p style="font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:black;margin:0 0 6px;">Join The HEADZ UP Family</p>
             <p style="font-size:12px;color:rgba(0,0,0,0.65);margin:0 0 16px;line-height:1.6;">Create a free account to book online anytime, manage your appointments, and never wait in line again.</p>
             <a href="{FRONTEND_URL}/login" style="display:inline-block;padding:12px 24px;background:black;color:white;font-family:'Courier New',monospace;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;margin-right:8px;">Create Account &rarr;</a>
             <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:12px 20px;background:transparent;color:black;font-family:'Courier New',monospace;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;border:1.5px solid rgba(0,0,0,0.3);">Book Online</a>
           </div>
         </td></tr>
         <tr><td style="padding-top:8px;">
-          <p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 123 Noir Alley, Hattiesburg, MS 39401 &nbsp;·&nbsp; Mon–Fri 9AM–6PM &nbsp;·&nbsp; Sat 9AM–4PM</p>
+          <p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 2509 W 4th St, Hattiesburg, MS 39401 &nbsp;·&nbsp; Mon–Fri 9AM–6PM &nbsp;·&nbsp; Sat 9AM–4PM</p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body></html>"""
                     plain = (
-                        f"Hey {client_name}! Great seeing you today at Barbershopnearme.\n\n"
+                        f"Hey {client_name}! Great seeing you today at HEADZ UP.\n\n"
                         f"Service: {service.name}\n"
                         f"Barber: {target_barber.name}\n"
                         f"Date: {date_str} at {time_str}\n\n"
-                        f"Join the Barbershopnearme family — create a free account to book online anytime:\n"
+                        f"Join the HEADZ UP family — create a free account to book online anytime:\n"
                         f"{FRONTEND_URL}/login\n\n"
                         f"Or book your next cut directly:\n"
                         f"{FRONTEND_URL}/book\n\n"
-                        f"See you next time!\n— Barbershopnearme\n123 Noir Alley, Hattiesburg MS"
+                        f"See you next time!\n— HEADZ UP Barbershop\n2509 W 4th St, Hattiesburg MS"
                     )
                     _sendgrid_send(
                         email,
-                        f"Great seeing you, {client_name}! Join the Barbershopnearme family ✂️",
+                        f"Great seeing you, {client_name}! Join the HEADZ UP family ✂️",
                         plain, html
                     )
                     email_status = f"sent to {email}"
@@ -3699,7 +3600,7 @@ class NewsletterPostListView(APIView):
                 "category_label": p.get_category_display(),
                 "emoji":        p.emoji,
                 "pinned":       p.pinned,
-                "barber_name":  p.barber.name if p.barber else "Barbershopnearme",
+                "barber_name":  p.barber.name if p.barber else "HEADZ UP",
                 "created_at":   p.created_at.strftime("%B %d, %Y"),
                 "updated_at":   p.updated_at.isoformat(),
             })
@@ -3859,17 +3760,8 @@ class WaitlistView(APIView):
 class BarberAvailabilityView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def _get_or_create_barber(self, user):
-        """Get barber profile, auto-creating for staff users."""
-        barber = get_barber_for_user(user)
-        if not barber and user.is_staff:
-            name = user.get_full_name() or user.username
-            barber = Barber.objects.create(user=user, name=name, bio='')
-            logger.info(f"Auto-created Barber profile for staff user {user.username} in AvailabilityView")
-        return barber
-
     def get(self, request):
-        barber = self._get_or_create_barber(request.user)
+        barber = get_barber_for_user(request.user)
         if not barber:
             return Response({"error": "Not a barber account"}, status=403)
         avail = BarberAvailability.objects.filter(barber=barber).order_by("day_of_week")
@@ -3879,53 +3771,27 @@ class BarberAvailabilityView(APIView):
         } for a in avail])
 
     def post(self, request):
-        barber = self._get_or_create_barber(request.user)
+        barber = get_barber_for_user(request.user)
         if not barber:
-            return Response({"error": "Not a barber account — make sure your account is marked as staff."}, status=403)
+            return Response({"error": "Not a barber account"}, status=403)
         day        = request.data.get("day_of_week")
-        start      = request.data.get("start_time") or "09:00:00"
-        end        = request.data.get("end_time")   or "18:00:00"
+        start      = request.data.get("start_time")
+        end        = request.data.get("end_time")
         is_working = request.data.get("is_working", True)
         if day is None:
             return Response({"error": "day_of_week required"}, status=400)
-        # Normalise times — accept HH:MM or HH:MM:SS
-        def normalise_time(t):
-            if not t: return "09:00:00"
-            t = str(t).strip()
-            if len(t) == 5: return t + ":00"   # HH:MM -> HH:MM:SS
-            return t
-        start = normalise_time(start)
-        end   = normalise_time(end)
-        try:
-            avail, created = BarberAvailability.objects.update_or_create(
-                barber=barber, day_of_week=int(day),
-                defaults={"start_time": start, "end_time": end, "is_working": bool(is_working)}
-            )
-            return Response({
-                "id": avail.id, "day_of_week": avail.day_of_week,
-                "day_name": avail.get_day_of_week_display(),
-                "start_time": str(avail.start_time),
-                "end_time":   str(avail.end_time),
-                "is_working":  avail.is_working,
-                "created":     created,
-            })
-        except Exception as e:
-            logger.error(f"BarberAvailability save error for user {request.user}: {e}", exc_info=True)
-            return Response({"error": f"Could not save: {str(e)}"}, status=500)
+        avail, _ = BarberAvailability.objects.update_or_create(
+            barber=barber, day_of_week=day,
+            defaults={"start_time": start, "end_time": end, "is_working": is_working}
+        )
+        return Response({"id": avail.id, "day_of_week": avail.day_of_week, "day_name": avail.get_day_of_week_display(), "start_time": str(avail.start_time), "end_time": str(avail.end_time), "is_working": avail.is_working})
 
 
 class BarberTimeOffView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def _get_or_create_barber(self, user):
-        barber = get_barber_for_user(user)
-        if not barber and user.is_staff:
-            name = user.get_full_name() or user.username
-            barber = Barber.objects.create(user=user, name=name, bio='')
-        return barber
-
     def get(self, request):
-        barber = self._get_or_create_barber(request.user)
+        barber = get_barber_for_user(request.user)
         if not barber:
             return Response({"error": "Not a barber account"}, status=403)
         offs = BarberTimeOff.objects.filter(barber=barber, date__gte=date_type.today()).order_by("date")
@@ -4312,16 +4178,16 @@ class ClientWaitlistView(APIView):
                     from core.views import _sendgrid_send, FRONTEND_URL
                     html = f"""<!DOCTYPE html><html><body style="background:#050505;color:white;font-family:'Helvetica Neue',Arial;padding:40px 20px;">
 <table style="max-width:520px;margin:0 auto;">
-<tr><td style="padding-bottom:20px;"><p style="font-family:'Courier New',monospace;font-size:20px;font-weight:900;text-transform:uppercase;">Barbershopnearme</p></td></tr>
+<tr><td style="padding-bottom:20px;"><p style="font-family:'Courier New',monospace;font-size:20px;font-weight:900;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
 <tr><td style="padding-bottom:8px;">
-  <h1 style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;text-transform:uppercase;margin:0;">Waitlist<br><span style="color:#8B1A1A;font-style:italic;">New Entry_</span></h1>
+  <h1 style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;text-transform:uppercase;margin:0;">Waitlist<br><span style="color:#f59e0b;font-style:italic;">New Entry_</span></h1>
 </td></tr>
 <tr><td style="padding:20px 0;background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:20px;">
-  <p style="font-size:13px;color:#a1a1aa;margin:0 0 8px;"><strong style="color:white;">{client_nm}</strong> wants in on <strong style="color:#8B1A1A;">{date_str}</strong></p>
+  <p style="font-size:13px;color:#a1a1aa;margin:0 0 8px;"><strong style="color:white;">{client_nm}</strong> wants in on <strong style="color:#f59e0b;">{date_str}</strong></p>
   <p style="font-size:12px;color:#52525b;">Service: {svc_nm}</p>
   <p style="font-size:12px;color:#52525b;">Email: {request.user.email}</p>
 </td></tr>
-<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a></td></tr>
+<tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a></td></tr>
 </table></body></html>"""
                     _sendgrid_send(barber_email, f"⏳ New Waitlist Entry — {client_nm}", plain, html)
             except Exception as e:
@@ -4650,7 +4516,7 @@ class BarberBlastView(APIView):
             return Response({"error": "Not a barber account"}, status=403)
 
         message    = request.data.get("message", "").strip()
-        subject    = request.data.get("subject", "Message from Barbershopnearme").strip()
+        subject    = request.data.get("subject", "Message from HEADZ UP Barbershop").strip()
         recipients = request.data.get("recipients", [])
         send_sms   = request.data.get("send_sms",   True)
         send_email = request.data.get("send_email", True)
@@ -4689,20 +4555,20 @@ class BarberBlastView(APIView):
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
 <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-  <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
-  <tr><td style="padding-bottom:20px;"><div style="height:3px;background:linear-gradient(to right,#ef4444,#8B1A1A);"></div></td></tr>
+  <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
+  <tr><td style="padding-bottom:20px;"><div style="height:3px;background:linear-gradient(to right,#ef4444,#f59e0b);"></div></td></tr>
   <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 6px;">Message from {barber.name}</p></td></tr>
   <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:28px;margin-bottom:20px;">
     <p style="font-size:15px;color:#e4e4e7;line-height:1.8;white-space:pre-wrap;margin:0;">{personal_msg}</p>
   </td></tr>
   <tr><td style="padding-top:24px;">
-    <a href="{FRONTEND_URL}" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;margin-right:8px;">Visit Barbershopnearme &rarr;</a>
-    <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 22px;background:transparent;color:#8B1A1A;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(245,158,11,0.4);">Book Now</a>
+    <a href="{FRONTEND_URL}" style="display:inline-block;padding:13px 26px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;margin-right:8px;">Visit HEADZ UP &rarr;</a>
+    <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 22px;background:transparent;color:#f59e0b;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(245,158,11,0.4);">Book Now</a>
   </td></tr>
-  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop &middot; 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
-                    plain = f"{personal_msg}\n\nVisit us: {FRONTEND_URL}\nBook online: {FRONTEND_URL}/book\n\nBarbershopnearme · 123 Noir Alley, Hattiesburg MS"
+                    plain = f"{personal_msg}\n\nVisit us: {FRONTEND_URL}\nBook online: {FRONTEND_URL}/book\n\nHEADZ UP Barbershop · 2509 W 4th St, Hattiesburg MS"
                     _sendgrid_send(email, subject, plain, html)
                     email_sent += 1
                 except Exception as e:
@@ -4988,29 +4854,29 @@ class AppointmentReminderView(APIView):
                     f"Service: {svc_name}\nBarber: {barber_name}\n"
                     f"Date: {appt_date}\nTime: {appt_time}\n\n"
                     f"Please arrive 5 minutes early.\n"
-                    f"Address: 123 Noir Alley, Hattiesburg MS\n\n"
-                    f"-- Barbershopnearme"
+                    f"Address: 2509 W 4th St, Hattiesburg MS\n\n"
+                    f"-- HEADZ UP Barbershop"
                 )
                 html = f"""<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#050505;font-family:'Helvetica Neue',Arial,sans-serif;color:#fff;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#050505;padding:40px 20px;">
 <tr><td align="center"><table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
-  <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">Barbershopnearme</p></td></tr>
-  <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:24px;font-weight:900;text-transform:uppercase;margin:0;">Appointment<br><span style="color:#8B1A1A;font-style:italic;">Reminder_</span></h1></td></tr>
+  <tr><td style="padding-bottom:24px;"><p style="font-family:'Courier New',monospace;font-size:22px;font-weight:900;letter-spacing:-0.05em;margin:0;text-transform:uppercase;">HEADZ<span style="color:#f59e0b;font-style:italic;">UP</span></p></td></tr>
+  <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:24px;font-weight:900;text-transform:uppercase;margin:0;">Appointment<br><span style="color:#f59e0b;font-style:italic;">Reminder_</span></h1></td></tr>
   <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">Hey <strong style="color:white;">{client_name}</strong>! Your appointment is coming up.</p></td></tr>
   <tr><td style="background:#0a0a0a;border:1px solid rgba(255,255,255,0.08);padding:22px;">
     <table width="100%" cellpadding="0" cellspacing="0">
       <tr><td style="padding-bottom:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Service</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{svc_name}</p></td></tr>
-      <tr><td style="padding-bottom:12px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:18px;color:#8B1A1A;margin:0;font-weight:900;font-family:'Courier New',monospace;">{appt_date} · {appt_time}</p></td></tr>
+      <tr><td style="padding-bottom:12px;border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Date &amp; Time</p><p style="font-size:18px;color:#f59e0b;margin:0;font-weight:900;font-family:'Courier New',monospace;">{appt_date} · {appt_time}</p></td></tr>
       <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Barber</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{barber_name}</p></td></tr>
     </table>
   </td></tr>
-  <tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 123 Noir Alley, Hattiesburg, MS 39401 · Please arrive 5 minutes early.</p></td></tr>
-  <tr><td style="padding-top:16px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:12px 24px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Appointment &rarr;</a></td></tr>
-  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p></td></tr>
+  <tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 2509 W 4th St, Hattiesburg, MS 39401 · Please arrive 5 minutes early.</p></td></tr>
+  <tr><td style="padding-top:16px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:12px 24px;background:#f59e0b;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Appointment &rarr;</a></td></tr>
+  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">HEADZ UP Barbershop · 2509 W 4th St, Hattiesburg, MS 39401</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
-                _sendgrid_send(client_email, f"📅 Reminder: {svc_name} tomorrow at {appt_time} — Barbershopnearme", plain, html)
+                _sendgrid_send(client_email, f"📅 Reminder: {svc_name} tomorrow at {appt_time} — HEADZ UP", plain, html)
                 sent.append("email")
                 logger.info(f"Manual reminder email sent to {client_email} for appt {pk}")
 
@@ -5018,9 +4884,9 @@ class AppointmentReminderView(APIView):
             client_phone = _get_client_phone(appt.user)
             if client_phone:
                 sms = (
-                    f"📅 Barbershopnearme Reminder: {client_name}, your {svc_name} with {barber_name} "
+                    f"📅 HEADZ UP Reminder: {client_name}, your {svc_name} with {barber_name} "
                     f"is on {appt_date} at {appt_time}. "
-                    f"📍 123 Noir Alley, Hattiesburg MS. See you soon!"
+                    f"📍 2509 W 4th St, Hattiesburg MS. See you soon!"
                 )
                 _twilio_send(client_phone, sms)
                 sent.append("SMS")
@@ -5212,14 +5078,6 @@ class RescheduleResponseView(APIView):
             ).get(pk=rr.pk)
             send_reschedule_response_email(rr_full, accepted=True)
             sms_reschedule_response(rr_full, accepted=True)
-            try:
-                send_push_notification(
-                    user  = rr_full.appointment.user,
-                    title = "✅ Reschedule Approved!",
-                    body  = f"Your reschedule to {str(rr_full.new_date)} at {str(rr_full.new_time)[:5]} is confirmed.",
-                    data  = {"type": "reschedule_accepted", "url": f"{FRONTEND_URL}/dashboard"}
-                )
-            except Exception: pass
             return Response({"status": "accepted", "message": "Reschedule approved — client has been notified."}, status=200)
         else:
             rr.status = "rejected"
@@ -5231,14 +5089,6 @@ class RescheduleResponseView(APIView):
             ).get(pk=rr.pk)
             send_reschedule_response_email(rr_full, accepted=False)
             sms_reschedule_response(rr_full, accepted=False)
-            try:
-                send_push_notification(
-                    user  = rr_full.appointment.user,
-                    title = "❌ Reschedule Declined",
-                    body  = "Your reschedule request was declined. Your original appointment stands.",
-                    data  = {"type": "reschedule_declined", "url": f"{FRONTEND_URL}/dashboard"}
-                )
-            except Exception: pass
             return Response({"status": "rejected", "message": "Reschedule declined — client has been notified."}, status=200)
 
 
@@ -5281,29 +5131,29 @@ class BarberRescheduleRequestView(APIView):
                 new_date_str  = appt.date.strftime("%A, %B %d, %Y") if hasattr(appt.date, 'strftime') else str(new_date)
                 new_time_str  = appt.time.strftime("%I:%M %p").lstrip("0") if hasattr(appt.time, 'strftime') else str(new_time)
 
-                subject = f"Your Appointment Has Been Rescheduled — Barbershopnearme"
+                subject = f"Your Appointment Has Been Rescheduled — HEADZ UP"
                 plain   = (
                     f"Hi {client_name},\n\n"
                     f"Your {service_name} appointment with {barber.name} has been rescheduled.\n\n"
                     f"Original: {old_date_str} at {old_time_str}\n"
                     f"New Time: {new_date_str} at {new_time_str}\n\n"
                     f"If you have questions, please contact the shop.\n\n"
-                    f"Barbershopnearme\n2509 W 4th St, Hattiesburg, MS"
+                    f"HEADZ UP Barbershop\n2509 W 4th St, Hattiesburg, MS"
                 )
                 rows = _ticket_rows(
                     ("Service",       service_name),
                     ("Barber",        barber.name),
                     ("Original Date", old_date_str),
                     ("Original Time", old_time_str),
-                    ("New Date",      f"<span style='color:#8B1A1A;font-weight:900'>{new_date_str}</span>"),
-                    ("New Time",      f"<span style='color:#8B1A1A;font-weight:900'>{new_time_str}</span>"),
-                    ("Location",      "123 Noir Alley, Hattiesburg, MS 39401"),
+                    ("New Date",      f"<span style='color:#f59e0b;font-weight:900'>{new_date_str}</span>"),
+                    ("New Time",      f"<span style='color:#f59e0b;font-weight:900'>{new_time_str}</span>"),
+                    ("Location",      "2509 W 4th St, Hattiesburg, MS 39401"),
                 )
-                icon = '<div style="width:52px;height:52px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);display:inline-block;text-align:center;line-height:52px;"><span style="color:#8B1A1A;font-size:22px;">↻</span></div>'
+                icon = '<div style="width:52px;height:52px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);display:inline-block;text-align:center;line-height:52px;"><span style="color:#f59e0b;font-size:22px;">↻</span></div>'
                 html = _html_email_wrapper(
                     "",
                     icon,
-                    "Appointment<br><span style='color:#8B1A1A;font-style:italic;'>Rescheduled_</span>",
+                    "Appointment<br><span style='color:#f59e0b;font-style:italic;'>Rescheduled_</span>",
                     f"{barber.name} has updated your appointment time.",
                     rows,
                     f"{FRONTEND_URL}/dashboard",
@@ -5342,13 +5192,13 @@ class TestEmailView(APIView):
         import re
         match = re.search(r'<(.+?)>', from_email)
         sender_email = match.group(1) if match else from_email
-        sender_name  = from_email.split("<")[0].strip() if "<" in from_email else "Barbershopnearme"
+        sender_name  = from_email.split("<")[0].strip() if "<" in from_email else "HEADZ UP"
 
         payload = {
             "personalizations": [{"to": [{"email": recipient}]}],
             "from": {"email": sender_email, "name": sender_name},
-            "subject": "Barbershopnearme — Test Email",
-            "content": [{"type": "text/plain", "value": "This is a test email from Barbershopnearme. Email is working!"}],
+            "subject": "HEADZ UP — Test Email",
+            "content": [{"type": "text/plain", "value": "This is a test email from HEADZ UP Barbershop. Email is working!"}],
         }
 
         try:
@@ -5370,42 +5220,3 @@ class TestEmailView(APIView):
             return Response({"error": f"SendGrid HTTP {e.code}: {body}", "sent_to": recipient}, status=500)
         except Exception as e:
             return Response({"error": str(e), "sent_to": recipient}, status=500)
-
-class GalleryView(APIView):
-    """GET /api/gallery/ — public gallery images."""
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        # Return static gallery data since GalleryImage model may not have entries yet
-        from django.conf import settings as djsettings
-        images = GalleryImage.objects.filter(active=True).order_by('order')[:6] if hasattr(GalleryImage, 'objects') else []
-        if images:
-            return Response([{
-                'id': g.id, 'label': g.label, 'sub': g.sub,
-                'num': g.num, 'url': g.url,
-            } for g in images])
-        # Fallback — static list
-        return Response([])
-
-
-class PublicReviewsView(APIView):
-    """GET /api/reviews/?approved=true — public reviews for home page."""
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        try:
-            qs = Review.objects.filter(completed=True).select_related('barber','client').order_by('-created_at')[:8]
-            approved = request.query_params.get('approved')
-            # All completed reviews are effectively approved
-            return Response([{
-                'id':          r.id,
-                'rating':      r.rating,
-                'comment':     r.comment,
-                'client_name': r.client.first_name or r.client.username,
-                'barber_name': r.barber.name if r.barber else '',
-                'city':        'Hattiesburg',
-                'created_at':  r.created_at.isoformat(),
-            } for r in qs])
-        except Exception:
-            return Response([])
-
