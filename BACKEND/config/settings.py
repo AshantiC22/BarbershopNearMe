@@ -13,12 +13,28 @@ DEBUG = os.environ.get("DEBUG", "True") == "True"
 ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [
+    # Railway backend (all possible URL formats)
+    "https://barbershopnearme-production.up.railway.app",
     "https://barbershopnearme-barbershop-website-production.up.railway.app",
+    "https://*.up.railway.app",
+    # Vercel frontend
+    "https://barbershop-near-me.vercel.app",
     "https://barbershopnearme-barbershop-website.vercel.app",
+    "https://*.vercel.app",
+    # Custom domain
+    "https://barbersnearme.xyz",
+    "https://www.barbersnearme.xyz",
+    # Local dev
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
+
+# Allow cookies over HTTPS
+CSRF_COOKIE_SECURE   = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SAMESITE  = 'Lax'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
