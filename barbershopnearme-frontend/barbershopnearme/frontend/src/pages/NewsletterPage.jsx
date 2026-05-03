@@ -27,7 +27,9 @@ export default function NewsletterPage(){
   const [filter,  setFilter]  = useState('all')
 
   useEffect(()=>{
-    api.get('/newsletter/')
+    // Mark all posts as seen when page loads
+    api.post('newsletter/mark-seen/', {}).catch(()=>{})
+    api.get('newsletter/')
       .then(d => setPosts(Array.isArray(d)?d:d.results||[]))
       .catch(()=>setPosts([]))
       .finally(()=>setLoading(false))

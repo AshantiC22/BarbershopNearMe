@@ -18,7 +18,7 @@ from core.views import (
     ChangePasswordView,
     BarberWorkingDaysView,
     AvailableSlotsView,
-    HeadzUpTokenView,
+    BarbershopNearMeTokenView,
     # Account recovery
     SetSecurityQuestionView,
     RecoveryStep1View,
@@ -28,7 +28,11 @@ from core.views import (
     SecurityQuestionsListView,
     # Newsletter
     NewsletterPostListView,
+    GalleryView,
+    PublicReviewsView,
     NewsletterPostManageView,
+    NewsletterUnreadCountView,
+    NewsletterMarkSeenView,
     AcceptTermsView,
     UpdatePhoneView,
     ClientStrikeStatusView,
@@ -64,6 +68,7 @@ from core.views import (
     TestEmailView,
     # Push notifications + reviews
     PushSubscriptionView,
+    WelcomePushView,
     TriggerReviewNotificationView,
     HaircutReviewView,
     BarberReviewsView,
@@ -73,6 +78,8 @@ from core.views import (
     VapidPublicKeyView,
     TestSMSView,
     TestEmailView,
+    GalleryView,
+    PublicReviewsView,
 )
 
 router = DefaultRouter()
@@ -83,7 +90,7 @@ router.register(r"profiles",     UserProfileViewSet, basename="profile")
 
 urlpatterns = [
     # Auth — custom token view embeds is_staff in JWT payload
-    path("token/",         HeadzUpTokenView.as_view(),  name="token_obtain_pair"),
+    path("token/",         BarbershopNearMeTokenView.as_view(),  name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(),  name="token_refresh"),
     path("register/",        RegisterView.as_view(),        name="register"),
     path("barber/register/", BarberRegisterView.as_view(),  name="barber_register"),
@@ -104,9 +111,14 @@ urlpatterns = [
     path("recovery/step3/",              RecoveryStep3View.as_view(),           name="recovery_step3"),
 
     # Newsletter / news feed
+    # Public endpoints for home page sections
+    path("gallery/",                  GalleryView.as_view(),              name="gallery"),
+    path("reviews/",                  PublicReviewsView.as_view(),         name="reviews_public"),
     path("newsletter/",             NewsletterPostListView.as_view(),   name="newsletter_list"),
     path("newsletter/manage/",      NewsletterPostManageView.as_view(), name="newsletter_manage"),
     path("newsletter/manage/<int:pk>/", NewsletterPostManageView.as_view(), name="newsletter_manage_detail"),
+    path("newsletter/unread/",          NewsletterUnreadCountView.as_view(),   name="newsletter_unread"),
+    path("newsletter/mark-seen/",       NewsletterMarkSeenView.as_view(),      name="newsletter_mark_seen"),
 
     # Strike & deposit system
     path("client/strike-status/",               ClientStrikeStatusView.as_view(),   name="strike_status"),
@@ -165,6 +177,7 @@ urlpatterns = [
 
     # Push notifications
     path("push/subscribe/",              PushSubscriptionView.as_view(),             name="push_subscribe"),
+    path("push/welcome/",               WelcomePushView.as_view(),                  name="push_welcome"),
     path("push/vapid-key/",              VapidPublicKeyView.as_view(),               name="vapid_key"),
     path("review/trigger/<int:pk>/",     TriggerReviewNotificationView.as_view(),    name="review_trigger"),
     path("review/submit/",               HaircutReviewView.as_view(),                name="review_submit"),

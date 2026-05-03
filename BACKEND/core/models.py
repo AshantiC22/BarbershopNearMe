@@ -19,6 +19,8 @@ class UserProfile(models.Model):
     terms_accepted_at = models.DateTimeField(null=True, blank=True)
     phone             = models.CharField(max_length=20, blank=True, default="",
                                          help_text="Mobile number for SMS e.g. +16015551234")
+    last_seen_newsletter = models.DateTimeField(null=True, blank=True,
+                                         help_text="Last time user visited /newsletter")
 
     def get_deposit_fee(self):
         """Base $10 + $1.50 for every strike beyond the first."""
