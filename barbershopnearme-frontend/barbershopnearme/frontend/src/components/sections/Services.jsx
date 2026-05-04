@@ -3,37 +3,41 @@ import useReveal from '@/hooks/useReveal.js'
 
 const SERVICES = [
   {
-    n:'01', name:'The Classic', price:'$28',
-    desc:'Precision fade. No drama. Clean as a verdict.',
-    icon:'✂️', flavor:'30 min', badge:'Most Popular',
+    n:'01', name:'Haircut', price:'$25',
+    desc:'Sharp cut, clean lines. Monday special. Walk in rough, walk out looking like a verdict.',
+    icon:'✂️', flavor:'30 min', badge:'Monday Special',
   },
   {
-    n:'02', name:'Straight Shave', price:'$35',
-    desc:'Hot towel, straight blade. Ritual, not routine.',
-    icon:'🪒', flavor:'45 min', badge:'Signature',
+    n:'02', name:'Haircut & Shave', price:'$40',
+    desc:'Full service — precision cut plus hot towel straight razor shave. The complete package.',
+    icon:'🪒', flavor:'60 min', badge:'Most Popular',
   },
   {
-    n:'03', name:'Full Service', price:'$55',
-    desc:'Cut and shave in one sitting. Walk out brand new.',
-    icon:'💈', flavor:'60 min', badge:'Best Value',
+    n:'03', name:'Kids Haircut', price:'$30',
+    desc:'Ages 1–12. Clean cut, no drama. $30–$35 depending on style.',
+    icon:'💈', flavor:'30 min', badge:'Ages 1–12',
   },
   {
-    n:'04', name:'Beard Line', price:'$22',
-    desc:'Geometry for your jaw. Sharp borders, clean angles.',
+    n:'04', name:'Straight Shave', price:'$20',
+    desc:'Hot towel, straight blade. Ritual not routine. The old-school treatment.',
+    icon:'🔥', flavor:'30 min', badge:'Signature',
+  },
+  {
+    n:'05', name:'Line Up / Edge Up', price:'$15',
+    desc:'Crisp hairline, clean edges. Sharp borders front to back.',
     icon:'⚡', flavor:'20 min', badge:'Quick Hit',
   },
+  {
+    n:'06', name:'Beard Trim', price:'$15',
+    desc:'Shape, trim, and define. Geometry for your face.',
+    icon:'💎', flavor:'20 min', badge:'Clean Up',
+  },
+  {
+    n:'07', name:'Beard Line', price:'$15',
+    desc:'Razor-sharp beard line-up. Clean angles, no excuses.',
+    icon:'🗡️', flavor:'20 min', badge:'Quick Hit',
+  },
 ]
-
-/* rubber hose section divider SVG */
-function SectionDivider(){
-  return (
-    <svg width="100%" height="20" viewBox="0 0 400 20" preserveAspectRatio="none" fill="none"
-      style={{ display:'block', margin:'0 0 64px' }}>
-      <path d="M0 10 C40 4, 80 16, 120 10 C160 4, 200 16, 240 10 C280 4, 320 16, 360 10 C380 6, 390 12, 400 10"
-        stroke="rgba(232,223,200,.28)" strokeWidth="2" fill="none"/>
-    </svg>
-  )
-}
 
 export default function Services() {
   const ref = useRef()
@@ -60,8 +64,7 @@ export default function Services() {
               Every cut includes a hot towel finish.<br/>
               Cash preferred. Attitude mandatory.
             </p>
-            {/* rubber hose star rating */}
-            <div style={{ display:'flex', gap:6, marginTop:12 }}>
+            <div style={{ display:'flex', gap:6, marginTop:12, alignItems:'center' }}>
               {[0,1,2,3,4].map(i => (
                 <svg key={i} width="14" height="14" viewBox="0 0 14 14"
                   style={{ animation:`starSpin ${3+i*.3}s linear ${i*.2}s infinite` }}>
@@ -82,10 +85,8 @@ export default function Services() {
               <div className="svc-card-ghost">{s.n}</div>
               <span className="svc-card-num">{s.n}</span>
 
-              {/* rubber hose icon bubble */}
-              <div className="svc-card-icon">
-                {s.icon}
-              </div>
+              {/* icon bubble */}
+              <div className="svc-card-icon">{s.icon}</div>
 
               {/* badge pill */}
               <div style={{
@@ -101,7 +102,7 @@ export default function Services() {
               </div>
 
               <div className="svc-card-name">{s.name}</div>
-              <p className="t-body" style={{ fontSize:12, flexGrow:1, marginBottom:12 }}>
+              <p className="t-body" style={{ fontSize:13, flexGrow:1, marginBottom:12 }}>
                 {s.desc}
               </p>
 

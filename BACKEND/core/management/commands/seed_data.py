@@ -8,20 +8,13 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         services = [
-            {"name": "Haircut",                  "price": "25.00", "duration_minutes": 30,
-             "description": "Clean cut, sharp lines. Monday special $25."},
-            {"name": "Haircut & Shave",           "price": "40.00", "duration_minutes": 60,
-             "description": "Full service — haircut plus hot straight shave."},
-            {"name": "Kids Haircut (Age 1-12)",   "price": "30.00", "duration_minutes": 30,
-             "description": "Kids cuts ages 1-12. $30-$35 depending on style."},
-            {"name": "Straight Shave",            "price": "20.00", "duration_minutes": 30,
-             "description": "Hot towel straight razor shave."},
-            {"name": "Line Up / Edge Up",         "price": "15.00", "duration_minutes": 20,
-             "description": "Clean up your hairline, edges, and beard line."},
-            {"name": "Beard Trim",                "price": "15.00", "duration_minutes": 20,
-             "description": "Shape and trim your beard."},
-            {"name": "Beard Line",                "price": "15.00", "duration_minutes": 20,
-             "description": "Crisp beard line-up."},
+            {"name": "Haircut",                "price": "25.00", "duration_minutes": 30},
+            {"name": "Haircut & Shave",         "price": "40.00", "duration_minutes": 60},
+            {"name": "Kids Haircut (Age 1-12)", "price": "30.00", "duration_minutes": 30},
+            {"name": "Straight Shave",          "price": "20.00", "duration_minutes": 30},
+            {"name": "Line Up / Edge Up",       "price": "15.00", "duration_minutes": 20},
+            {"name": "Beard Trim",              "price": "15.00", "duration_minutes": 20},
+            {"name": "Beard Line",              "price": "15.00", "duration_minutes": 20},
         ]
 
         created = 0
@@ -32,7 +25,6 @@ class Command(BaseCommand):
                 defaults={
                     "price":            svc["price"],
                     "duration_minutes": svc["duration_minutes"],
-                    "description":      svc.get("description",""),
                 },
             )
             if was_created:
