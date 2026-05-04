@@ -5,7 +5,7 @@ import api from '@/services/api.js'
 const T = {
   ink:'#070504', ink2:'#0F0B09', bone:'#E8DFC8',
   blood:'#8B1A1A', blood2:'#6B0F0F',
-  dim1:'rgba(232,223,200,.55)', dim2:'rgba(232,223,200,.14)', dim3:'rgba(232,223,200,.06)',
+  dim1:'rgba(232,223,200,.55)', dim2:'rgba(232,223,200,.14)', dim3:'rgba(232,223,200,.14)',
 }
 
 const CATS = {
@@ -54,7 +54,7 @@ export default function NewsletterPage(){
         {/* header */}
         <div style={{ marginBottom:48 }}>
           <div style={{ display:'flex',alignItems:'center',gap:10,marginBottom:8 }}>
-            <span style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:T.blood,letterSpacing:'.2em' }}>SHOP NEWS</span>
+            <span style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:13,color:T.blood,letterSpacing:'.2em' }}>SHOP NEWS</span>
             <div style={{ width:36,height:2,background:T.bone,opacity:.25,borderRadius:2 }}/>
           </div>
           <h1 style={{ fontFamily:"'Bebas Neue',sans-serif",fontSize:'clamp(40px,7vw,64px)',lineHeight:.9,letterSpacing:'.04em',textTransform:'uppercase',color:T.bone,textShadow:`3px 3px 0 ${T.blood}` }}>
@@ -97,7 +97,7 @@ export default function NewsletterPage(){
                   borderTop:`4px solid ${cat.color}`,
                   borderRadius:radii[i%4],
                   padding:'28px 24px',
-                  boxShadow: pinned ? `5px 5px 0 rgba(139,26,26,.3)` : `5px 5px 0 rgba(232,223,200,.06)`,
+                  boxShadow: pinned ? `5px 5px 0 rgba(139,26,26,.3)` : `5px 5px 0 rgba(232,223,200,.14)`,
                   position:'relative',overflow:'hidden',
                   transition:'transform .3s cubic-bezier(.34,1.56,.64,1)',
                 }}
@@ -105,12 +105,12 @@ export default function NewsletterPage(){
                   onMouseLeave={e=>e.currentTarget.style.transform='none'}
                 >
                   {pinned && (
-                    <div style={{ position:'absolute',top:12,right:12,fontFamily:"'Boogaloo',cursive",fontSize:11,letterSpacing:'.12em',textTransform:'uppercase',color:T.blood,border:`2px solid rgba(139,26,26,.35)`,borderRadius:50,padding:'2px 10px' }}>
+                    <div style={{ position:'absolute',top:12,right:12,fontFamily:"'Boogaloo',cursive",fontSize:13,letterSpacing:'.12em',textTransform:'uppercase',color:T.blood,border:`2px solid rgba(139,26,26,.35)`,borderRadius:50,padding:'2px 10px' }}>
                       📌 Pinned
                     </div>
                   )}
                   {/* category badge */}
-                  <span style={{ fontFamily:"'Courier Prime',monospace",fontSize:9,letterSpacing:'.22em',textTransform:'uppercase',color:cat.color,background:cat.bg,border:`2px solid ${cat.border}`,borderRadius:50,padding:'3px 12px',display:'inline-block',marginBottom:14 }}>
+                  <span style={{ fontFamily:"'Courier Prime',monospace",fontSize:13,letterSpacing:'.22em',textTransform:'uppercase',color:cat.color,background:cat.bg,border:`2px solid ${cat.border}`,borderRadius:50,padding:'3px 12px',display:'inline-block',marginBottom:14 }}>
                     {cat.label}
                   </span>
                   {/* emoji + title */}
@@ -123,7 +123,7 @@ export default function NewsletterPage(){
                   <p style={{ fontFamily:"'Courier Prime',monospace",fontSize:13,lineHeight:1.8,color:T.dim1,marginBottom:16 }}>
                     {post.body}
                   </p>
-                  <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:9,letterSpacing:'.22em',textTransform:'uppercase',color:T.dim1,opacity:.6 }}>
+                  <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:13,letterSpacing:'.22em',textTransform:'uppercase',color:T.dim1,opacity:.6 }}>
                     {fmtDate(post.created_at)}
                   </div>
                 </div>

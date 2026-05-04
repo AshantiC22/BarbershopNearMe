@@ -121,7 +121,7 @@ function BarberCard({ barber, index, isFallback, onSelect }){
             boxShadow:'0 0 6px rgba(34,197,94,.8)', flexShrink:0,
           }}/>
           <span style={{
-            fontFamily:'var(--font-body)', fontSize:11,
+            fontFamily:'var(--font-body)', fontSize:13,
             color:'rgba(74,222,128,.8)', letterSpacing:'.15em', textTransform:'uppercase',
           }}>
             Accepting Clients
@@ -202,7 +202,7 @@ export default function Barbers() {
           <span className="t-eyebrow-num">02</span>
           <div className="section-eyebrow-rule"/>
           <span className="t-label">The Crew</span>
-          <div style={{ flex:1, height:1, background:'rgba(232,223,200,.08)' }}/>
+          <div style={{ flex:1, height:1, background:'rgba(232,223,200,.18)' }}/>
         </div>
 
         <div className="section-intro">
@@ -224,7 +224,7 @@ export default function Barbers() {
           <div className="barber-grid">
             {[0,1,2].map(i => (
               <div key={i} className="barber-card" style={{
-                background:'linear-gradient(90deg,rgba(232,223,200,.02) 25%,rgba(232,223,200,.06) 50%,rgba(232,223,200,.02) 75%)',
+                background:'linear-gradient(90deg,rgba(232,223,200,.02) 25%,rgba(232,223,200,.14) 50%,rgba(232,223,200,.02) 75%)',
                 backgroundSize:'200% 100%',
                 animation:'shimmer 1.5s infinite',
                 minHeight:300,

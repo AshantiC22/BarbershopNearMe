@@ -6,13 +6,13 @@ import api from '@/services/api.js'
 /* ─── design tokens ─────────────────────────────────────────── */
 const T = {
   ink:'#070504', ink2:'#0F0B09', ink3:'#181210', ink4:'#1e1612',
-  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.1)',
+  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.22)',
   blood:'#8B1A1A', blood2:'#6B0F0F', bloodDim:'rgba(139,26,26,.18)', bloodBorder:'rgba(139,26,26,.4)',
   green:'#4ade80', greenDim:'rgba(74,222,128,.1)', greenBorder:'rgba(74,222,128,.2)',
   red:'#f87171',   redDim:'rgba(248,113,113,.07)', redBorder:'rgba(248,113,113,.22)',
   gold:'#C8A840',  goldDim:'rgba(200,168,64,.12)', goldBorder:'rgba(200,168,64,.28)',
   orange:'#fb923c',orangeDim:'rgba(251,146,60,.1)',orangeBorder:'rgba(251,146,60,.25)',
-  dim:'rgba(232,223,200,.38)', deep:'rgba(232,223,200,.12)',
+  dim:'rgba(232,223,200,.38)', deep:'rgba(232,223,200,.24)',
 }
 const sf  = { fontFamily:"'Bebas Neue',sans-serif" }
 const rub = { fontFamily:"'Boogaloo',cursive" }
@@ -54,7 +54,7 @@ function StatusBadge({ status }){
   const s = STATUS[status] || STATUS.confirmed
   return (
     <span style={{
-      ...mono, fontSize:9, letterSpacing:'.2em', textTransform:'uppercase',
+      ...mono, fontSize:13, letterSpacing:'.2em', textTransform:'uppercase',
       color:s.color, background:s.bg, border:`2px solid ${s.border}`,
       borderRadius:PILL, padding:'5px 14px', whiteSpace:'nowrap',
     }}>{s.label}</span>
@@ -285,13 +285,13 @@ export default function DashboardPage(){
                 </div>
                 <div>
                   <p style={{...sf,fontSize:20,color:T.bone,textTransform:'uppercase',letterSpacing:'.04em',margin:'0 0 2px'}}>Cancel Appointment?</p>
-                  <p style={{...mono,fontSize:10,color:T.dim,margin:0,letterSpacing:'.1em'}}>This cannot be undone</p>
+                  <p style={{...mono,fontSize:12,color:T.dim,margin:0,letterSpacing:'.1em'}}>This cannot be undone</p>
                 </div>
               </div>
               {/* appointment summary */}
               <div style={{padding:'14px 16px',background:T.ink,borderRadius:RH[2],border:`1px solid ${T.bone3}`,marginBottom:20}}>
                 <p style={{...sf,fontSize:18,color:T.bone,textTransform:'uppercase',margin:'0 0 4px'}}>{cancelModal.service_name}</p>
-                <p style={{...mono,fontSize:11,color:T.blood,margin:'0 0 10px'}}>✂ {cancelModal.barber_name}</p>
+                <p style={{...mono,fontSize:13,color:T.blood,margin:'0 0 10px'}}>✂ {cancelModal.barber_name}</p>
                 <div style={{display:'flex',gap:16}}>
                   <div>
                     <p style={{...mono,fontSize:8,color:T.deep,letterSpacing:'.3em',textTransform:'uppercase',marginBottom:2}}>Date</p>
@@ -317,7 +317,7 @@ export default function DashboardPage(){
                   onMouseLeave={e=>{if(!cancelling){e.currentTarget.style.background=T.blood;e.currentTarget.style.transform='none'}}}>
                   {cancelling ? (
                     <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
-                      <span style={{width:12,height:12,border:`2px solid rgba(232,223,200,.3)`,borderTopColor:T.bone,borderRadius:'50%',display:'inline-block',animation:'rhSpin .7s linear infinite'}}/>
+                      <span style={{width:12,height:12,border:`2px solid rgba(232,223,200,.65)`,borderTopColor:T.bone,borderRadius:'50%',display:'inline-block',animation:'rhSpin .7s linear infinite'}}/>
                       Cancelling...
                     </span>
                   ) : 'Yes, Cancel'}
@@ -352,7 +352,7 @@ export default function DashboardPage(){
             Barbershopnearme
           </Link>
           <div style={{display:'flex',alignItems:'center',gap:16}}>
-            <span style={{...mono,fontSize:10,letterSpacing:'.2em',textTransform:'uppercase',color:T.dim}}>✂ {user.name}</span>
+            <span style={{...mono,fontSize:12,letterSpacing:'.2em',textTransform:'uppercase',color:T.dim}}>✂ {user.name}</span>
             <button onClick={()=>{logout();navigate('/')}} style={{
               ...rub,fontSize:13,letterSpacing:'.1em',textTransform:'uppercase',
               background:'transparent', color:T.dim,
@@ -373,7 +373,7 @@ export default function DashboardPage(){
           <div>
             <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
               <div style={{width:3,height:32,background:T.blood,borderRadius:4}}/>
-              <p style={{...mono,fontSize:9,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',margin:0}}>Client Portal</p>
+              <p style={{...mono,fontSize:13,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',margin:0}}>Client Portal</p>
             </div>
             <h1 style={{...sf,fontSize:'clamp(36px,6vw,62px)',lineHeight:.88,letterSpacing:'.03em',textTransform:'uppercase',color:T.bone,margin:0}}>
               Your<br/><span style={{color:T.blood}}>Appointments_</span>

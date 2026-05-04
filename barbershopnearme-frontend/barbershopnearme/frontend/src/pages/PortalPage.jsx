@@ -6,7 +6,7 @@ import api from '@/services/api.js'
 /* ─── design tokens ─────────────────────────────────────────── */
 const T = {
   ink:'#070504', ink2:'#0F0B09', ink3:'#181210', ink4:'#1e1612',
-  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.12)',
+  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.24)',
   blood:'#8B1A1A', blood2:'#6B0F0F', bloodDim:'rgba(139,26,26,.18)', bloodBorder:'rgba(139,26,26,.45)',
   green:'#4ade80', greenDim:'rgba(74,222,128,.1)', greenBorder:'rgba(74,222,128,.25)',
   red:'#f87171',   redDim:'rgba(248,113,113,.06)', redBorder:'rgba(248,113,113,.25)',
@@ -119,7 +119,7 @@ function BookingCalendar({ selectedDate, onSelect, workingDays=[], timeOffDates=
           onMouseLeave={e=>{e.currentTarget.style.borderColor=T.bone3;e.currentTarget.style.color=T.dim;e.currentTarget.style.background='transparent'}}>‹</button>
         <div style={{textAlign:'center'}}>
           <p style={{...sf,fontSize:18,color:T.bone,letterSpacing:'.1em',textTransform:'uppercase',margin:0,lineHeight:1}}>{MONTHS[viewMonth]}</p>
-          <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.3em',marginTop:2}}>{viewYear}</p>
+          <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.3em',marginTop:2}}>{viewYear}</p>
         </div>
         <button onClick={nextMonth} style={{width:32,height:32,borderRadius:PILL,background:'transparent',border:`1.5px solid ${T.bone3}`,color:T.dim,cursor:'pointer',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'}}
           onMouseEnter={e=>{e.currentTarget.style.borderColor=T.blood;e.currentTarget.style.color=T.blood;e.currentTarget.style.background=T.bloodDim}}
@@ -271,7 +271,7 @@ function TimeSlotGrid({ slots, bookedSlots, selectedTime, onSelect, loading, tim
                 <line x1="4" y1="40" x2="86" y2="4" stroke="rgba(139,26,26,.5)" strokeWidth="1.8" strokeLinecap="round"/>
               </svg>
             )}
-            {isSelected && <span style={{position:'absolute',top:3,right:6,fontSize:10,color:T.bone}}>✓</span>}
+            {isSelected && <span style={{position:'absolute',top:3,right:6,fontSize:12,color:T.bone}}>✓</span>}
             <span style={{position:'relative',zIndex:1}}>{display}</span>
           </button>
         )
@@ -320,7 +320,7 @@ function ConfirmedScreen({ data, onBookAnother }){
 
         {/* headline */}
         <div style={{textAlign:'center',marginBottom:32,animation:'rhPop .6s cubic-bezier(.34,1.56,.64,1) both'}}>
-          <p style={{...mono,fontSize:9,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',marginBottom:12}}>
+          <p style={{...mono,fontSize:13,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',marginBottom:12}}>
             ✦ Booking Confirmed ✦
           </p>
           <h1 style={{...sf,fontSize:'clamp(52px,11vw,88px)',lineHeight:.85,textTransform:'uppercase',color:T.bone,margin:0}}>
@@ -338,7 +338,7 @@ function ConfirmedScreen({ data, onBookAnother }){
             <div style={{padding:'20px 24px'}}>
               {/* barber + service big */}
               <div style={{textAlign:'center',marginBottom:20,paddingBottom:18,borderBottom:`1px dashed ${T.bone3}`}}>
-                <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:6}}>Your appointment with</p>
+                <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:6}}>Your appointment with</p>
                 <p style={{...sf,fontSize:32,color:T.blood,textTransform:'uppercase',letterSpacing:'-.02em',lineHeight:1,marginBottom:4}}>{data.barber?.name}</p>
                 <p style={{...rub,fontSize:16,color:T.bone2,letterSpacing:'.08em',textTransform:'uppercase'}}>{data.service?.name}</p>
               </div>
@@ -377,7 +377,7 @@ function ConfirmedScreen({ data, onBookAnother }){
 
           {/* address */}
           <div style={{textAlign:'center',marginBottom:28}}>
-            <p style={{...mono,fontSize:10,color:T.dim}}>📍 123 Noir Alley, Hattiesburg, MS — See you there!</p>
+            <p style={{...mono,fontSize:12,color:T.dim}}>📍 123 Noir Alley, Hattiesburg, MS — See you there!</p>
           </div>
 
           {/* actions */}
@@ -546,11 +546,11 @@ export default function PortalPage(){
 
         {/* ── NAV ── */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:40}}>
-          <Link to="/" style={{...mono,fontSize:10,color:T.dim,textDecoration:'none',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s',display:'flex',alignItems:'center',gap:6}}
+          <Link to="/" style={{...mono,fontSize:12,color:T.dim,textDecoration:'none',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s',display:'flex',alignItems:'center',gap:6}}
             onMouseEnter={e=>e.currentTarget.style.color=T.blood}
             onMouseLeave={e=>e.currentTarget.style.color=T.dim}>← Home</Link>
           <div style={{...sf,fontSize:17,letterSpacing:'.2em',textTransform:'uppercase',color:T.bone}}>Barbershopnearme</div>
-          <Link to="/dashboard" style={{...mono,fontSize:10,color:T.dim,textDecoration:'none',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
+          <Link to="/dashboard" style={{...mono,fontSize:12,color:T.dim,textDecoration:'none',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
             onMouseEnter={e=>e.currentTarget.style.color=T.blood}
             onMouseLeave={e=>e.currentTarget.style.color=T.dim}>My Bookings →</Link>
         </div>
@@ -569,7 +569,7 @@ export default function PortalPage(){
 
         {/* ── PAGE TITLE ── */}
         <div style={{marginBottom:32,animation:'rhFadeUp .5s cubic-bezier(.16,1,.3,1) both'}}>
-          <p style={{...mono,fontSize:9,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',marginBottom:10}}>
+          <p style={{...mono,fontSize:13,color:T.blood,letterSpacing:'.5em',textTransform:'uppercase',marginBottom:10}}>
             ✦ Step 0{step} of 04
           </p>
           <h1 style={{...sf,fontSize:'clamp(2rem,7vw,3.4rem)',textTransform:'uppercase',lineHeight:.9,margin:0}}>
@@ -581,7 +581,7 @@ export default function PortalPage(){
         {dataError && (
           <RHBox i={3} style={{padding:'18px 20px',marginBottom:24,borderColor:T.redBorder,background:T.redDim}}>
             <p style={{...rub,fontSize:14,color:T.red,textTransform:'uppercase',letterSpacing:'.12em',marginBottom:8}}>{dataError}</p>
-            <button onClick={()=>window.location.reload()} style={{...mono,fontSize:11,color:T.blood,background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}>↺ Retry</button>
+            <button onClick={()=>window.location.reload()} style={{...mono,fontSize:13,color:T.blood,background:'none',border:'none',cursor:'pointer',textDecoration:'underline'}}>↺ Retry</button>
           </RHBox>
         )}
 
@@ -617,7 +617,7 @@ export default function PortalPage(){
                       </span>
                     </div>
                     <button onClick={()=>{setSelectedBarber(null)}}
-                      style={{...mono,fontSize:10,color:T.dim,background:'none',border:'none',
+                      style={{...mono,fontSize:12,color:T.dim,background:'none',border:'none',
                         cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',
                         transition:'color .2s'}}
                       onMouseEnter={e=>e.target.style.color=T.blood}
@@ -640,7 +640,7 @@ export default function PortalPage(){
                         </div>
                         <div>
                           <p style={{...sf,fontSize:18,textTransform:'uppercase',color:T.bone,margin:'0 0 3px',letterSpacing:'-.01em'}}>{svc.name}</p>
-                          {svc.duration_minutes&&<p style={{...mono,fontSize:10,color:T.dim,margin:0}}>{svc.duration_minutes} min ✦ in the chair</p>}
+                          {svc.duration_minutes&&<p style={{...mono,fontSize:12,color:T.dim,margin:0}}>{svc.duration_minutes} min ✦ in the chair</p>}
                         </div>
                       </div>
                       <div style={{textAlign:'right',flexShrink:0}}>
@@ -659,7 +659,7 @@ export default function PortalPage(){
                 {/* recap chip */}
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24,padding:'12px 18px',background:T.bloodDim,border:`2px solid ${T.bloodBorder}`,borderRadius:PILL}}>
                   <span style={{...rub,fontSize:14,textTransform:'uppercase',color:T.blood,letterSpacing:'.08em'}}>✂ {selectedService?.name}</span>
-                  <button onClick={()=>setStep(1)} style={{...mono,fontSize:10,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
+                  <button onClick={()=>setStep(1)} style={{...mono,fontSize:12,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
                     onMouseEnter={e=>e.target.style.color=T.blood}
                     onMouseLeave={e=>e.target.style.color=T.dim}>Change</button>
                 </div>
@@ -691,8 +691,8 @@ export default function PortalPage(){
                       </div>
                       <div style={{flex:1,minWidth:0}}>
                         <p style={{...sf,fontSize:20,textTransform:'uppercase',color:T.bone,margin:'0 0 3px',letterSpacing:'-.02em'}}>{b.name}</p>
-                        <p style={{...mono,fontSize:9,color:T.green,letterSpacing:'.3em',textTransform:'uppercase',margin:'0 0 5px'}}>✦ Accepting Clients</p>
-                        {b.bio&&<p style={{...mono,fontSize:11,color:T.dim,margin:0,lineHeight:1.5,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{b.bio}</p>}
+                        <p style={{...mono,fontSize:13,color:T.green,letterSpacing:'.3em',textTransform:'uppercase',margin:'0 0 5px'}}>✦ Accepting Clients</p>
+                        {b.bio&&<p style={{...mono,fontSize:13,color:T.dim,margin:0,lineHeight:1.5,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{b.bio}</p>}
                       </div>
                       <div style={{flexShrink:0}}>
                         <div style={{width:36,height:36,borderRadius:PILL,background:T.bloodDim,border:`2px solid ${T.bloodBorder}`,display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -714,14 +714,14 @@ export default function PortalPage(){
                     <span style={{...rub,fontSize:14,textTransform:'uppercase',color:T.blood}}>✂ {selectedService?.name}</span>
                     <span style={{...mono,fontSize:12,color:T.dim}}>with {selectedBarber?.name}</span>
                   </div>
-                  <button onClick={()=>setStep(2)} style={{...mono,fontSize:10,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
+                  <button onClick={()=>setStep(2)} style={{...mono,fontSize:12,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s'}}
                     onMouseEnter={e=>e.target.style.color=T.blood}
                     onMouseLeave={e=>e.target.style.color=T.dim}>Change</button>
                 </div>
 
                 {/* calendar */}
                 <div style={{marginBottom:28}}>
-                  <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:12}}>✦ Pick Your Date</p>
+                  <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:12}}>✦ Pick Your Date</p>
                   <BookingCalendar selectedDate={selectedDate} onSelect={d=>{setSelectedDate(d);setSelectedTime('')}} workingDays={workingDays} timeOffDates={timeOffDates}/>
                 </div>
 
@@ -729,9 +729,9 @@ export default function PortalPage(){
                 {selectedDate ? (
                   <div style={{marginBottom:28}}>
                     <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
-                      <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',margin:0}}>✦ Pick Your Time</p>
+                      <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',margin:0}}>✦ Pick Your Time</p>
                       {!loadingSlots&&!timeOff&&availableSlots.length>0&&(
-                        <span style={{...mono,fontSize:9,color:T.green}}>{availableSlots.length} slot{availableSlots.length!==1?'s':''} open</span>
+                        <span style={{...mono,fontSize:13,color:T.green}}>{availableSlots.length} slot{availableSlots.length!==1?'s':''} open</span>
                       )}
                     </div>
                     <TimeSlotGrid slots={availableSlots} bookedSlots={bookedSlots} selectedTime={selectedTime} onSelect={setSelectedTime} loading={loadingSlots} timeOff={timeOff} message={timeOffMessage} onRetry={fetchSlots}/>
@@ -797,7 +797,7 @@ export default function PortalPage(){
                   {/* bottom perforated */}
                   <div style={{background:`repeating-linear-gradient(90deg,${T.bone3} 0,${T.bone3} 6px,transparent 6px,transparent 12px)`,height:3}}/>
                   <div style={{padding:'16px 24px 20px'}}>
-                    <button onClick={()=>setStep(3)} style={{...mono,fontSize:10,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s',padding:0}}
+                    <button onClick={()=>setStep(3)} style={{...mono,fontSize:12,color:T.dim,background:'none',border:'none',cursor:'pointer',letterSpacing:'.2em',textTransform:'uppercase',transition:'color .2s',padding:0}}
                       onMouseEnter={e=>e.target.style.color=T.blood}
                       onMouseLeave={e=>e.target.style.color=T.dim}>← Change Schedule</button>
                   </div>
@@ -805,7 +805,7 @@ export default function PortalPage(){
 
                 {/* style notes */}
                 <RHBox i={2} style={{padding:'18px 20px',marginBottom:18}}>
-                  <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:10}}>✦ Style Request (optional)</p>
+                  <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:10}}>✦ Style Request (optional)</p>
                   <textarea value={clientNotes} onChange={e=>setClientNotes(e.target.value)}
                     placeholder="e.g. Low fade, leave length on top, lineup..."
                     rows={3} style={{width:'100%',background:T.ink,border:`1.5px solid ${T.bone3}`,borderRadius:RH[3],padding:'12px 14px',color:T.bone,...mono,fontSize:12,outline:'none',resize:'vertical',transition:'border-color .2s'}}
@@ -815,7 +815,7 @@ export default function PortalPage(){
 
                 {/* payment */}
                 <RHBox i={0} style={{padding:'18px 20px',marginBottom:24}}>
-                  <p style={{...mono,fontSize:9,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:12}}>✦ Payment Method</p>
+                  <p style={{...mono,fontSize:13,color:T.dim,letterSpacing:'.4em',textTransform:'uppercase',marginBottom:12}}>✦ Payment Method</p>
                   <div style={{display:'flex',gap:10}}>
                     {[['shop','💵','Pay In Shop',T.gold,T.goldDim,T.goldBorder],['online','💳','Pay Online',T.green,T.greenDim,T.greenBorder]].map(([val,emoji,label,color,bg,border])=>(
                       <button key={val} onClick={()=>setPaymentMethod(val)}
@@ -841,7 +841,7 @@ export default function PortalPage(){
                   onMouseLeave={e=>{if(!submitting){e.currentTarget.style.transform='none';e.currentTarget.style.background=T.blood;e.currentTarget.style.boxShadow=`5px 5px 0 ${T.bone3}`}}}>
                   {submitting ? (
                     <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:10}}>
-                      <span style={{width:16,height:16,border:`2px solid rgba(232,223,200,.3)`,borderTopColor:T.bone,borderRadius:'50%',display:'inline-block',animation:'rhSpin .7s linear infinite'}}/>
+                      <span style={{width:16,height:16,border:`2px solid rgba(232,223,200,.65)`,borderTopColor:T.bone,borderRadius:'50%',display:'inline-block',animation:'rhSpin .7s linear infinite'}}/>
                       Booking...
                     </span>
                   ) : '✂ Confirm Booking →'}

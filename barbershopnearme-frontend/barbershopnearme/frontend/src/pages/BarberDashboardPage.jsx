@@ -113,13 +113,13 @@ function ApptTicket({appt,onStatusChange,onReschedule,onCancel,onNotes,onStrike,
             {appt.service_name||appt.service||"Appointment"}
           </p>
           <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
-            <span style={{...mono,fontSize:10,color:"#d4d4d4"}}>{appt.client_name||appt.client||appt.username||"Client"}</span>
-            {appt.barber_name&&<span style={{...mono,fontSize:9,color:T.amber}}>✂️ {appt.barber_name}</span>}
-            {appt.client_notes&&<span style={{...mono,fontSize:9,color:T.amber,fontStyle:"italic"}}>"{appt.client_notes}"</span>}
+            <span style={{...mono,fontSize:12,color:"#d4d4d4"}}>{appt.client_name||appt.client||appt.username||"Client"}</span>
+            {appt.barber_name&&<span style={{...mono,fontSize:13,color:T.amber}}>✂️ {appt.barber_name}</span>}
+            {appt.client_notes&&<span style={{...mono,fontSize:13,color:T.amber,fontStyle:"italic"}}>"{appt.client_notes}"</span>}
           </div>
           <div style={{display:"flex",gap:10,marginTop:3,flexWrap:"wrap"}}>
-            {appt.barber_name&&<span style={{...mono,fontSize:9,color:T.amber}}>✂ {appt.barber_name}</span>}
-            <span style={{...mono,fontSize:9,color:"#71717a"}}>📍 123 Noir Alley, Hattiesburg, MS</span>
+            {appt.barber_name&&<span style={{...mono,fontSize:13,color:T.amber}}>✂ {appt.barber_name}</span>}
+            <span style={{...mono,fontSize:13,color:"#71717a"}}>📍 123 Noir Alley, Hattiesburg, MS</span>
           </div>
         </div>
         <div style={{display:"flex",gap:6,alignItems:"center",flexShrink:0,flexWrap:"wrap"}}>
@@ -129,7 +129,7 @@ function ApptTicket({appt,onStatusChange,onReschedule,onCancel,onNotes,onStrike,
           <span style={{...sf,fontSize:5,letterSpacing:"0.1em",padding:"3px 8px",background:sCfg.bg,border:`1px solid ${sCfg.border}`,color:sCfg.color}}>{sCfg.label}</span>
         </div>
         <button onClick={()=>setOpen(!open)}
-          style={{width:28,height:28,background:"transparent",border:`1px solid ${T.border}`,color:T.muted,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s",flexShrink:0,fontSize:10,transform:open?"rotate(180deg)":"none"}}
+          style={{width:28,height:28,background:"transparent",border:`1px solid ${T.border}`,color:T.muted,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s",flexShrink:0,fontSize:12,transform:open?"rotate(180deg)":"none"}}
           onMouseEnter={e=>{e.currentTarget.style.borderColor=T.amber;e.currentTarget.style.color=T.amber;}}
           onMouseLeave={e=>{e.currentTarget.style.borderColor=T.border;e.currentTarget.style.color=T.muted;}}>▾</button>
       </div>
@@ -141,7 +141,7 @@ function ApptTicket({appt,onStatusChange,onReschedule,onCancel,onNotes,onStrike,
           {status==="pending_shop"&&(
             <div style={{marginBottom:16,padding:"14px 16px",background:"rgba(251,146,60,0.08)",border:"1px solid rgba(251,146,60,0.3)"}}>
               <p style={{...sf,fontSize:6,letterSpacing:"0.35em",color:"#fb923c",textTransform:"uppercase",marginBottom:10}}>📍 Client Arrival</p>
-              <p style={{...mono,fontSize:11,color:"#a1a1aa",marginBottom:12,lineHeight:1.6}}>
+              <p style={{...mono,fontSize:13,color:"#a1a1aa",marginBottom:12,lineHeight:1.6}}>
                 Tap when the client arrives and pays. This confirms their spot and releases reminders.
                 Slots not confirmed within 1 hour of appointment time are auto-released.
               </p>
@@ -183,7 +183,7 @@ function ApptTicket({appt,onStatusChange,onReschedule,onCancel,onNotes,onStrike,
                   Late Cancel +1 Strike
                 </button>
               </div>
-              <p style={{...mono,fontSize:9,color:"#52525b",marginTop:8,lineHeight:1.6}}>Strike 1 = warning, deposit stays $10. Strike 2+ = deposit increases $1.50 each time.</p>
+              <p style={{...mono,fontSize:13,color:"#52525b",marginTop:8,lineHeight:1.6}}>Strike 1 = warning, deposit stays $10. Strike 2+ = deposit increases $1.50 each time.</p>
             </div>
           )}
 
@@ -277,7 +277,7 @@ function StripeConnectPanel({ barber, isMobile }) {
   if (!status) return (
     <div style={{ padding:"20px", display:"flex", alignItems:"center", gap:12 }}>
       <div style={{ width:16,height:16,border:"2px solid rgba(139,26,26,0.2)",borderTopColor:"#8B1A1A",borderRadius:"50%",animation:"spin 0.8s linear infinite" }}/>
-      <span style={{ ...mono, fontSize:11, color:"#52525b" }}>Checking Stripe status...</span>
+      <span style={{ ...mono, fontSize:13, color:"#52525b" }}>Checking Stripe status...</span>
     </div>
   );
 
@@ -304,20 +304,20 @@ function StripeConnectPanel({ barber, isMobile }) {
               <span style={{ ...sf, fontSize:18, fontWeight:900, color:"white", letterSpacing:"-0.05em" }}>S</span>
             </div>
             <div>
-              <p style={{ ...sf, fontSize:10, fontWeight:700, textTransform:"uppercase", color:"white", margin:"0 0 4px", letterSpacing:"0.04em" }}>Stripe Payments</p>
+              <p style={{ ...sf, fontSize:12, fontWeight:700, textTransform:"uppercase", color:"white", margin:"0 0 4px", letterSpacing:"0.04em" }}>Stripe Payments</p>
               {fullySetUp ? (
                 <div style={{ display:"flex", alignItems:"center", gap:6 }}>
                   <div style={{ width:6,height:6,background:"#22c55e",borderRadius:"50%" }}/>
-                  <p style={{ ...mono, fontSize:11, color:"#4ade80", margin:0 }}>Connected · Accepting payments</p>
+                  <p style={{ ...mono, fontSize:13, color:"#4ade80", margin:0 }}>Connected · Accepting payments</p>
                 </div>
               ) : connected && !chargesEnabled ? (
                 <div style={{ display:"flex", alignItems:"center", gap:6 }}>
                   <div style={{ width:6,height:6,background:"#8B1A1A",borderRadius:"50%" }}/>
-                  <p style={{ ...mono, fontSize:11, color:"#8B1A1A", margin:0 }}>Setup incomplete — finish onboarding</p>
+                  <p style={{ ...mono, fontSize:13, color:"#8B1A1A", margin:0 }}>Setup incomplete — finish onboarding</p>
                 </div>
               ) : (<div style={{ display:"flex", alignItems:"center", gap:6 }}>
                   <div style={{ width:6,height:6,background:"#52525b",borderRadius:"50%" }}/>
-                  <p style={{ ...mono, fontSize:11, color:"#71717a", margin:0 }}>Not connected — clients can't pay online yet</p>
+                  <p style={{ ...mono, fontSize:13, color:"#71717a", margin:0 }}>Not connected — clients can't pay online yet</p>
                 </div>
               )}
             </div>
@@ -379,7 +379,7 @@ function StripeConnectPanel({ barber, isMobile }) {
           </div>
         </div>
 
-        {err && <p style={{ ...mono, fontSize:11, color:"#f87171", marginTop:12 }}>⚠ {err}</p>}
+        {err && <p style={{ ...mono, fontSize:13, color:"#f87171", marginTop:12 }}>⚠ {err}</p>}
       </div>
 
       {/* How it works */}
@@ -395,7 +395,7 @@ function StripeConnectPanel({ barber, isMobile }) {
             ].map(([n,t])=>(
               <div key={n} style={{ display:"flex", alignItems:"flex-start", gap:12 }}>
                 <span style={{ ...mono, fontSize:8, color:"#635bff", minWidth:20, flexShrink:0 }}>{n}</span>
-                <span style={{ ...mono, fontSize:11, color:"#71717a", lineHeight:1.6 }}>{t}</span>
+                <span style={{ ...mono, fontSize:13, color:"#71717a", lineHeight:1.6 }}>{t}</span>
               </div>
             ))}
           </div>
@@ -405,7 +405,7 @@ function StripeConnectPanel({ barber, isMobile }) {
       {/* Earnings summary if connected */}
       {fullySetUp && (
         <div style={{ padding:"14px 16px", background:"rgba(99,91,255,0.04)", border:"1px solid rgba(99,91,255,0.1)" }}>
-          <p style={{ ...mono, fontSize:10, color:"rgba(99,91,255,0.7)", lineHeight:1.7, margin:0 }}>
+          <p style={{ ...mono, fontSize:12, color:"rgba(99,91,255,0.7)", lineHeight:1.7, margin:0 }}>
             ✓ When clients pay online, money goes straight to your Stripe balance.<br/>
             Click <strong>"View Earnings"</strong> to see your balance and withdraw to your bank account.<br/>
             From your bank you can instantly move it to Cash App.
@@ -442,7 +442,7 @@ function CashAppTagField({ barber, onUpdate }) {
 
   return (
     <div>
-      {err && <p style={{ ...mono, fontSize:11, color:"#f87171", marginBottom:8 }}>⚠ {err}</p>}
+      {err && <p style={{ ...mono, fontSize:13, color:"#f87171", marginBottom:8 }}>⚠ {err}</p>}
       <div style={{ display:"flex", gap:8 }}>
         <div style={{ flex:1, position:"relative" }}>
           <span style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", ...mono, fontSize:16, color:"#00d45f", pointerEvents:"none" }}>$</span>
@@ -455,7 +455,7 @@ function CashAppTagField({ barber, onUpdate }) {
           {saving?"...":saved?"✓ Saved":"Save"}
         </button>
       </div>
-      {barber?.cashapp_tag && <p style={{ ...mono, fontSize:11, color:"rgba(0,212,95,0.6)", marginTop:8 }}>Current: {barber.cashapp_tag}</p>}
+      {barber?.cashapp_tag && <p style={{ ...mono, fontSize:13, color:"rgba(0,212,95,0.6)", marginTop:8 }}>Current: {barber.cashapp_tag}</p>}
     </div>
   );
 }
@@ -485,12 +485,12 @@ function RescheduleModal({appt,onClose,onDone}){
         <div style={{padding:"20px 24px",borderBottom:`1px solid ${T.border}`,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
           <div>
             <p style={{...mono,fontSize:8,color:T.amber,letterSpacing:"0.4em",textTransform:"uppercase",marginBottom:4}}>Reschedule</p>
-            <p style={{...sf,fontSize:11,fontWeight:700,textTransform:"uppercase",margin:0}}>{appt.service_name||appt.service||"Appointment"}</p>
+            <p style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",margin:0}}>{appt.service_name||appt.service||"Appointment"}</p>
           </div>
           <button onClick={onClose} style={{width:32,height:32,background:"transparent",border:`1px solid ${T.border}`,color:T.muted,cursor:"pointer",fontSize:14}}>✕</button>
         </div>
         <div style={{padding:"20px 24px"}}>
-          {err&&<p style={{...mono,fontSize:11,color:T.red,marginBottom:12}}>⚠ {err}</p>}
+          {err&&<p style={{...mono,fontSize:13,color:T.red,marginBottom:12}}>⚠ {err}</p>}
           <label style={{...sf,fontSize:6,letterSpacing:"0.3em",color:T.muted,textTransform:"uppercase",display:"block",marginBottom:8}}>New Date</label>
           <input type="date" value={newDate} min={today} onChange={e=>setNewDate(e.target.value)}
             style={{width:"100%",background:T.bg,border:`1px solid ${T.border}`,padding:"11px 12px",color:"white",fontSize:14,outline:"none",...mono,marginBottom:16,colorScheme:"dark"}}
@@ -628,7 +628,7 @@ function MonthCal({year, month, selectedDate, apptDates, onSelect, onPrev, onNex
 
                 {/* Day number */}
                 <span style={{
-                  ...sf, fontSize:10, fontWeight: isSel||isToday ? 900 : 400,
+                  ...sf, fontSize:12, fontWeight: isSel||isToday ? 900 : 400,
                   color: isSel ? "black"
                        : isToday ? T.amber
                        : isPast ? "#3f3f46"
@@ -694,20 +694,20 @@ function ConfirmModal({ modal, onConfirm, onCancel }) {
           <div style={{ width:38, height:38, background:`${acc}18`, border:`1px solid ${acc}44`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))" }}>
             <span style={{ fontSize:16, color:acc, fontWeight:900 }}>{icon}</span>
           </div>
-          <p style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:10, fontWeight:900, textTransform:"uppercase", letterSpacing:"0.1em", color:"white", margin:0, flex:1 }}>{modal.title}</p>
+          <p style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:12, fontWeight:900, textTransform:"uppercase", letterSpacing:"0.1em", color:"white", margin:0, flex:1 }}>{modal.title}</p>
           <div style={{ position:"absolute", top:14, right:14, width:12, height:12, borderTop:`1.5px solid ${acc}55`, borderRight:`1.5px solid ${acc}55` }}/>
         </div>
         <div style={{ padding:"18px 24px 16px" }}>
           <p style={{ fontFamily:"'Courier Prime',monospace", fontSize:12, color:"#a1a1aa", lineHeight:1.75, margin:0 }}>{modal.message}</p>
           {modal.badge && (
             <div style={{ marginTop:14, display:"inline-flex", alignItems:"center", gap:8, background:`${acc}10`, border:`1px solid ${acc}30`, padding:"7px 14px", clipPath:"polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))" }}>
-              <span style={{ fontFamily:"'Courier Prime',monospace", fontSize:10, color:acc, letterSpacing:"0.2em", textTransform:"uppercase" }}>{modal.badge}</span>
+              <span style={{ fontFamily:"'Courier Prime',monospace", fontSize:12, color:acc, letterSpacing:"0.2em", textTransform:"uppercase" }}>{modal.badge}</span>
             </div>
           )}
         </div>
         <div style={{ padding:"4px 24px 24px", display:"flex", gap:10 }}>
           <button onClick={onCancel}
-            style={{ flex:1, padding:"13px 16px", background:"transparent", border:"1px solid rgba(255,255,255,0.1)", color:"#71717a", fontFamily:"'Courier Prime',monospace", fontSize:10, letterSpacing:"0.15em", textTransform:"uppercase", cursor:"pointer", transition:"all 0.18s" }}
+            style={{ flex:1, padding:"13px 16px", background:"transparent", border:"1px solid rgba(255,255,255,0.1)", color:"#71717a", fontFamily:"'Courier Prime',monospace", fontSize:12, letterSpacing:"0.15em", textTransform:"uppercase", cursor:"pointer", transition:"all 0.18s" }}
             onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.3)";e.currentTarget.style.color="white";}}
             onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.1)";e.currentTarget.style.color="#71717a";}}>
             {modal.cancelLabel || "Go Back"}
@@ -1178,7 +1178,7 @@ export default function BarberDashboardPage(){
       <div style={{position:"absolute",left:0,right:0,height:1,background:"linear-gradient(to right,transparent,rgba(139,26,26,0.3),transparent)",animation:"scandown 6s linear infinite"}}/>
       <div style={{textAlign:"center",opacity:0,animation:"fadeIn 0.5s ease 0.1s forwards",position:"relative"}}>
         <p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:26,fontWeight:900,letterSpacing:"-0.06em",margin:0}}>Barbershopnearme</p>
-        <p style={{fontFamily:"'Courier Prime',monospace",fontSize:9,color:T.dim,letterSpacing:"0.5em",textTransform:"uppercase",marginTop:8}}>Barber Portal</p>
+        <p style={{fontFamily:"'Courier Prime',monospace",fontSize:13,color:T.dim,letterSpacing:"0.5em",textTransform:"uppercase",marginTop:8}}>Barber Portal</p>
       </div>
       <div style={{width:1,height:40,background:`linear-gradient(to bottom,${T.amber},transparent)`,position:"relative"}}/>
       <div style={{width:16,height:16,border:`1.5px solid ${T.amberBorder}`,borderTopColor:T.amber,borderRadius:"50%",animation:"spin 0.8s linear infinite",position:"relative"}}/>
@@ -1190,10 +1190,10 @@ export default function BarberDashboardPage(){
       <style>{`@keyframes floatBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}`}</style>
       <svg width="52" height="52" viewBox="0 0 72 72" fill="none" style={{animation:"floatBob 2.5s ease-in-out infinite"}}><circle cx="16" cy="16" r="10" stroke="#E8DFC8" strokeWidth="3"/><circle cx="16" cy="56" r="10" stroke="#E8DFC8" strokeWidth="3"/><line x1="24" y1="22" x2="66" y2="64" stroke="#E8DFC8" strokeWidth="3.5" strokeLinecap="round"/><line x1="24" y1="50" x2="66" y2="8" stroke="#E8DFC8" strokeWidth="3.5" strokeLinecap="round"/></svg>
       <p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:32,color:"#E8DFC8",letterSpacing:".08em",margin:0}}>Dashboard Loading...</p>
-      <p style={{fontFamily:"'Courier Prime',monospace",fontSize:11,color:"rgba(232,223,200,.4)",letterSpacing:".18em",textTransform:"uppercase",margin:0,textAlign:"center"}}>Connecting to backend · Make sure Django is running</p>
+      <p style={{fontFamily:"'Courier Prime',monospace",fontSize:13,color:"rgba(232,223,200,.4)",letterSpacing:".18em",textTransform:"uppercase",margin:0,textAlign:"center"}}>Connecting to backend · Make sure Django is running</p>
       <div style={{display:"flex",gap:12,marginTop:8}}>
         <button onClick={()=>window.location.reload()} style={{fontFamily:"'Boogaloo',cursive",fontSize:14,letterSpacing:".12em",textTransform:"uppercase",background:"#8B1A1A",color:"#E8DFC8",border:"3px solid #E8DFC8",borderRadius:50,padding:"10px 24px",cursor:"pointer"}}>Retry</button>
-        <button onClick={()=>{localStorage.removeItem("bsnm_token");localStorage.removeItem("bsnm_refresh");navigate("/barber-login")}} style={{fontFamily:"'Boogaloo',cursive",fontSize:14,letterSpacing:".12em",textTransform:"uppercase",background:"transparent",color:"#E8DFC8",border:"2px solid rgba(232,223,200,.3)",borderRadius:50,padding:"10px 24px",cursor:"pointer"}}>Sign In Again</button>
+        <button onClick={()=>{localStorage.removeItem("bsnm_token");localStorage.removeItem("bsnm_refresh");navigate("/barber-login")}} style={{fontFamily:"'Boogaloo',cursive",fontSize:14,letterSpacing:".12em",textTransform:"uppercase",background:"transparent",color:"#E8DFC8",border:"2px solid rgba(232,223,200,.65)",borderRadius:50,padding:"10px 24px",cursor:"pointer"}}>Sign In Again</button>
       </div>
     </div>
   );
@@ -1258,7 +1258,7 @@ export default function BarberDashboardPage(){
               <>
                 <div style={{width:1,height:20,background:T.border}}/>
                 <div>
-                  <p style={{...mono,fontSize:9,color:T.muted,letterSpacing:"0.2em"}}>Barber Portal</p>
+                  <p style={{...mono,fontSize:13,color:T.muted,letterSpacing:"0.2em"}}>Barber Portal</p>
                 </div>
               </>
             )}
@@ -1278,9 +1278,9 @@ export default function BarberDashboardPage(){
           <div style={{display:"flex",alignItems:"center",gap:isMobile?8:14}}>
             <div style={{display:"flex",alignItems:"center",gap:8}}>
               <div style={{width:30,height:30,background:T.amber,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                <span style={{...sf,fontSize:11,fontWeight:900,color:"black"}}>{barber.name?.charAt(0)?.toUpperCase()||"B"}</span>
+                <span style={{...sf,fontSize:13,fontWeight:900,color:"black"}}>{barber.name?.charAt(0)?.toUpperCase()||"B"}</span>
               </div>
-              {!isMobile&&<span style={{...mono,fontSize:11,color:"#a1a1aa"}}>{barber.name}</span>}
+              {!isMobile&&<span style={{...mono,fontSize:13,color:"#a1a1aa"}}>{barber.name}</span>}
             </div>
             <button onClick={handleLogout}
               style={{padding:isMobile?"10px 14px":"9px 16px",...sf,fontSize:isMobile?7:7,letterSpacing:"0.15em",textTransform:"uppercase",
@@ -1353,7 +1353,7 @@ export default function BarberDashboardPage(){
         <div className="bd-enter" style={{marginBottom:28,paddingBottom:28,borderBottom:`1px solid ${T.border}`}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",flexWrap:"wrap",gap:16,marginBottom:24}}>
             <div>
-              <p style={{...mono,fontSize:9,color:T.amber,letterSpacing:"0.5em",textTransform:"uppercase",marginBottom:10}}>Barber Dashboard</p>
+              <p style={{...mono,fontSize:13,color:T.amber,letterSpacing:"0.5em",textTransform:"uppercase",marginBottom:10}}>Barber Dashboard</p>
               <h1 style={{...sf,fontSize:"clamp(1.4rem,3.5vw,2.8rem)",fontWeight:900,textTransform:"uppercase",lineHeight:isMobile?1.1:0.88,letterSpacing:"-0.03em",margin:0}}>
                 Hey,<br/><span style={{color:T.amber,fontStyle:"italic"}}>{barber.name}_</span>
               </h1>
@@ -1422,14 +1422,14 @@ export default function BarberDashboardPage(){
             {reviewsLoading?(
               <div style={{padding:"64px",textAlign:"center"}}>
                 <div style={{width:20,height:20,border:`2px solid rgba(139,26,26,0.2)`,borderTopColor:T.amber,borderRadius:"50%",animation:"spin 0.8s linear infinite",margin:"0 auto 12px"}}/>
-                <p style={{...mono,fontSize:11,color:T.muted}}>Loading reviews...</p>
+                <p style={{...mono,fontSize:13,color:T.muted}}>Loading reviews...</p>
               </div>
             ):reviews.length===0?(
               <div style={{padding:"64px 20px",textAlign:"center",border:`1px solid ${T.border}`,background:T.surface,
                 clipPath:"polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))"}}>
                 <p style={{fontSize:36,marginBottom:12}}>⭐</p>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>No Reviews Yet</p>
-                <p style={{...mono,fontSize:11,color:"#52525b"}}>Reviews from completed appointments will appear here</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>No Reviews Yet</p>
+                <p style={{...mono,fontSize:13,color:"#52525b"}}>Reviews from completed appointments will appear here</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:12}}>
@@ -1450,8 +1450,8 @@ export default function BarberDashboardPage(){
                               <span style={{...sf,fontSize:13,fontWeight:900,color:T.amber}}>{rv.client?.charAt(0)?.toUpperCase()||"?"}</span>
                             </div>
                             <div>
-                              <p style={{...sf,fontSize:10,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rv.client}</p>
-                              <p style={{...mono,fontSize:9,color:T.muted}}>{rv.created_at}</p>
+                              <p style={{...sf,fontSize:12,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rv.client}</p>
+                              <p style={{...mono,fontSize:13,color:T.muted}}>{rv.created_at}</p>
                             </div>
                           </div>
                           <div style={{display:"flex",gap:2}}>
@@ -1511,7 +1511,7 @@ export default function BarberDashboardPage(){
                                 {replyBusy[rv.id]?"Saving...":"Post Reply →"}
                               </button>
                               <button onClick={()=>setReplyText(p=>({...p,[rv.id]:""})) }
-                                style={{padding:"8px 14px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:10,cursor:"pointer"}}>
+                                style={{padding:"8px 14px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:12,cursor:"pointer"}}>
                                 Cancel
                               </button>
                             </div>
@@ -1555,7 +1555,7 @@ export default function BarberDashboardPage(){
                 {reschedules.filter(r=>r.status==="pending").length>0&&(
                   <div style={{padding:"6px 14px",background:"rgba(239,68,68,0.08)",border:"1px solid rgba(239,68,68,0.2)",display:"flex",alignItems:"center",gap:6}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:"#ef4444",animation:"pulse 1.5s ease infinite"}}/>
-                    <span style={{...mono,fontSize:10,color:"#f87171"}}>{reschedules.filter(r=>r.status==="pending").length} pending</span>
+                    <span style={{...mono,fontSize:12,color:"#f87171"}}>{reschedules.filter(r=>r.status==="pending").length} pending</span>
                   </div>
                 )}
                 <button onClick={loadReschedules}
@@ -1570,15 +1570,15 @@ export default function BarberDashboardPage(){
             {reschedLoading?(
               <div style={{padding:"64px",textAlign:"center"}}>
                 <div style={{width:20,height:20,border:`2px solid rgba(139,26,26,0.2)`,borderTopColor:T.amber,borderRadius:"50%",animation:"spin 0.8s linear infinite",margin:"0 auto 12px"}}/>
-                <p style={{...mono,fontSize:11,color:T.muted}}>Loading requests...</p>
+                <p style={{...mono,fontSize:13,color:T.muted}}>Loading requests...</p>
               </div>
             ):reschedules.length===0?(
               <div style={{padding:"64px 20px",textAlign:"center",border:`1px solid ${T.border}`,background:T.surface,
                 clipPath:"polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))"
               }}>
                 <p style={{fontSize:36,marginBottom:12}}>↻</p>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.06)",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>No Reschedule Requests</p>
-                <p style={{...mono,fontSize:11,color:"#52525b"}}>When clients request a reschedule it will appear here</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.06)",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>No Reschedule Requests</p>
+                <p style={{...mono,fontSize:13,color:"#52525b"}}>When clients request a reschedule it will appear here</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:12}}>
@@ -1605,8 +1605,8 @@ export default function BarberDashboardPage(){
                               <span style={{...sf,fontSize:14,fontWeight:900,color:isPending?T.amber:"#52525b"}}>{rr.client_name?.charAt(0)?.toUpperCase()||"?"}</span>
                             </div>
                             <div>
-                              <p style={{...sf,fontSize:11,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rr.client_name}</p>
-                              <p style={{...mono,fontSize:9,color:"#71717a"}}>{rr.service_name} · Requested {rr.created_at}</p>
+                              <p style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rr.client_name}</p>
+                              <p style={{...mono,fontSize:13,color:"#71717a"}}>{rr.service_name} · Requested {rr.created_at}</p>
                             </div>
                           </div>
                           <div style={{padding:"5px 14px",background:statusBg,border:`1px solid ${statusColor}33`}}>
@@ -1711,9 +1711,9 @@ export default function BarberDashboardPage(){
                   {schedule.filter(a=>a.payment_method==="shop"&&a.status==="confirmed").map(a=>(
                     <div key={a.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 14px",background:T.surface,border:`1px solid ${T.border}`,flexWrap:"wrap",gap:8}}>
                       <div>
-                        <span style={{...sf,fontSize:9,fontWeight:700,textTransform:"uppercase",color:"white"}}>{a.client_name||a.username||"Client"}</span>
-                        <span style={{...mono,fontSize:9,color:T.muted,marginLeft:10}}>{a.service_name}</span>
-                        <span style={{...mono,fontSize:9,color:T.amber,marginLeft:10}}>{fmtTime(a.time)}</span>
+                        <span style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",color:"white"}}>{a.client_name||a.username||"Client"}</span>
+                        <span style={{...mono,fontSize:13,color:T.muted,marginLeft:10}}>{a.service_name}</span>
+                        <span style={{...mono,fontSize:13,color:T.amber,marginLeft:10}}>{fmtTime(a.time)}</span>
                       </div>
                       <div style={{display:"flex",alignItems:"center",gap:10}}>
                         <span style={{...sf,fontSize:12,fontWeight:900,color:T.amber}}>${a.service_price||"—"}</span>
@@ -1774,7 +1774,7 @@ export default function BarberDashboardPage(){
                     </h2>
                   </div>
                   <div style={{display:"flex",gap:10,alignItems:"center"}}>
-                    <span style={{...mono,fontSize:11,color:T.muted}}>{summary.confirmed} confirmed</span>
+                    <span style={{...mono,fontSize:13,color:T.muted}}>{summary.confirmed} confirmed</span>
                     <button onClick={()=>loadSchedule(selectedDate)}
                       style={{padding:"7px 14px",...sf,fontSize:6,letterSpacing:"0.2em",textTransform:"uppercase",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,cursor:"pointer",transition:"all 0.2s"}}
                       onMouseEnter={e=>{e.currentTarget.style.borderColor=T.amber;e.currentTarget.style.color=T.amber;}}
@@ -1791,7 +1791,7 @@ export default function BarberDashboardPage(){
                 ):schedule.length===0?(
                   <div style={{padding:"60px 20px",textAlign:"center",border:`1px solid ${T.border}`,position:"relative",overflow:"hidden"}}>
                     <p style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",...sf,fontSize:"clamp(3rem,8vw,6rem)",fontWeight:900,color:"rgba(255,255,255,0.025)",textTransform:"uppercase",letterSpacing:"-0.06em",userSelect:"none"}}>FREE</p>
-                    <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",position:"relative"}}>No appointments this day</p>
+                    <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",position:"relative"}}>No appointments this day</p>
                   </div>
                 ):(
                   <div style={{display:"flex",flexDirection:"column",gap:6}}>
@@ -1817,7 +1817,7 @@ export default function BarberDashboardPage(){
                                   <p style={{...sf,fontSize:7,textTransform:"uppercase",letterSpacing:"0.15em",color:shopStatus==="received"?"#4ade80":T.amber,marginBottom:2}}>
                                     {shopStatus==="received"?"Payment Received ✓":"Did you get paid?"}
                                   </p>
-                                  <p style={{...mono,fontSize:10,color:"#71717a"}}>{appt.service_name} · Pay in shop</p>
+                                  <p style={{...mono,fontSize:12,color:"#71717a"}}>{appt.service_name} · Pay in shop</p>
                                 </div>
                               </div>
                               {shopStatus!=="received"&&(
@@ -1863,7 +1863,7 @@ export default function BarberDashboardPage(){
                 {reschedules.filter(r=>r.status==="pending").length>0&&(
                   <div style={{padding:"6px 14px",background:"rgba(239,68,68,0.08)",border:"1px solid rgba(239,68,68,0.2)",display:"flex",alignItems:"center",gap:6}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:"#ef4444",animation:"pulse 1.5s ease infinite"}}/>
-                    <span style={{...mono,fontSize:10,color:"#f87171"}}>{reschedules.filter(r=>r.status==="pending").length} pending</span>
+                    <span style={{...mono,fontSize:12,color:"#f87171"}}>{reschedules.filter(r=>r.status==="pending").length} pending</span>
                   </div>
                 )}
                 <button onClick={loadReschedules}
@@ -1884,8 +1884,8 @@ export default function BarberDashboardPage(){
                 clipPath:"polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))"
               }}>
                 <p style={{fontSize:32,marginBottom:10}}>↻</p>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.07)",textTransform:"uppercase"}}>No Reschedule Requests</p>
-                <p style={{...mono,fontSize:11,color:T.muted,marginTop:8}}>Requests from clients will appear here</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.07)",textTransform:"uppercase"}}>No Reschedule Requests</p>
+                <p style={{...mono,fontSize:13,color:T.muted,marginTop:8}}>Requests from clients will appear here</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -1914,12 +1914,12 @@ export default function BarberDashboardPage(){
                               <span style={{...sf,fontSize:14,fontWeight:900,color:T.amber}}>{rr.client_name?.charAt(0)?.toUpperCase()||"?"}</span>
                             </div>
                             <div>
-                              <p style={{...sf,fontSize:11,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rr.client_name}</p>
-                              <p style={{...mono,fontSize:9,color:"#71717a"}}>{rr.client_email}</p>
+                              <p style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>{rr.client_name}</p>
+                              <p style={{...mono,fontSize:13,color:"#71717a"}}>{rr.client_email}</p>
                             </div>
                           </div>
                           <div style={{display:"flex",alignItems:"center",gap:8}}>
-                            <span style={{...mono,fontSize:9,color:"#52525b"}}>{rr.created_at}</span>
+                            <span style={{...mono,fontSize:13,color:"#52525b"}}>{rr.created_at}</span>
                             <span style={{...sf,fontSize:6,letterSpacing:"0.2em",textTransform:"uppercase",padding:"4px 10px",background:statusBg,border:`1px solid ${statusBdr}`,color:statusColor}}>
                               {rr.status === "pending" ? "⏳ Pending" : rr.status === "accepted" ? "✓ Approved" : "✕ Declined"}
                             </span>
@@ -1931,9 +1931,9 @@ export default function BarberDashboardPage(){
                           {/* Original */}
                           <div style={{padding:"14px 16px",background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.07)"}}>
                             <p style={{...mono,fontSize:8,color:"#52525b",letterSpacing:"0.35em",textTransform:"uppercase",marginBottom:8}}>Original Appointment</p>
-                            <p style={{...sf,fontSize:10,fontWeight:700,color:"#a1a1aa",marginBottom:4}}>{rr.original_date}</p>
+                            <p style={{...sf,fontSize:12,fontWeight:700,color:"#a1a1aa",marginBottom:4}}>{rr.original_date}</p>
                             <p style={{...sf,fontSize:16,fontWeight:900,color:"#71717a"}}>{rr.original_time}</p>
-                            <p style={{...mono,fontSize:10,color:"#52525b",marginTop:4}}>{rr.service_name}</p>
+                            <p style={{...mono,fontSize:12,color:"#52525b",marginTop:4}}>{rr.service_name}</p>
                           </div>
 
                           {/* Arrow */}
@@ -1949,9 +1949,9 @@ export default function BarberDashboardPage(){
                             <p style={{...mono,fontSize:8,color:isPending?"rgba(139,26,26,0.5)":isAccepted?"rgba(34,197,94,0.5)":"rgba(248,113,113,0.4)",letterSpacing:"0.35em",textTransform:"uppercase",marginBottom:8}}>
                               {isPending?"Requested Time":isAccepted?"✓ Approved Time":"✕ Declined Request"}
                             </p>
-                            <p style={{...sf,fontSize:10,fontWeight:700,color:isPending?"#a1a1aa":isAccepted?"#4ade80":"#f87171",marginBottom:4}}>{rr.requested_date}</p>
+                            <p style={{...sf,fontSize:12,fontWeight:700,color:isPending?"#a1a1aa":isAccepted?"#4ade80":"#f87171",marginBottom:4}}>{rr.requested_date}</p>
                             <p style={{...sf,fontSize:16,fontWeight:900,color:isPending?T.amber:isAccepted?"#22c55e":"#f87171"}}>{rr.requested_time}</p>
-                            <p style={{...mono,fontSize:10,color:isPending?"#71717a":isAccepted?"rgba(34,197,94,0.5)":"rgba(248,113,113,0.4)",marginTop:4}}>{rr.service_name}</p>
+                            <p style={{...mono,fontSize:12,color:isPending?"#71717a":isAccepted?"rgba(34,197,94,0.5)":"rgba(248,113,113,0.4)",marginTop:4}}>{rr.service_name}</p>
                           </div>
                         </div>
 
@@ -2024,13 +2024,13 @@ export default function BarberDashboardPage(){
                   <div style={{width:28,height:28,background:"rgba(34,197,94,0.15)",border:"1px solid rgba(34,197,94,0.3)",display:"flex",alignItems:"center",justifyContent:"center"}}>
                     <span style={{fontSize:14}}>✓</span>
                   </div>
-                  <p style={{...sf,fontSize:10,fontWeight:700,textTransform:"uppercase",color:"#4ade80"}}>Walk-In Added!</p>
+                  <p style={{...sf,fontSize:12,fontWeight:700,textTransform:"uppercase",color:"#4ade80"}}>Walk-In Added!</p>
                 </div>
                 <p style={{...mono,fontSize:12,color:"#a1a1aa",lineHeight:1.7}}>
                   <strong style={{color:"white"}}>{wiSuccess.name}</strong> is booked for <strong style={{color:T.amber}}>{wiSuccess.service}</strong> at <strong style={{color:T.amber}}>{wiSuccess.time}</strong>
                 </p>
                 <button onClick={()=>setWiSuccess(null)}
-                  style={{marginTop:12,...mono,fontSize:10,color:T.muted,background:"transparent",border:`1px solid ${T.border}`,padding:"6px 14px",cursor:"pointer"}}>
+                  style={{marginTop:12,...mono,fontSize:12,color:T.muted,background:"transparent",border:`1px solid ${T.border}`,padding:"6px 14px",cursor:"pointer"}}>
                   + Add Another
                 </button>
               </div>
@@ -2084,11 +2084,11 @@ export default function BarberDashboardPage(){
                   {wiSlotsLoad ? (
                     <div style={{display:"flex",alignItems:"center",gap:8,padding:"14px",background:T.surface,border:`1px solid ${T.border}`}}>
                       <div style={{width:14,height:14,border:"2px solid rgba(139,26,26,0.2)",borderTopColor:T.amber,borderRadius:"50%",animation:"spin 0.8s linear infinite"}}/>
-                      <span style={{...mono,fontSize:11,color:T.muted}}>Loading availability...</span>
+                      <span style={{...mono,fontSize:13,color:T.muted}}>Loading availability...</span>
                     </div>
                   ) : wiSlots.length===0 ? (
                     <div style={{padding:"14px",background:T.surface,border:`1px solid ${T.border}`,textAlign:"center"}}>
-                      <p style={{...mono,fontSize:11,color:T.dim}}>No available slots for this day.</p>
+                      <p style={{...mono,fontSize:13,color:T.dim}}>No available slots for this day.</p>
                     </div>
                   ) : (<div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:5}}>
                       {wiSlots.map(s=>{
@@ -2161,7 +2161,7 @@ export default function BarberDashboardPage(){
               {(wiPhone||wiEmail)&&wiName&&(
                 <div style={{padding:"12px 14px",background:"rgba(139,26,26,0.04)",border:"1px solid rgba(139,26,26,0.15)"}}>
                   <p style={{...mono,fontSize:8,color:"rgba(139,26,26,0.5)",letterSpacing:"0.4em",textTransform:"uppercase",marginBottom:6}}>Preview — Welcome Message</p>
-                  <p style={{...mono,fontSize:11,color:"#a1a1aa",lineHeight:1.7,fontStyle:"italic"}}>
+                  <p style={{...mono,fontSize:13,color:"#a1a1aa",lineHeight:1.7,fontStyle:"italic"}}>
                     "Hey {wiName}! Welcome to Barbershopnearme Barbershop 🔥 You're officially part of the family. We'll take care of you today — see you in the chair!"
                   </p>
                 </div>
@@ -2169,7 +2169,7 @@ export default function BarberDashboardPage(){
 
               {/* Submit */}
               <button onClick={handleWalkIn} disabled={wiLoading||!wiName.trim()||!wiSvc||!wiTime||!wiBarber}
-                style={{padding:"16px",...sf,fontSize:9,fontWeight:700,letterSpacing:"0.25em",textTransform:"uppercase",
+                style={{padding:"16px",...sf,fontSize:13,fontWeight:700,letterSpacing:"0.25em",textTransform:"uppercase",
                   background:wiLoading||!wiName.trim()||!wiSvc||!wiTime||!wiBarber?T.deep:T.amber,
                   color:wiLoading||!wiName.trim()||!wiSvc||!wiTime||!wiBarber?T.dim:"black",
                   border:"none",cursor:wiLoading||!wiName.trim()||!wiSvc||!wiTime||!wiBarber?"not-allowed":"pointer",
@@ -2200,15 +2200,15 @@ export default function BarberDashboardPage(){
                 </div>
               </div>
               <div style={{padding:"8px 14px",background:"rgba(139,26,26,0.08)",border:"1px solid rgba(139,26,26,0.2)"}}>
-                <span style={{...mono,fontSize:11,color:T.amber}}>{waitlist.length} waiting</span>
+                <span style={{...mono,fontSize:13,color:T.amber}}>{waitlist.length} waiting</span>
               </div>
             </div>
 
             {waitlist.length===0?(
               <div style={{padding:"64px 20px",textAlign:"center",border:`1px solid ${T.border}`,background:T.surface,clipPath:"polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))"}}>
                 <p style={{fontSize:32,marginBottom:12}}>🎉</p>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.15)",textTransform:"uppercase",letterSpacing:"0.1em"}}>Waitlist is empty</p>
-                <p style={{...mono,fontSize:11,color:T.muted,marginTop:8}}>All clients have been served</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.15)",textTransform:"uppercase",letterSpacing:"0.1em"}}>Waitlist is empty</p>
+                <p style={{...mono,fontSize:13,color:T.muted,marginTop:8}}>All clients have been served</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:8}}>
@@ -2225,19 +2225,19 @@ export default function BarberDashboardPage(){
                         </div>
                         <div>
                           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
-                            <p style={{...sf,fontSize:11,fontWeight:700,textTransform:"uppercase",color:w.notified?"#71717a":"white",margin:0}}>{w.client_name}</p>
+                            <p style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",color:w.notified?"#71717a":"white",margin:0}}>{w.client_name}</p>
                             {(w.notes||"").includes("[WALK-IN]")&&(
                               <span style={{...mono,fontSize:7,color:"black",background:T.amber,padding:"2px 7px",letterSpacing:"0.2em",textTransform:"uppercase"}}>WALK-IN</span>
                             )}
                           </div>
                           <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-                            {(w.service_name||w.service)&&<span style={{...mono,fontSize:10,color:T.amber}}>✂️ {w.service_name||w.service}</span>}
-                            {(w.phone||w.client_phone)&&<span style={{...mono,fontSize:10,color:"#a1a1aa"}}>📱 {w.phone||w.client_phone}</span>}
-                            {(w.email||w.client_email)&&<span style={{...mono,fontSize:10,color:"#a1a1aa"}}>✉️ {w.email||w.client_email}</span>}
-                            {w.date&&<span style={{...mono,fontSize:10,color:"#a1a1aa"}}>📅 {fmtShort(w.date)}</span>}
+                            {(w.service_name||w.service)&&<span style={{...mono,fontSize:12,color:T.amber}}>✂️ {w.service_name||w.service}</span>}
+                            {(w.phone||w.client_phone)&&<span style={{...mono,fontSize:12,color:"#a1a1aa"}}>📱 {w.phone||w.client_phone}</span>}
+                            {(w.email||w.client_email)&&<span style={{...mono,fontSize:12,color:"#a1a1aa"}}>✉️ {w.email||w.client_email}</span>}
+                            {w.date&&<span style={{...mono,fontSize:12,color:"#a1a1aa"}}>📅 {fmtShort(w.date)}</span>}
                           </div>
-                          {w.notes&&!w.notes.includes("[WALK-IN]")&&<p style={{...mono,fontSize:10,color:"#71717a",marginTop:4,fontStyle:"italic"}}>"{w.notes}"</p>}
-                          {w.notified&&<p style={{...mono,fontSize:9,color:T.green,marginTop:4}}>✓ Welcome message sent</p>}
+                          {w.notes&&!w.notes.includes("[WALK-IN]")&&<p style={{...mono,fontSize:12,color:"#71717a",marginTop:4,fontStyle:"italic"}}>"{w.notes}"</p>}
+                          {w.notified&&<p style={{...mono,fontSize:13,color:T.green,marginTop:4}}>✓ Welcome message sent</p>}
                         </div>
                       </div>
                       <div style={{display:"flex",gap:8}}>
@@ -2289,8 +2289,8 @@ export default function BarberDashboardPage(){
                   {label:"Blocked",val:blockList.length,                                               color:"#52525b"},
                 ].map(({label,val,color})=>(
                   <div key={label} style={{padding:"6px 12px",background:"rgba(255,255,255,0.03)",border:`1px solid rgba(255,255,255,0.08)`}}>
-                    <span style={{...mono,fontSize:9,color:"#71717a"}}>{label} </span>
-                    <span style={{...sf,fontSize:10,fontWeight:900,color}}>{val}</span>
+                    <span style={{...mono,fontSize:13,color:"#71717a"}}>{label} </span>
+                    <span style={{...sf,fontSize:12,fontWeight:900,color}}>{val}</span>
                   </div>
                 ))}
               </div>
@@ -2349,7 +2349,7 @@ export default function BarberDashboardPage(){
                     {addClientBusy?"Adding...":"Add Client →"}
                   </button>
                   <button onClick={()=>{setShowAddClient(false);setAddClientForm({name:"",phone:"",email:""}); }}
-                    style={{padding:"11px 16px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:10,cursor:"pointer"}}>
+                    style={{padding:"11px 16px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:12,cursor:"pointer"}}>
                     Cancel
                   </button>
                 </div>
@@ -2363,11 +2363,11 @@ export default function BarberDashboardPage(){
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,flexWrap:"wrap",gap:10}}>
                   <p style={{...sf,fontSize:7,letterSpacing:"0.35em",color:T.amber,textTransform:"uppercase"}}>📣 Send Blast Message</p>
                   <div style={{display:"flex",gap:12,alignItems:"center"}}>
-                    <span style={{...mono,fontSize:10,color:T.muted}}>{blastSelected.length} recipients</span>
+                    <span style={{...mono,fontSize:12,color:T.muted}}>{blastSelected.length} recipients</span>
                     <button onClick={()=>setBlastSelected(clients.filter(c=>c.phone||c.email).map(c=>c.id))}
-                      style={{...mono,fontSize:9,color:T.amber,background:"transparent",border:"none",cursor:"pointer",textDecoration:"underline"}}>Select All</button>
+                      style={{...mono,fontSize:13,color:T.amber,background:"transparent",border:"none",cursor:"pointer",textDecoration:"underline"}}>Select All</button>
                     <button onClick={()=>setBlastSelected([])}
-                      style={{...mono,fontSize:9,color:T.muted,background:"transparent",border:"none",cursor:"pointer",textDecoration:"underline"}}>Clear</button>
+                      style={{...mono,fontSize:13,color:T.muted,background:"transparent",border:"none",cursor:"pointer",textDecoration:"underline"}}>Clear</button>
                   </div>
                 </div>
 
@@ -2375,7 +2375,7 @@ export default function BarberDashboardPage(){
                 <div style={{display:"flex",gap:10,marginBottom:14}}>
                   {[["send_sms","📱 SMS",blastForm.send_sms],["send_email","✉️ Email",blastForm.send_email]].map(([field,label,on])=>(
                     <button key={field} onClick={()=>setBlastForm(p=>({...p,[field]:!p[field]}))}
-                      style={{padding:"7px 14px",...mono,fontSize:10,
+                      style={{padding:"7px 14px",...mono,fontSize:12,
                         background:on?"rgba(139,26,26,0.12)":"transparent",
                         border:`1px solid ${on?T.amberBorder:T.border}`,
                         color:on?T.amber:T.muted,cursor:"pointer",transition:"all 0.18s"}}>
@@ -2410,7 +2410,7 @@ export default function BarberDashboardPage(){
                 {/* Recipient selector */}
                 <div style={{maxHeight:180,overflowY:"auto",border:`1px solid ${T.border}`,marginBottom:14}}>
                   {clients.filter(c=>c.phone||c.email).length===0?(
-                    <p style={{...mono,fontSize:11,color:T.muted,padding:"16px",textAlign:"center"}}>No clients with phone or email yet</p>
+                    <p style={{...mono,fontSize:13,color:T.muted,padding:"16px",textAlign:"center"}}>No clients with phone or email yet</p>
                   ):(
                     clients.filter(c=>c.phone||c.email).map(cl=>{
                       const sel = blastSelected.includes(cl.id);
@@ -2422,11 +2422,11 @@ export default function BarberDashboardPage(){
                             {sel&&<span style={{color:T.amber,fontSize:9}}>✓</span>}
                           </div>
                           <div style={{flex:1,minWidth:0}}>
-                            <span style={{...sf,fontSize:9,color:sel?"white":"#a1a1aa",textTransform:"uppercase"}}>{cl.name}</span>
+                            <span style={{...sf,fontSize:13,color:sel?"white":"#a1a1aa",textTransform:"uppercase"}}>{cl.name}</span>
                           </div>
                           <div style={{display:"flex",gap:8,flexShrink:0}}>
-                            {cl.phone&&<span style={{...mono,fontSize:9,color:"#4ade80"}}>📱</span>}
-                            {cl.email&&<span style={{...mono,fontSize:9,color:T.amber}}>✉️</span>}
+                            {cl.phone&&<span style={{...mono,fontSize:13,color:"#4ade80"}}>📱</span>}
+                            {cl.email&&<span style={{...mono,fontSize:13,color:T.amber}}>✉️</span>}
                           </div>
                         </div>
                       );
@@ -2437,7 +2437,7 @@ export default function BarberDashboardPage(){
                 {/* Result */}
                 {blastResult&&(
                   <div style={{padding:"12px 14px",background:blastResult.ok?"rgba(34,197,94,0.06)":"rgba(239,68,68,0.06)",border:`1px solid ${blastResult.ok?"rgba(34,197,94,0.2)":"rgba(239,68,68,0.2)"}`,marginBottom:12}}>
-                    <p style={{...mono,fontSize:11,color:blastResult.ok?"#4ade80":"#f87171",margin:0}}>{blastResult.msg}</p>
+                    <p style={{...mono,fontSize:13,color:blastResult.ok?"#4ade80":"#f87171",margin:0}}>{blastResult.msg}</p>
                   </div>
                 )}
 
@@ -2464,7 +2464,7 @@ export default function BarberDashboardPage(){
                     {blastBusy?`Sending...`:`Send to ${blastSelected.length} →`}
                   </button>
                   <button onClick={()=>{setShowBlast(false);setBlastResult(null);}}
-                    style={{padding:"11px 16px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:10,cursor:"pointer"}}>
+                    style={{padding:"11px 16px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:12,cursor:"pointer"}}>
                     Cancel
                   </button>
                 </div>
@@ -2481,7 +2481,7 @@ export default function BarberDashboardPage(){
               /* ── CLIENT DETAIL VIEW ── */
               <div>
                 <button onClick={()=>setClientDetail(null)}
-                  style={{...mono,fontSize:10,color:T.muted,background:"none",border:"none",cursor:"pointer",marginBottom:20,display:"flex",alignItems:"center",gap:6,padding:0,transition:"color 0.2s"}}
+                  style={{...mono,fontSize:12,color:T.muted,background:"none",border:"none",cursor:"pointer",marginBottom:20,display:"flex",alignItems:"center",gap:6,padding:0,transition:"color 0.2s"}}
                   onMouseEnter={e=>e.currentTarget.style.color=T.amber}
                   onMouseLeave={e=>e.currentTarget.style.color=T.muted}>
                   ← Back to all clients
@@ -2500,7 +2500,7 @@ export default function BarberDashboardPage(){
                           {clientDetail.is_vip&&<span style={{...mono,fontSize:7,color:"black",background:T.amber,padding:"2px 8px",letterSpacing:"0.2em"}}>VIP</span>}
                           {(clientDetail.strike_count||0)>0&&<span style={{...mono,fontSize:7,color:"black",background:"#ef4444",padding:"2px 8px",letterSpacing:"0.2em"}}>⚡ {clientDetail.strike_count} STRIKE{clientDetail.strike_count>1?"S":""}</span>}
                         </div>
-                        <p style={{...mono,fontSize:11,color:"#a1a1aa"}}>{clientDetail.email||"No email"}</p>
+                        <p style={{...mono,fontSize:13,color:"#a1a1aa"}}>{clientDetail.email||"No email"}</p>
                       </div>
                     </div>
                     {/* Action buttons */}
@@ -2588,21 +2588,21 @@ export default function BarberDashboardPage(){
                         </div>
                         <div>
                           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:2}}>
-                            <p style={{...sf,fontSize:10,fontWeight:700,textTransform:"uppercase",color:isBlocked?"#71717a":"white"}}>{c.name}</p>
+                            <p style={{...sf,fontSize:12,fontWeight:700,textTransform:"uppercase",color:isBlocked?"#71717a":"white"}}>{c.name}</p>
                             {c.is_vip&&<span style={{...mono,fontSize:7,color:T.amber}}>★ VIP</span>}
                             {strikes>0&&<span style={{...mono,fontSize:7,color:"#f87171"}}>⚡ {strikes}</span>}
                             {isBlocked&&<span style={{...mono,fontSize:7,color:T.red}}>🚫 BLOCKED</span>}
                           </div>
-                          <p style={{...mono,fontSize:9,color:"#71717a"}}>{c.total_visits||0} visits {c.last_visit?`· Last: ${fmtShort(c.last_visit)}`:""}  </p>
+                          <p style={{...mono,fontSize:13,color:"#71717a"}}>{c.total_visits||0} visits {c.last_visit?`· Last: ${fmtShort(c.last_visit)}`:""}  </p>
                         </div>
                       </div>
-                      <span style={{...mono,fontSize:10,color:T.muted}}>→</span>
+                      <span style={{...mono,fontSize:12,color:T.muted}}>→</span>
                     </div>
                   );
                 })}
                 {clients.filter(c=>!clientSearch||c.name?.toLowerCase().includes(clientSearch.toLowerCase())).length===0&&(
                   <div style={{padding:"48px 20px",textAlign:"center",border:`1px solid ${T.border}`,background:T.surface}}>
-                    <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",letterSpacing:"0.1em"}}>No clients found</p>
+                    <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.08)",textTransform:"uppercase",letterSpacing:"0.1em"}}>No clients found</p>
                   </div>
                 )}
               </div>
@@ -2712,8 +2712,8 @@ export default function BarberDashboardPage(){
                     <div style={{height:"100%",width:`${reports.summary?.completion_rate||0}%`,background:`linear-gradient(to right,#22c55e,#4ade80)`,transition:"width 1s ease",borderRadius:4}}/>
                   </div>
                   <div style={{display:"flex",justifyContent:"space-between",marginTop:8}}>
-                    <span style={{...mono,fontSize:9,color:"#71717a"}}>No-show rate: {reports.summary?.no_show_rate||0}%</span>
-                    <span style={{...mono,fontSize:9,color:"#71717a"}}>Walk-ins: {reports.summary?.walk_ins||0}</span>
+                    <span style={{...mono,fontSize:13,color:"#71717a"}}>No-show rate: {reports.summary?.no_show_rate||0}%</span>
+                    <span style={{...mono,fontSize:13,color:"#71717a"}}>Walk-ins: {reports.summary?.walk_ins||0}</span>
                   </div>
                 </div>
 
@@ -2791,8 +2791,8 @@ export default function BarberDashboardPage(){
                             ].map(({label,pct,color})=>(
                               <div key={label} style={{display:"flex",alignItems:"center",gap:8}}>
                                 <div style={{width:10,height:10,background:color,flexShrink:0}}/>
-                                <span style={{...mono,fontSize:9,color:"#a1a1aa"}}>{label}</span>
-                                <span style={{...sf,fontSize:9,fontWeight:900,color,marginLeft:"auto"}}>{pct}%</span>
+                                <span style={{...mono,fontSize:13,color:"#a1a1aa"}}>{label}</span>
+                                <span style={{...sf,fontSize:13,fontWeight:900,color,marginLeft:"auto"}}>{pct}%</span>
                               </div>
                             ))}
                           </div>
@@ -2816,7 +2816,7 @@ export default function BarberDashboardPage(){
                               );
                             })}
                           </div>
-                        ):<p style={{...mono,fontSize:11,color:T.muted}}>No data yet</p>}
+                        ):<p style={{...mono,fontSize:13,color:T.muted}}>No data yet</p>}
                       </div>
                     </div>
                   );
@@ -2834,12 +2834,12 @@ export default function BarberDashboardPage(){
                           <div key={i}>
                             <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
                               <div style={{display:"flex",alignItems:"center",gap:8}}>
-                                <span style={{...mono,fontSize:9,color:"#52525b",minWidth:20}}>{String(i+1).padStart(2,"0")}</span>
+                                <span style={{...mono,fontSize:13,color:"#52525b",minWidth:20}}>{String(i+1).padStart(2,"0")}</span>
                                 <span style={{...mono,fontSize:12,color:"#d4d4d4"}}>{s.name}</span>
                               </div>
                               <div style={{display:"flex",gap:16,alignItems:"center"}}>
-                                <span style={{...sf,fontSize:10,color:T.amber,fontWeight:900}}>{s.bookings} cuts</span>
-                                <span style={{...mono,fontSize:10,color:T.green}}>${s.revenue}</span>
+                                <span style={{...sf,fontSize:12,color:T.amber,fontWeight:900}}>{s.bookings} cuts</span>
+                                <span style={{...mono,fontSize:12,color:T.green}}>${s.revenue}</span>
                               </div>
                             </div>
                             <div style={{height:3,background:T.border,borderRadius:2,overflow:"hidden"}}>
@@ -2861,11 +2861,11 @@ export default function BarberDashboardPage(){
                         <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 14px",background:T.surface2,border:`1px solid ${T.border}`}}>
                           <div style={{display:"flex",alignItems:"center",gap:12}}>
                             <div style={{width:28,height:28,background:i===0?T.amber:T.amberDim,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                              <span style={{...sf,fontSize:10,fontWeight:900,color:i===0?"black":T.amber}}>{i+1}</span>
+                              <span style={{...sf,fontSize:12,fontWeight:900,color:i===0?"black":T.amber}}>{i+1}</span>
                             </div>
                             <p style={{...mono,fontSize:12,color:"#d4d4d4"}}>{c.name}</p>
                           </div>
-                          <span style={{...sf,fontSize:11,fontWeight:900,color:T.amber}}>{c.visits} visits</span>
+                          <span style={{...sf,fontSize:13,fontWeight:900,color:T.amber}}>{c.visits} visits</span>
                         </div>
                       ))}
                     </div>
@@ -2889,7 +2889,7 @@ export default function BarberDashboardPage(){
                 </div>
               </div>
               <a href="/newsletter" target="_blank"
-                style={{...mono,fontSize:10,color:T.amber,border:`1px solid ${T.amberBorder}`,padding:"8px 14px",textDecoration:"none",transition:"all 0.2s"}}
+                style={{...mono,fontSize:12,color:T.amber,border:`1px solid ${T.amberBorder}`,padding:"8px 14px",textDecoration:"none",transition:"all 0.2s"}}
                 onMouseEnter={e=>e.currentTarget.style.background=T.amberDim}
                 onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
                 View Public Page →
@@ -2904,8 +2904,8 @@ export default function BarberDashboardPage(){
                 {nlEditing?"✏️ Editing Post":"📣 Create New Post"}
               </p>
 
-              {nlError&&<p style={{...mono,fontSize:11,color:"#f87171",marginBottom:10}}>⚠ {nlError}</p>}
-              {nlSuccess&&<p style={{...mono,fontSize:11,color:"#4ade80",marginBottom:10}}>✓ {nlSuccess}</p>}
+              {nlError&&<p style={{...mono,fontSize:13,color:"#f87171",marginBottom:10}}>⚠ {nlError}</p>}
+              {nlSuccess&&<p style={{...mono,fontSize:13,color:"#4ade80",marginBottom:10}}>✓ {nlSuccess}</p>}
 
               {/* Title */}
               <input value={nlForm.title} onChange={e=>setNlForm(p=>({...p,title:e.target.value}))}
@@ -2930,7 +2930,7 @@ export default function BarberDashboardPage(){
                   <div style={{width:16,height:16,border:`2px solid ${nlForm.pinned?T.amber:"rgba(255,255,255,0.2)"}`,background:nlForm.pinned?"rgba(139,26,26,0.15)":"transparent",display:"flex",alignItems:"center",justifyContent:"center"}}>
                     {nlForm.pinned&&<span style={{color:T.amber,fontSize:10}}>✓</span>}
                   </div>
-                  <span style={{...mono,fontSize:10,color:nlForm.pinned?T.amber:"#71717a",whiteSpace:"nowrap"}}>Pin</span>
+                  <span style={{...mono,fontSize:12,color:nlForm.pinned?T.amber:"#71717a",whiteSpace:"nowrap"}}>Pin</span>
                 </div>
               </div>
 
@@ -2983,8 +2983,8 @@ export default function BarberDashboardPage(){
             ):nlPosts.length===0?(
               <div style={{padding:"48px 20px",textAlign:"center",border:`1px solid ${T.border}`,background:T.surface}}>
                 <p style={{fontSize:32,marginBottom:10}}>📣</p>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.08)",textTransform:"uppercase"}}>No posts yet</p>
-                <p style={{...mono,fontSize:11,color:"#71717a",marginTop:8}}>Create your first post above</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.08)",textTransform:"uppercase"}}>No posts yet</p>
+                <p style={{...mono,fontSize:13,color:"#71717a",marginTop:8}}>Create your first post above</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:10}}>
@@ -2999,11 +2999,11 @@ export default function BarberDashboardPage(){
                           <span style={{fontSize:20}}>{post.emoji}</span>
                           <div>
                             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:2}}>
-                              <p style={{...sf,fontSize:10,fontWeight:700,textTransform:"uppercase"}}>{post.title}</p>
+                              <p style={{...sf,fontSize:12,fontWeight:700,textTransform:"uppercase"}}>{post.title}</p>
                               {post.pinned&&<span style={{...mono,fontSize:7,color:T.amber,background:T.amberDim,padding:"1px 6px",border:`1px solid ${T.amberBorder}`}}>📌 Pinned</span>}
                               <span style={{...mono,fontSize:7,color:"#71717a",background:"rgba(255,255,255,0.04)",padding:"1px 8px",border:"1px solid rgba(255,255,255,0.08)"}}>{post.category}</span>
                             </div>
-                            <p style={{...mono,fontSize:9,color:"#71717a"}}>{post.created_at}</p>
+                            <p style={{...mono,fontSize:13,color:"#71717a"}}>{post.created_at}</p>
                           </div>
                         </div>
                         <div style={{display:"flex",gap:6,flexShrink:0}}>
@@ -3051,7 +3051,7 @@ export default function BarberDashboardPage(){
             {pricingList.length===0 ? (
               <div style={{padding:"24px",textAlign:"center"}}>
                 <div style={{width:18,height:18,border:"2px solid rgba(139,26,26,0.2)",borderTopColor:T.amber,borderRadius:"50%",animation:"spin 0.8s linear infinite",margin:"0 auto 12px"}}/>
-                <p style={{...mono,fontSize:11,color:T.dim}}>Loading services...</p>
+                <p style={{...mono,fontSize:13,color:T.dim}}>Loading services...</p>
               </div>
             ) : (<div style={{display:"flex",flexDirection:"column",gap:8}}>
                 {pricingList.map(svc=>{
@@ -3094,16 +3094,16 @@ export default function BarberDashboardPage(){
                         {/* Left: service info */}
                         <div style={{flex:1,minWidth:160}}>
                           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
-                            <p style={{...sf,fontSize:10,fontWeight:700,textTransform:"uppercase",margin:0}}>{svc.name}</p>
+                            <p style={{...sf,fontSize:12,fontWeight:700,textTransform:"uppercase",margin:0}}>{svc.name}</p>
                             {hasCustom&&(
                               <span style={{...mono,fontSize:7,color:T.amber,padding:"2px 7px",background:"rgba(139,26,26,0.08)",border:"1px solid rgba(139,26,26,0.2)"}}>
                                 CUSTOM
                               </span>
                             )}
                           </div>
-                          <p style={{...mono,fontSize:10,color:T.dim,margin:0}}>{svc.duration_minutes} min</p>
+                          <p style={{...mono,fontSize:12,color:T.dim,margin:0}}>{svc.duration_minutes} min</p>
                           {hasCustom&&(
-                            <p style={{...mono,fontSize:9,color:"#52525b",margin:"4px 0 0"}}>
+                            <p style={{...mono,fontSize:13,color:"#52525b",margin:"4px 0 0"}}>
                               Shop default: <span style={{color:T.muted}}>${svc.default_price.toFixed(2)}</span>
                             </p>
                           )}
@@ -3129,7 +3129,7 @@ export default function BarberDashboardPage(){
                                 {saving?"...":"Save"}
                               </button>
                               <button onClick={()=>setPricingEdits(p=>{const n={...p};delete n[svc.id];return n;})}
-                                style={{padding:"10px 12px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:11,cursor:"pointer"}}>
+                                style={{padding:"10px 12px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:13,cursor:"pointer"}}>
                                 ✕
                               </button>
                             </>
@@ -3139,14 +3139,14 @@ export default function BarberDashboardPage(){
                               </p>
                               <button
                                 onClick={()=>setPricingEdits(p=>({...p,[svc.id]:String(svc.effective_price)}))}
-                                style={{padding:"8px 14px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:10,cursor:"pointer",transition:"all 0.2s"}}
+                                style={{padding:"8px 14px",background:"transparent",border:`1px solid ${T.border}`,color:T.muted,...mono,fontSize:12,cursor:"pointer",transition:"all 0.2s"}}
                                 onMouseEnter={e=>{e.currentTarget.style.borderColor=T.amber;e.currentTarget.style.color=T.amber;}}
                                 onMouseLeave={e=>{e.currentTarget.style.borderColor=T.border;e.currentTarget.style.color=T.muted;}}>
                                 Edit
                               </button>
                               {hasCustom&&(
                                 <button onClick={resetPrice} disabled={saving}
-                                  style={{padding:"8px 10px",background:"transparent",border:"1px solid rgba(248,113,113,0.2)",color:"#f87171",...mono,fontSize:10,cursor:"pointer",transition:"all 0.2s"}}
+                                  style={{padding:"8px 10px",background:"transparent",border:"1px solid rgba(248,113,113,0.2)",color:"#f87171",...mono,fontSize:12,cursor:"pointer",transition:"all 0.2s"}}
                                   onMouseEnter={e=>{e.currentTarget.style.background="rgba(248,113,113,0.06)";}}
                                   onMouseLeave={e=>{e.currentTarget.style.background="transparent";}}>
                                   Reset
@@ -3162,7 +3162,7 @@ export default function BarberDashboardPage(){
 
                 {/* Footer note */}
                 <div style={{marginTop:8,padding:"12px 14px",background:"rgba(139,26,26,0.04)",border:"1px solid rgba(139,26,26,0.1)"}}>
-                  <p style={{...mono,fontSize:10,color:"rgba(139,26,26,0.5)",lineHeight:1.7,margin:0}}>
+                  <p style={{...mono,fontSize:12,color:"rgba(139,26,26,0.5)",lineHeight:1.7,margin:0}}>
                     💲 Custom prices only apply to bookings with you. Other barbers keep their own rates. Press <strong style={{color:T.amber}}>Edit</strong> to change a price, <strong style={{color:"#f87171"}}>Reset</strong> to go back to the shop default.
                   </p>
                 </div>
@@ -3184,7 +3184,7 @@ export default function BarberDashboardPage(){
                 <div style={{width:3,height:22,background:T.amber,flexShrink:0}}/>
                 <div>
                   <p style={{...mono,fontSize:7,color:"rgba(139,26,26,0.5)",letterSpacing:"0.5em",textTransform:"uppercase",marginBottom:1}}>Profile</p>
-                  <p style={{...sf,fontSize:11,fontWeight:900,textTransform:"uppercase",margin:0}}>Your Photo</p>
+                  <p style={{...sf,fontSize:13,fontWeight:900,textTransform:"uppercase",margin:0}}>Your Photo</p>
                 </div>
               </div>
 
@@ -3225,7 +3225,7 @@ export default function BarberDashboardPage(){
 
                 {/* Right side — description + BIG upload button */}
                 <div style={{flex:1,minWidth:200}}>
-                  <p style={{...mono,fontSize:11,color:"#a1a1aa",lineHeight:1.7,marginBottom:16}}>
+                  <p style={{...mono,fontSize:13,color:"#a1a1aa",lineHeight:1.7,marginBottom:16}}>
                     Clients see this photo when choosing who cuts their hair. Upload a clear face shot — it shows up instantly.
                   </p>
 
@@ -3283,10 +3283,10 @@ export default function BarberDashboardPage(){
                     >
                       <span style={{fontSize:20}}>{uploadingPhoto?"⏳":"📸"}</span>
                       <div>
-                        <p style={{...sf,fontSize:9,fontWeight:700,letterSpacing:"0.15em",textTransform:"uppercase",color:uploadingPhoto?"#52525b":"#8B1A1A",margin:0}}>
+                        <p style={{...sf,fontSize:13,fontWeight:700,letterSpacing:"0.15em",textTransform:"uppercase",color:uploadingPhoto?"#52525b":"#8B1A1A",margin:0}}>
                           {uploadingPhoto?"Uploading...":"Upload a Photo of Yourself"}
                         </p>
-                        <p style={{...mono,fontSize:9,color:"#52525b",margin:"3px 0 0",letterSpacing:"0.05em"}}>
+                        <p style={{...mono,fontSize:13,color:"#52525b",margin:"3px 0 0",letterSpacing:"0.05em"}}>
                           {uploadingPhoto?"Saving to your profile...":"Tap to choose from your camera roll"}
                         </p>
                       </div>
@@ -3295,7 +3295,7 @@ export default function BarberDashboardPage(){
 
                   {/* Show "change photo" hint if one already exists */}
                   {(barber?.photo_url)&&!uploadingPhoto&&(
-                    <p style={{...mono,fontSize:9,color:"#3f3f46",marginTop:8}}>
+                    <p style={{...mono,fontSize:13,color:"#3f3f46",marginTop:8}}>
                       ✓ Photo active · tap above to change it
                     </p>
                   )}
@@ -3319,7 +3319,7 @@ export default function BarberDashboardPage(){
                 </div>
                 <div>
                   <p style={{...sf,fontSize:8,fontWeight:700,textTransform:"uppercase",margin:0}}>Cash App Tag (Backup)</p>
-                  <p style={{...mono,fontSize:10,color:T.muted,marginTop:2}}>Used if Stripe isn't connected</p>
+                  <p style={{...mono,fontSize:12,color:T.muted,marginTop:2}}>Used if Stripe isn't connected</p>
                 </div>
               </div>
               <CashAppTagField barber={barber} onUpdate={(tag)=>setBarber(b=>({...b,cashapp_tag:tag}))}/>
@@ -3343,7 +3343,7 @@ export default function BarberDashboardPage(){
                         <p style={{...sf,fontSize:8,fontWeight:700,textTransform:"uppercase",minWidth:96,margin:0}}>{dayName}</p>
                         <div style={{display:"flex",alignItems:"center",gap:6}}>
                           <div style={{width:5,height:5,borderRadius:"50%",background:isSun?T.dim:saved&&isWorking?"#4ade80":T.dim}}/>
-                          <span style={{...mono,fontSize:11,color:isSun?T.dim:saved?(isWorking?"#a1a1aa":T.muted):T.dim}}>
+                          <span style={{...mono,fontSize:13,color:isSun?T.dim:saved?(isWorking?"#a1a1aa":T.muted):T.dim}}>
                             {isSun?"Closed":saved?(isWorking?`${fmtTime(saved.start_time)} — ${fmtTime(saved.end_time)}`:"Day Off"):"Not set"}
                           </span>
                         </div>
@@ -3429,17 +3429,17 @@ export default function BarberDashboardPage(){
 
             {timeOff.length===0?(
               <div style={{padding:"40px 0",textAlign:"center",border:`1px solid ${T.border}`}}>
-                <p style={{...sf,fontSize:9,color:"rgba(255,255,255,0.08)",textTransform:"uppercase"}}>No dates blocked</p>
+                <p style={{...sf,fontSize:13,color:"rgba(255,255,255,0.08)",textTransform:"uppercase"}}>No dates blocked</p>
               </div>
             ):(
               <div style={{display:"flex",flexDirection:"column",gap:6}}>
                 {timeOff.map(off=>(
                   <div key={off.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 18px",background:T.surface,border:`1px solid ${T.border}`,flexWrap:"wrap",gap:10}}>
                     <div>
-                      <p style={{...sf,fontSize:9,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>
+                      <p style={{...sf,fontSize:13,fontWeight:700,textTransform:"uppercase",marginBottom:2}}>
                         {new Date(off.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})}
                       </p>
-                      {off.reason&&<p style={{...mono,fontSize:11,color:T.muted}}>{off.reason}</p>}
+                      {off.reason&&<p style={{...mono,fontSize:13,color:T.muted}}>{off.reason}</p>}
                     </div>
                     <button onClick={()=>removeTimeOff(off.id)}
                       style={{...sf,fontSize:6,letterSpacing:"0.15em",textTransform:"uppercase",padding:"7px 14px",background:"transparent",border:`1px solid ${T.redBorder}`,color:T.red,cursor:"pointer",transition:"all 0.2s"}}

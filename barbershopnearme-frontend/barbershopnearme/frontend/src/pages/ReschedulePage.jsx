@@ -4,12 +4,12 @@ import { useSearchParams, Link } from 'react-router-dom'
 /* ─── tokens ─────────────────────────────────────── */
 const T = {
   ink:'#070504', ink2:'#0F0B09',
-  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.1)',
+  bone:'#E8DFC8', bone2:'rgba(232,223,200,.55)', bone3:'rgba(232,223,200,.22)',
   blood:'#8B1A1A', blood2:'#6B0F0F', bloodDim:'rgba(139,26,26,.18)', bloodBorder:'rgba(139,26,26,.4)',
   green:'#4ade80', greenDim:'rgba(74,222,128,.12)', greenBorder:'rgba(74,222,128,.3)',
   red:'#f87171', redDim:'rgba(248,113,113,.08)', redBorder:'rgba(248,113,113,.3)',
   gold:'#C8A840', goldDim:'rgba(200,168,64,.12)', goldBorder:'rgba(200,168,64,.3)',
-  dim:'rgba(232,223,200,.38)', deep:'rgba(232,223,200,.12)',
+  dim:'rgba(232,223,200,.38)', deep:'rgba(232,223,200,.24)',
 }
 const sf   = { fontFamily:"'Bebas Neue',sans-serif" }
 const rub  = { fontFamily:"'Boogaloo',cursive" }
@@ -115,7 +115,7 @@ export default function ReschedulePage(){
               </div>
               <div>
                 <p style={{...sf,fontSize:26,color:T.bone,textTransform:'uppercase',letterSpacing:'.03em',margin:'0 0 3px',lineHeight:1}}>{cfg.title}</p>
-                <p style={{...mono,fontSize:10,color:isLoading?T.deep:cfg.color,letterSpacing:'.2em',textTransform:'uppercase',margin:0,animation:isLoading?'rhPulse 1.5s ease infinite':'none'}}>
+                <p style={{...mono,fontSize:12,color:isLoading?T.deep:cfg.color,letterSpacing:'.2em',textTransform:'uppercase',margin:0,animation:isLoading?'rhPulse 1.5s ease infinite':'none'}}>
                   {isLoading?'processing...':status}
                 </p>
               </div>
@@ -167,7 +167,7 @@ export default function ReschedulePage(){
                 >View Dashboard</Link>
               )}
               <Link to="/" style={{
-                flex:1,textAlign:'center',...mono,fontSize:11,letterSpacing:'.2em',textTransform:'uppercase',
+                flex:1,textAlign:'center',...mono,fontSize:13,letterSpacing:'.2em',textTransform:'uppercase',
                 background:'transparent',color:T.dim,border:`1px solid ${T.bone3}`,borderRadius:PILL,
                 padding:'12px 16px',textDecoration:'none',transition:'all .2s',display:'block',
               }}
@@ -179,7 +179,7 @@ export default function ReschedulePage(){
         </div>
 
         {/* address footer */}
-        <p style={{...mono,fontSize:9,color:T.deep,textAlign:'center',marginTop:24,letterSpacing:'.15em'}}>
+        <p style={{...mono,fontSize:13,color:T.deep,textAlign:'center',marginTop:24,letterSpacing:'.15em'}}>
           📍 123 Noir Alley · Hattiesburg, MS 39401
         </p>
       </div>

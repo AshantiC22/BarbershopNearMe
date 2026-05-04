@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import api from '@/services/api.js'
 
-const T = { ink:'#070504',ink2:'#0F0B09',bone:'#E8DFC8',blood:'#8B1A1A',blood2:'#6B0F0F',gold:'#C8A840',dim1:'rgba(232,223,200,.55)',dim2:'rgba(232,223,200,.14)',dim3:'rgba(232,223,200,.06)' }
+const T = { ink:'#070504',ink2:'#0F0B09',bone:'#E8DFC8',blood:'#8B1A1A',blood2:'#6B0F0F',gold:'#C8A840',dim1:'rgba(232,223,200,.55)',dim2:'rgba(232,223,200,.14)',dim3:'rgba(232,223,200,.14)' }
 
 function StarRating({ value, onChange, readonly=false }){
   const [hovered, setHovered] = useState(0)
@@ -110,7 +110,7 @@ export default function ReviewPage(){
 
           {/* did haircut happen? */}
           <div style={{ marginBottom:28 }}>
-            <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:10,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,marginBottom:12 }}>Did you get your haircut?</div>
+            <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:12,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,marginBottom:12 }}>Did you get your haircut?</div>
             <div style={{ display:'flex',gap:10 }}>
               {[['Yes, looking sharp! ✂','yes',true],['No, I was a no-show','no',false]].map(([label,key,val])=>(
                 <button key={key} onClick={()=>setCompleted(val)} style={{
@@ -130,14 +130,14 @@ export default function ReviewPage(){
           {/* star rating — only if completed */}
           {completed && (
             <div style={{ marginBottom:24 }}>
-              <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:10,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,marginBottom:14 }}>Your Rating</div>
+              <div style={{ fontFamily:"'Courier Prime',monospace",fontSize:12,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,marginBottom:14 }}>Your Rating</div>
               <StarRating value={rating} onChange={setRating}/>
             </div>
           )}
 
           {/* comment */}
           <div style={{ marginBottom:28 }}>
-            <label style={{ fontFamily:"'Courier Prime',monospace",fontSize:10,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,display:'block',marginBottom:8 }}>
+            <label style={{ fontFamily:"'Courier Prime',monospace",fontSize:12,letterSpacing:'.28em',textTransform:'uppercase',color:T.dim1,display:'block',marginBottom:8 }}>
               Comment (optional)
             </label>
             <textarea value={comment} onChange={e=>setComment(e.target.value)}

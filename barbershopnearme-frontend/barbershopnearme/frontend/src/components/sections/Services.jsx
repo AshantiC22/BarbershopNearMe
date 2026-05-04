@@ -30,7 +30,7 @@ function SectionDivider(){
     <svg width="100%" height="20" viewBox="0 0 400 20" preserveAspectRatio="none" fill="none"
       style={{ display:'block', margin:'0 0 64px' }}>
       <path d="M0 10 C40 4, 80 16, 120 10 C160 4, 200 16, 240 10 C280 4, 320 16, 360 10 C380 6, 390 12, 400 10"
-        stroke="rgba(232,223,200,.15)" strokeWidth="2" fill="none"/>
+        stroke="rgba(232,223,200,.28)" strokeWidth="2" fill="none"/>
     </svg>
   )
 }
@@ -47,7 +47,7 @@ export default function Services() {
           <span className="t-eyebrow-num">01</span>
           <div className="section-eyebrow-rule"/>
           <span className="t-label">Services</span>
-          <div style={{ flex:1, height:1, background:'rgba(232,223,200,.08)' }}/>
+          <div style={{ flex:1, height:1, background:'rgba(232,223,200,.18)' }}/>
         </div>
 
         <div className="section-intro">
@@ -69,7 +69,7 @@ export default function Services() {
                     fill={i<4?'#8B1A1A':'rgba(139,26,26,.3)'}/>
                 </svg>
               ))}
-              <span style={{ fontFamily:'var(--font-body)', fontSize:10, letterSpacing:'.2em', color:'var(--color-dim-1)', marginLeft:6 }}>
+              <span style={{ fontFamily:'var(--font-body)', fontSize:12, letterSpacing:'.2em', color:'var(--color-dim-1)', marginLeft:6 }}>
                 RATED #1
               </span>
             </div>
@@ -90,7 +90,7 @@ export default function Services() {
               {/* badge pill */}
               <div style={{
                 display:'inline-block',
-                fontFamily:'var(--font-rubber)', fontSize:10, letterSpacing:'.12em',
+                fontFamily:'var(--font-rubber)', fontSize:12, letterSpacing:'.12em',
                 textTransform:'uppercase', color:'var(--color-blood)',
                 border:'2px solid rgba(139,26,26,.3)',
                 borderRadius:'var(--rh-pill)',
@@ -108,7 +108,7 @@ export default function Services() {
               <div className="svc-card-footer">
                 <span className="t-price">{s.price}</span>
                 <span style={{
-                  fontFamily:'var(--font-rubber)', fontSize:11, letterSpacing:'.1em',
+                  fontFamily:'var(--font-rubber)', fontSize:13, letterSpacing:'.1em',
                   color:'var(--color-dim-1)',
                 }}>
                   {s.flavor}

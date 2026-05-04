@@ -7,14 +7,14 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         {/* top row */}
-        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:32, marginBottom:40, paddingBottom:40, borderBottom:'2px solid rgba(232,223,200,.1)' }}>
+        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:32, marginBottom:40, paddingBottom:40, borderBottom:'2px solid rgba(232,223,200,.22)' }}>
 
           {/* brand */}
           <div>
             <div style={{ fontFamily:"var(--font-display)", fontSize:20, letterSpacing:'.22em', textTransform:'uppercase', color:'var(--color-bone)', marginBottom:8 }}>
               Barbershopnearme
             </div>
-            <div style={{ fontFamily:"var(--font-body)", fontSize:11, letterSpacing:'.2em', textTransform:'uppercase', color:'var(--color-dim-1)', lineHeight:2 }}>
+            <div style={{ fontFamily:"var(--font-body)", fontSize:13, letterSpacing:'.2em', textTransform:'uppercase', color:'var(--color-dim-1)', lineHeight:2 }}>
               Est. 1931 · Hattiesburg, MS<br/>
               The City's Sharpest Blade
             </div>
@@ -23,7 +23,7 @@ export default function Footer() {
           {/* nav links */}
           <div style={{ display:'flex', gap:48, flexWrap:'wrap' }}>
             <div>
-              <div style={{ fontFamily:"var(--font-body)", fontSize:9, letterSpacing:'.28em', textTransform:'uppercase', color:'var(--color-blood)', marginBottom:14 }}>Services</div>
+              <div style={{ fontFamily:"var(--font-body)", fontSize:13, letterSpacing:'.28em', textTransform:'uppercase', color:'var(--color-blood)', marginBottom:14 }}>Services</div>
               {['Services','Barbers','Gallery','Reviews','Location'].map(s => (
                 <button key={s} onClick={() => go(s.toLowerCase())} style={{ display:'block', fontFamily:"var(--font-rubber)", fontSize:13, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--color-dim-1)', background:'none', border:'none', cursor:'pointer', padding:'4px 0', transition:'color .2s' }}
                   onMouseEnter={e=>e.target.style.color='var(--color-bone)'}
@@ -32,7 +32,7 @@ export default function Footer() {
               ))}
             </div>
             <div>
-              <div style={{ fontFamily:"var(--font-body)", fontSize:9, letterSpacing:'.28em', textTransform:'uppercase', color:'var(--color-blood)', marginBottom:14 }}>Account</div>
+              <div style={{ fontFamily:"var(--font-body)", fontSize:13, letterSpacing:'.28em', textTransform:'uppercase', color:'var(--color-blood)', marginBottom:14 }}>Account</div>
               {[['Book a Cut','/login'],['My Dashboard','/dashboard'],['Newsletter','/newsletter'],['Terms','/terms']].map(([label,path]) => (
                 <Link key={label} to={path} style={{ display:'block', fontFamily:"var(--font-rubber)", fontSize:13, letterSpacing:'.1em', textTransform:'uppercase', color:'var(--color-dim-1)', textDecoration:'none', padding:'4px 0', transition:'color .2s' }}
                   onMouseEnter={e=>e.target.style.color='var(--color-bone)'}

@@ -14,9 +14,9 @@
   --color-blood:    #8B1A1A;
   --color-blood-2:  #6B0F0F;
   --color-gold:     #C8A840;
-  --color-dim-1:    rgba(232,223,200,0.55);
-  --color-dim-2:    rgba(232,223,200,0.14);
-  --color-dim-3:    rgba(232,223,200,0.06);
+  --color-dim-1:    rgba(232,223,200,0.82);
+  --color-dim-2:    rgba(232,223,200,0.22);
+  --color-dim-3:    rgba(232,223,200,0.09);
   --font-display:   'Bebas Neue', sans-serif;
   --font-body:      'Courier Prime', monospace;
   --font-rubber:    'Boogaloo', cursive;
@@ -33,7 +33,7 @@
 html{scroll-behavior:smooth;overflow-x:hidden;scroll-padding-top:60px;}
 body{
   background:var(--color-ink);color:var(--color-bone);
-  font-family:var(--font-body);font-size:14px;line-height:1.7;
+  font-family:var(--font-body);font-size:15px;line-height:1.8;
   overflow-x:hidden;-webkit-font-smoothing:antialiased;
   -webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;
   cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%238B1A1A'/%3E%3C/svg%3E") 10 10,crosshair;
@@ -66,10 +66,10 @@ button{font-family:inherit;cursor:pointer;}
 .t-heading{font-family:var(--font-display);font-size:clamp(22px,3.5vw,36px);line-height:1;letter-spacing:.05em;text-transform:uppercase;}
 .t-price{font-family:var(--font-display);font-size:34px;letter-spacing:.04em;line-height:1;color:var(--color-bone);}
 .t-stat{font-family:var(--font-display);font-size:44px;letter-spacing:.03em;line-height:1;color:var(--color-bone);}
-.t-label{font-family:var(--font-body);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--color-dim-1);}
-.t-body{font-family:var(--font-body);font-size:13px;line-height:1.9;color:var(--color-dim-1);letter-spacing:.03em;}
+.t-label{font-family:var(--font-body);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--color-dim-1);}
+.t-body{font-family:var(--font-body);font-size:14px;line-height:1.9;color:var(--color-dim-1);letter-spacing:.03em;}
 .t-rubber{font-family:var(--font-rubber);font-size:15px;letter-spacing:.1em;text-transform:uppercase;}
-.t-eyebrow-num{font-family:var(--font-display);font-size:11px;color:var(--color-blood);letter-spacing:.2em;flex-shrink:0;}
+.t-eyebrow-num{font-family:var(--font-display);font-size:13px;color:var(--color-blood);letter-spacing:.2em;flex-shrink:0;}
 
 /* ─── NAVBAR ─── */
 .navbar{
@@ -99,7 +99,7 @@ button{font-family:inherit;cursor:pointer;}
 .navbar-links{display:flex;list-style:none;align-items:center;gap:40px;}
 .navbar-link{
   background:none;border:none;
-  font-family:var(--font-body);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  font-family:var(--font-body);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--color-dim-1);cursor:pointer;padding:4px 0;transition:color .2s;position:relative;
 }
 .navbar-link::after{
@@ -292,7 +292,7 @@ button{font-family:inherit;cursor:pointer;}
 /* ─── SECTION BASE ─── */
 .section{padding:104px 0;border-top:3px solid var(--color-bone);}
 .section-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:40px;}
-.section-eyebrow-rule{width:40px;height:3px;background:var(--color-bone);border-radius:2px;flex-shrink:0;opacity:.35;}
+.section-eyebrow-rule{width:40px;height:3px;background:var(--color-bone);border-radius:2px;flex-shrink:0;opacity:.6;}
 .section-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:64px;flex-wrap:wrap;}
 
 /* ─── SERVICE CARDS — rubber hose to the bone ─── */
@@ -302,7 +302,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .svc-card{
   background:var(--color-ink-2);
-  border:3px solid rgba(232,223,200,.2);
+  border:3px solid rgba(232,223,200,.35);
   padding:40px 28px 32px;
   position:relative;display:flex;flex-direction:column;
   min-height:280px;
@@ -318,7 +318,7 @@ button{font-family:inherit;cursor:pointer;}
 .svc-card-ghost{
   position:absolute;bottom:-20px;right:6px;
   font-family:var(--font-display);font-size:120px;line-height:1;
-  color:rgba(232,223,200,.035);pointer-events:none;user-select:none;
+  color:rgba(232,223,200,.055);pointer-events:none;user-select:none;
   letter-spacing:-.04em;
 }
 /* blood stripe top — draws in on hover */
@@ -336,7 +336,7 @@ button{font-family:inherit;cursor:pointer;}
   border-color:var(--color-blood);
 }
 .svc-card-num{
-  font-family:var(--font-display);font-size:11px;color:var(--color-blood);
+  font-family:var(--font-display);font-size:13px;color:var(--color-blood);
   letter-spacing:.2em;display:block;margin-bottom:36px;
 }
 /* rubber hose icon bubble */
@@ -354,7 +354,7 @@ button{font-family:inherit;cursor:pointer;}
   background:rgba(139,26,26,.22);
 }
 .svc-card-name{
-  font-family:var(--font-display);font-size:22px;letter-spacing:.04em;
+  font-family:var(--font-display);font-size:24px;letter-spacing:.04em;
   text-transform:uppercase;line-height:1;margin-bottom:10px;color:var(--color-bone);
 }
 .svc-card-footer{
@@ -366,7 +366,7 @@ button{font-family:inherit;cursor:pointer;}
 .barber-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:6px;margin:-6px;}
 .barber-card{
   background:var(--color-ink-2);
-  border:3px solid rgba(232,223,200,.2);
+  border:3px solid rgba(232,223,200,.35);
   padding:44px 32px;position:relative;overflow:hidden;
   transition:transform .32s cubic-bezier(.34,1.56,.64,1),box-shadow .25s,border-color .25s;
   box-shadow:5px 5px 0 rgba(232,223,200,.08);
@@ -389,7 +389,7 @@ button{font-family:inherit;cursor:pointer;}
 .barber-ghost{
   position:absolute;bottom:-12px;right:16px;
   font-family:var(--font-display);font-size:100px;line-height:1;
-  color:rgba(232,223,200,.04);pointer-events:none;user-select:none;
+  color:rgba(232,223,200,.07);pointer-events:none;user-select:none;
 }
 /* badge */
 .barber-badge{
@@ -415,12 +415,12 @@ button{font-family:inherit;cursor:pointer;}
 .barber-card:hover .barber-badge span{color:var(--color-bone);}
 .barber-card:hover .barber-badge{transform:scale(1.14) rotate(-8deg);box-shadow:4px 4px 0 rgba(232,223,200,.4);}
 .barber-name{
-  font-family:var(--font-display);font-size:24px;letter-spacing:.06em;
+  font-family:var(--font-display);font-size:26px;letter-spacing:.06em;
   text-transform:uppercase;line-height:1;margin-bottom:6px;color:var(--color-bone);
 }
 .barber-spec{
   display:inline-block;
-  font-family:var(--font-body);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  font-family:var(--font-body);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--color-blood);
   border:2px solid rgba(139,26,26,.35);
   border-radius:var(--rh-pill);
@@ -442,8 +442,8 @@ button{font-family:inherit;cursor:pointer;}
   letter-spacing:.04em;line-height:1.1;color:var(--color-bone);
 }
 .booking-meta-key{
-  font-family:var(--font-body);font-size:10px;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--color-dim-1);margin-top:4px;
+  font-family:var(--font-body);font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--color-dim-1);margin-top:4px;
 }
 .form-card{
   background:var(--color-ink-2);
@@ -455,31 +455,31 @@ button{font-family:inherit;cursor:pointer;}
 }
 .field-wrap{margin-bottom:28px;}
 .field-label{
-  display:block;font-family:var(--font-body);font-size:10px;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--color-dim-1);margin-bottom:8px;
+  display:block;font-family:var(--font-body);font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--color-dim-1);margin-bottom:8px;
 }
 .field-input{
   width:100%;background:transparent;border:none;
-  border-bottom:2px solid rgba(232,223,200,.16);
+  border-bottom:2px solid rgba(232,223,200,.3);
   color:var(--color-bone);font-family:var(--font-body);
-  font-size:14px;padding:10px 0;outline:none;
+  font-size:15px;padding:10px 0;outline:none;
   appearance:none;-webkit-appearance:none;transition:border-color .2s;
 }
 .field-input:focus{border-bottom-color:var(--color-blood);}
-.field-input::placeholder{color:rgba(232,223,200,.18);}
+.field-input::placeholder{color:rgba(232,223,200,.38);}
 .field-input option{background:#1a1410;color:var(--color-bone);}
 .field-input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.6);cursor:pointer;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 .time-slots-label{
-  display:block;font-family:var(--font-body);font-size:10px;
-  letter-spacing:.28em;text-transform:uppercase;color:var(--color-dim-1);margin-bottom:12px;
+  display:block;font-family:var(--font-body);font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--color-dim-1);margin-bottom:12px;
 }
 .time-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:32px;}
 .time-slot{
   background:var(--color-ink);
-  border:2px solid rgba(232,223,200,.12);
+  border:2px solid rgba(232,223,200,.28);
   border-radius:var(--rh-4);
-  font-family:var(--font-body);font-size:11px;
+  font-family:var(--font-body);font-size:12px;
   padding:10px 4px;text-align:center;cursor:pointer;
   color:var(--color-dim-1);
   transition:all .22s cubic-bezier(.34,1.56,.64,1);
@@ -498,8 +498,8 @@ button{font-family:inherit;cursor:pointer;}
 /* ─── FOOTER ─── */
 .footer{border-top:3px solid var(--color-bone);background:var(--color-ink);padding:64px 0;}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:32px;}
-.footer-mark{font-family:var(--font-display);font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--color-dim-1);}
-.footer-info{font-family:var(--font-body);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--color-dim-1);text-align:right;line-height:2.2;}
+.footer-mark{font-family:var(--font-display);font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--color-bone);}
+.footer-info{font-family:var(--font-body);font-size:13px;letter-spacing:.13em;text-transform:uppercase;color:var(--color-dim-1);text-align:right;line-height:2.2;}
 
 /* ─── REVEAL ANIMATIONS ─── */
 .reveal{
