@@ -4,10 +4,10 @@ import api from '@/services/api.js'
 
 /* Fallback static reviews if backend returns none */
 const STATIC = [
-  { q:'This man is an amazing barber with great energy and personality. Most importantly the cuts are fire!! Go book with him.', name:'Ronnie E.',   city:'Hattiesburg', rating:5 },
+  { q:'This man is an amazing barber with great energy and personality. Most importantly the cuts are fire!! Go book with him.', name:'Ronnie E.',   city:'Plano', rating:5 },
   { q:'Best fade in Hattiesburg, hands down. I drive 40 minutes just to sit in that chair. Worth every mile.',                  name:'Marcus T.',   city:'Laurel',       rating:5 },
-  { q:'Came in first time, walked out looking like a new man. The lineup was immaculate. Already booked my next one.',          name:'DeShawn K.', city:'Hattiesburg', rating:5 },
-  { q:'My son has been going here since he was 3. Fantastic with kids and the cut is always perfect.',                          name:'Tanya W.',    city:'Hattiesburg', rating:5 },
+  { q:'Came in first time, walked out looking like a new man. The lineup was immaculate. Already booked my next one.',          name:'DeShawn K.', city:'Plano', rating:5 },
+  { q:'My son has been going here since he was 3. Fantastic with kids and the cut is always perfect.',                          name:'Tanya W.',    city:'Plano', rating:5 },
 ]
 
 const T = {
@@ -43,7 +43,7 @@ export default function Reviews() {
       if (items.length > 0) setReviews(items.map(r => ({
         q:    r.comment || r.review_text || r.text || '',
         name: r.client_name || r.name || 'Client',
-        city: r.city || 'Hattiesburg',
+        city: r.city || 'Plano',
         rating: r.rating || 5,
       })))
     }).catch(() => {/* use static */})

@@ -180,7 +180,7 @@ export default function ReschedulePage(){
 
         {/* address footer */}
         <p style={{...mono,fontSize:13,color:T.deep,textAlign:'center',marginTop:24,letterSpacing:'.15em'}}>
-          📍 123 Noir Alley · Hattiesburg, MS 39401
+          📍 910 W Parker Rd Bld 300 · Plano, TX 75023
         </p>
       </div>
     </div>

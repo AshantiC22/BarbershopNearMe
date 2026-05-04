@@ -888,7 +888,7 @@ export default function BookNowTransition({ onDone }){
 
               <div className="bn-done" ref={doneRef}>
                 <div className="bn-done-title">Ready to<br/>Book.</div>
-                <div className="bn-done-sub">Barbershopnearme · Est. 1931<br/>Hattiesburg, MS</div>
+                <div className="bn-done-sub">Barbershopnearme · Est. 2024<br/>Plano, TX</div>
                 <button className={`bn-enter${enterShow?' show':''}`} onClick={handleEnter}>
                   Enter the Portal
                 </button>

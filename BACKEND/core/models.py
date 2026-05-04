@@ -259,6 +259,22 @@ class Review(models.Model):
         return f"{self.client.username} -> {self.barber.name} ({'done' if self.completed else 'no-show'})"
 
 
+class GalleryPhoto(models.Model):
+    barber      = models.ForeignKey('Barber', on_delete=models.CASCADE, related_name='gallery_photos')
+    photo_data  = models.TextField(help_text="Base64 encoded photo data URL")
+    caption     = models.CharField(max_length=120, blank=True, default="")
+    label       = models.CharField(max_length=60, blank=True, default="The Work")
+    sub         = models.CharField(max_length=60, blank=True, default="")
+    created_at  = models.DateTimeField(auto_now_add=True)
+    active      = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.barber.name} — {self.label}"
+
+
 class PushSubscription(models.Model):
     """Stores Web Push subscription for a user (for PWA notifications)."""
     user          = models.OneToOneField(User, on_delete=models.CASCADE, related_name="push_subscription")

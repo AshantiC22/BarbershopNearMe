@@ -377,7 +377,7 @@ function ConfirmedScreen({ data, onBookAnother }){
 
           {/* address */}
           <div style={{textAlign:'center',marginBottom:28}}>
-            <p style={{...mono,fontSize:12,color:T.dim}}>📍 123 Noir Alley, Hattiesburg, MS — See you there!</p>
+            <p style={{...mono,fontSize:12,color:T.dim}}>📍 910 W Parker Rd Bld 300, Plano, TX 75023 — See you there!</p>
           </div>
 
           {/* actions */}

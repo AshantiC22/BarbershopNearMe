@@ -59,7 +59,7 @@ export default function Booking() {
             <h2 className="t-title">Make the<br/>Appointment</h2>
             <div className="booking-meta-rows">
               {[
-                ['Mon – Sat','Hours'],['9am – 6pm','Open'],['(601) 555-0199','Call Us'],
+                ['Mon – Sat','Hours'],['9am – 6pm','Open'],['(601) 307-1023','Call Us'],
               ].map(([v,k]) => (
                 <div key={k} className="booking-meta-row">
                   <span className="booking-meta-val">{v}</span>

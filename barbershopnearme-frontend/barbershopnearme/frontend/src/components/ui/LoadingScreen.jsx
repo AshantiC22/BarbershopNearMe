@@ -798,7 +798,7 @@ export default function LoadingScreen({ children }){
 
               <div className="ls-done" ref={doneRef}>
                 <div className="ls-done-title">The Chair<br/>Is Ready.</div>
-                <div className="ls-done-sub">Barbershopnearme · Est. 1931<br/>Hattiesburg, MS</div>
+                <div className="ls-done-sub">Barbershopnearme · Est. 2024<br/>Plano, TX</div>
                 <button className={`ls-enter${enterShow?' show':''}`} onClick={handleEnter}>
                   Enter the Shop
                 </button>

@@ -1,6 +1,6 @@
 const ITEMS = Array(2).fill([
   'Walk In Dangerous','Walk Out Sharp',
-  'Hattiesburg MS','Since 1931',
+  'Plano TX','Est. 2024',
   'Cold Steel','Hot Towel',
   'Book Online 24/7','Precision Fades',
   'Clean Lineups','Beard Trims',

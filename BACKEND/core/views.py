@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import IntegrityError
 from django.shortcuts import redirect
 from rest_framework import viewsets
-from .models import Appointment, Barber, BarberAvailability, BarberTimeOff, Service, UserProfile, PushSubscription, Review, WaitlistEntry, BarberClient, RescheduleRequest, NewsletterPost, BarberServicePrice
+from .models import Appointment, Barber, BarberAvailability, BarberTimeOff, Service, UserProfile, PushSubscription, Review, WaitlistEntry, BarberClient, RescheduleRequest, NewsletterPost, BarberServicePrice, GalleryPhoto
 from .serializers import AppointmentSerializer, BarberSerializer, ServiceSerializer, UserProfileSerializer, RegisterSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -90,8 +90,8 @@ def send_booking_confirmation(appointment):
   </table>
 </td></tr>
 <tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Booking &rarr;</a></td></tr>
-<tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">📍 910 W Parker Rd Bld 300, Plano TX 75023 39401 · Please arrive 5 min early.</p></td></tr>
-<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+<tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">📍 910 W Parker Rd Bld 300, Plano TX 75023 · Please arrive 5 min early.</p></td></tr>
+<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
         _sendgrid_send(client_email, f"✅ Booking Confirmed — {svc_name} at Barbershopnearme", client_plain, client_html)
@@ -121,12 +121,12 @@ def send_booking_confirmation(appointment):
   </table>
 </td></tr>
 <tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a></td></tr>
-<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+<tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
         _sendgrid_send(barber_email, f"📅 New Booking — {client_name} at {appt_time}", barber_plain, barber_html)
 
-def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, cta_label, footer="Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401"):
+def _html_email_wrapper(logo, icon_html, headline, subhead, body_rows, cta_url, cta_label, footer="Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023"):
     """Shared HTML email shell."""
     return f"""<!DOCTYPE html>
 <html>
@@ -296,7 +296,7 @@ def send_reschedule_request_email(reschedule_request):
         </td></tr>
         {cta_buttons_html}
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;line-height:1.7;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;line-height:1.7;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -506,7 +506,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
             </td></tr>
             <tr><td style="padding:10px 0;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Location</p>
-              <p style="font-size:14px;color:white;margin:0;">910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+              <p style="font-size:14px;color:white;margin:0;">910 W Parker Rd Bld 300, Plano TX 75023</p>
             </td></tr>
           </table>
         </td></tr>
@@ -517,13 +517,13 @@ def send_reschedule_response_email(reschedule_request, accepted):
           <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:14px 28px;background:#22c55e;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">View My Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body></html>"""
-                    plain = f"Hi {client_name},\n\nYour reschedule has been APPROVED by {barber_name}.\n\nNew Time: {new_date_str} at {new_time_str}\nService: {service_name}\nLocation: 910 W Parker Rd Bld 300, Plano TX 75023 39401\n\nSee you then!\n— Barbershopnearme"
+                    plain = f"Hi {client_name},\n\nYour reschedule has been APPROVED by {barber_name}.\n\nNew Time: {new_date_str} at {new_time_str}\nService: {service_name}\nLocation: 910 W Parker Rd Bld 300, Plano TX 75023\n\nSee you then!\n— Barbershopnearme"
                     _sendgrid_send(client_email, subject, plain, html)
 
                 else:
@@ -572,7 +572,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
             </td></tr>
             <tr><td style="padding:10px 0;">
               <p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Location</p>
-              <p style="font-size:14px;color:white;margin:0;">910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+              <p style="font-size:14px;color:white;margin:0;">910 W Parker Rd Bld 300, Plano TX 75023</p>
             </td></tr>
           </table>
         </td></tr>
@@ -583,7 +583,7 @@ def send_reschedule_response_email(reschedule_request, accepted):
           <a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:14px 28px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">View My Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -674,7 +674,7 @@ def send_cancellation_email(appointment, cancelled_by="client"):
           <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -737,7 +737,7 @@ def send_cancellation_email(appointment, cancelled_by="client"):
           <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -814,12 +814,12 @@ def send_welcome_email(user):
         </td></tr>
         <tr><td style="padding:24px 0 0;">
           <p style="font-size:12px;color:#52525b;margin:0;line-height:1.7;">
-            📍 910 W Parker Rd Bld 300, Plano TX 75023 39401<br>
+            📍 910 W Parker Rd Bld 300, Plano TX 75023<br>
             Mon–Fri 9AM–6PM &middot; Sat 9AM–4PM &middot; Closed Sundays
           </p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -829,7 +829,7 @@ def send_welcome_email(user):
                 f"Welcome to Barbershopnearme, {name}!\n\n"
                 f"Your account is ready. Book your first appointment at:\n"
                 f"{FRONTEND_URL}/book\n\n"
-                f"📍 910 W Parker Rd Bld 300, Plano TX 75023 39401\n"
+                f"📍 910 W Parker Rd Bld 300, Plano TX 75023\n"
                 f"Mon–Fri 9AM–6PM · Sat 9AM–4PM · Closed Sundays\n\n"
                 f"— Barbershopnearme"
             )
@@ -917,7 +917,7 @@ def send_deposit_paid_email(appointment):
           <a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View Dashboard &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -1003,7 +1003,7 @@ def send_review_request_email(appointment):
           </p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -1693,7 +1693,7 @@ class BarberRegisterView(APIView):
       <tr><td style="padding-bottom:8px;"><h1 style="font-family:'Courier New',monospace;font-size:26px;font-weight:900;text-transform:uppercase;margin:0;">Welcome to<br><span style="color:#8B1A1A;font-style:italic;">The Team_</span></h1></td></tr>
       <tr><td style="padding-bottom:24px;"><p style="color:#71717a;font-size:13px;margin:0;line-height:1.8;">Hey <strong style="color:white;">{first}</strong>! You're officially part of the <strong style="color:#8B1A1A;">Barbershopnearme</strong> team. Set your schedule and start taking bookings right away.</p></td></tr>
       <tr><td style="padding-bottom:28px;"><a href="{FRONTEND_URL}/barber-dashboard" style="display:inline-block;padding:14px 28px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Go to Dashboard &rarr;</a></td></tr>
-      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
     </table></td></tr>
   </table>
 </body></html>"""
@@ -1881,7 +1881,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         </table>
       </td></tr>
       <tr><td style="padding-top:20px;"><a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">Book Again &rarr;</a></td></tr>
-      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+      <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
     </table></td></tr>
   </table>
 </body></html>"""
@@ -2500,7 +2500,7 @@ Please review our Deposit & Cancellation Policy when you next book.
 Questions? Contact Barbershopnearme directly.
 
 — Barbershopnearme
-910 W Parker Rd Bld 300, Plano TX 75023 39401
+910 W Parker Rd Bld 300, Plano TX 75023
 """
 
     html = f"""
@@ -2528,7 +2528,7 @@ Questions? Contact Barbershopnearme directly.
       No-shows and last-minute cancellations cost your barber real money. Our deposit policy protects their time. Please review the Deposit &amp; Cancellation Policy next time you book.
     </p>
     <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:20px;">
-      <p style="font-size:11px;color:#27272a;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+      <p style="font-size:11px;color:#27272a;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p>
     </div>
   </div>
   <div style="background:linear-gradient(to right,#ef4444,#8B1A1A);height:2px;"></div>
@@ -3622,10 +3622,10 @@ class WalkInBookingView(APIView):
           </div>
         </td></tr>
         <tr><td style="padding-top:8px;">
-          <p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 910 W Parker Rd Bld 300, Plano TX 75023 39401 &nbsp;·&nbsp; Mon–Fri 9AM–6PM &nbsp;·&nbsp; Sat 9AM–4PM</p>
+          <p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 910 W Parker Rd Bld 300, Plano TX 75023 &nbsp;·&nbsp; Mon–Fri 9AM–6PM &nbsp;·&nbsp; Sat 9AM–4PM</p>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -4072,6 +4072,58 @@ class NewsletterMarkSeenView(APIView):
         except Exception:
             pass
         return Response({"status": "ok"})
+
+
+class GalleryView(APIView):
+    """GET gallery/ — public list of active gallery photos
+       POST gallery/ — barber uploads a photo (staff only)
+       DELETE gallery/<pk>/ — barber deletes their photo"""
+
+    def get(self, request):
+        photos = GalleryPhoto.objects.filter(active=True).select_related("barber")
+        data = [
+            {
+                "id":         p.id,
+                "photo_data": p.photo_data,
+                "label":      p.label or "The Work",
+                "sub":        p.sub or "",
+                "caption":    p.caption or "",
+                "barber":     p.barber.name if p.barber else "",
+                "num":        str(p.id).zfill(2),
+            }
+            for p in photos[:24]  # max 24 shown
+        ]
+        return Response(data)
+
+    def post(self, request):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return Response({"error": "Barbers only"}, status=403)
+        photo_data = request.data.get("photo_data", "")
+        if not photo_data or not photo_data.startswith("data:image"):
+            return Response({"error": "Invalid image data"}, status=400)
+        label   = request.data.get("label", "The Work")[:60]
+        sub     = request.data.get("sub", "")[:60]
+        caption = request.data.get("caption", "")[:120]
+        try:
+            barber = Barber.objects.get(user=request.user)
+        except Barber.DoesNotExist:
+            return Response({"error": "Barber profile not found"}, status=404)
+        photo = GalleryPhoto.objects.create(
+            barber=barber, photo_data=photo_data,
+            label=label, sub=sub, caption=caption
+        )
+        return Response({"id": photo.id, "message": "Photo uploaded!"}, status=201)
+
+    def delete(self, request, pk=None):
+        if not request.user.is_authenticated or not request.user.is_staff:
+            return Response({"error": "Barbers only"}, status=403)
+        try:
+            barber = Barber.objects.get(user=request.user)
+            photo  = GalleryPhoto.objects.get(id=pk, barber=barber)
+            photo.delete()
+            return Response({"message": "Photo deleted"})
+        except (Barber.DoesNotExist, GalleryPhoto.DoesNotExist):
+            return Response({"error": "Not found"}, status=404)
 
 
 class TestPushView(APIView):
@@ -4837,7 +4889,7 @@ class BarberBlastView(APIView):
     <a href="{FRONTEND_URL}" style="display:inline-block;padding:13px 26px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;margin-right:8px;">Visit Barbershopnearme &rarr;</a>
     <a href="{FRONTEND_URL}/book" style="display:inline-block;padding:13px 22px;background:transparent;color:#8B1A1A;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;border:1px solid rgba(245,158,11,0.4);">Book Now</a>
   </td></tr>
-  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:24px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme &middot; 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
                     plain = f"{personal_msg}\n\nVisit us: {FRONTEND_URL}\nBook online: {FRONTEND_URL}/book\n\nBarbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023"
@@ -5143,9 +5195,9 @@ class AppointmentReminderView(APIView):
       <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;"><p style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.3em;color:#52525b;text-transform:uppercase;margin:0 0 4px;">Barber</p><p style="font-size:15px;color:white;margin:0;font-weight:700;">{barber_name}</p></td></tr>
     </table>
   </td></tr>
-  <tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 910 W Parker Rd Bld 300, Plano TX 75023 39401 · Please arrive 5 minutes early.</p></td></tr>
+  <tr><td style="padding-top:20px;"><p style="font-size:12px;color:#52525b;margin:0;line-height:1.8;">📍 910 W Parker Rd Bld 300, Plano TX 75023 · Please arrive 5 minutes early.</p></td></tr>
   <tr><td style="padding-top:16px;"><a href="{FRONTEND_URL}/dashboard" style="display:inline-block;padding:12px 24px;background:#8B1A1A;color:black;font-family:'Courier New',monospace;font-size:10px;font-weight:900;text-transform:uppercase;text-decoration:none;">View My Appointment &rarr;</a></td></tr>
-  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023 39401</p></td></tr>
+  <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;"><p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023</p></td></tr>
 </table></td></tr></table>
 </body></html>"""
                 _sendgrid_send(client_email, f"📅 Reminder: {svc_name} tomorrow at {appt_time} — Barbershopnearme", plain, html)
@@ -5426,7 +5478,7 @@ class BarberRescheduleRequestView(APIView):
                     f"Original: {old_date_str} at {old_time_str}\n"
                     f"New Time: {new_date_str} at {new_time_str}\n\n"
                     f"If you have questions, please contact the shop.\n\n"
-                    f"Barbershopnearme\n2509 W 4th St, Hattiesburg, MS"
+                    f"Barbershopnearme\n2509 W 4th St, Plano, TX"
                 )
                 rows = _ticket_rows(
                     ("Service",       service_name),
@@ -5435,7 +5487,7 @@ class BarberRescheduleRequestView(APIView):
                     ("Original Time", old_time_str),
                     ("New Date",      f"<span style='color:#8B1A1A;font-weight:900'>{new_date_str}</span>"),
                     ("New Time",      f"<span style='color:#8B1A1A;font-weight:900'>{new_time_str}</span>"),
-                    ("Location",      "910 W Parker Rd Bld 300, Plano TX 75023 39401"),
+                    ("Location",      "910 W Parker Rd Bld 300, Plano TX 75023"),
                 )
                 icon = '<div style="width:52px;height:52px;border-radius:50%;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);display:inline-block;text-align:center;line-height:52px;"><span style="color:#8B1A1A;font-size:22px;">↻</span></div>'
                 html = _html_email_wrapper(
@@ -5541,8 +5593,9 @@ class PublicReviewsView(APIView):
                 'comment':     r.comment,
                 'client_name': r.client.first_name or r.client.username,
                 'barber_name': r.barber.name if r.barber else '',
-                'city':        'Hattiesburg',
+                'city':        'Plano',
                 'created_at':  r.created_at.isoformat(),
             } for r in qs])
         except Exception:
             return Response([])
+

@@ -154,7 +154,7 @@ function AuthLayout({ title, subtitle, onSubmit, children, switchText, switchLin
         <div style={{ textAlign:'center', position:'relative' }}>
           <AnimatedScissors size={68} delay={0}/>
           <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:22, letterSpacing:'.22em', textTransform:'uppercase', color:'rgba(232,223,200,.55)', marginTop:14 }}>Barbershopnearme</div>
-          <div style={{ fontFamily:"'Courier Prime',monospace", fontSize:12, letterSpacing:'.28em', textTransform:'uppercase', color:'rgba(232,223,200,.60)', marginTop:4 }}>Est. 1931 · Hattiesburg, MS</div>
+          <div style={{ fontFamily:"'Courier Prime',monospace", fontSize:12, letterSpacing:'.28em', textTransform:'uppercase', color:'rgba(232,223,200,.60)', marginTop:4 }}>Est. 2024 · Plano, TX</div>
         </div>
 
         <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:'clamp(44px,6.5vw,68px)', lineHeight:.9, letterSpacing:'.02em', textTransform:'uppercase', color:'#E8DFC8', textAlign:'center', textShadow:'5px 5px 0 #8B1A1A', animation:'authWiggle 5s ease-in-out infinite', position:'relative' }}>

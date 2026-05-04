@@ -84,7 +84,7 @@ export default function Hero({ onBookNow }) {
         <div className="hero-rule-row reveal">
           <div className="h-rule"/>
           <span className="t-label" style={{ whiteSpace:'nowrap', color:'var(--color-blood)' }}>
-            ✂ Est. 1931 · Hattiesburg, MS ✂
+            ✂ Est. 2024 · Plano, TX ✂
           </span>
           <div className="h-rule"/>
         </div>
@@ -130,7 +130,7 @@ export default function Hero({ onBookNow }) {
               display:'flex', gap:10, flexWrap:'wrap', marginTop:24,
               transitionDelay:'.18s',
             }}>
-              {['✂ Hot Towel Finish','💈 Since 1931','⚡ Walk-Ins Welcome'].map((tag,i) => (
+              {['✂ Hot Towel Finish','💈 Est. 2024','⚡ Walk-Ins Welcome'].map((tag,i) => (
                 <span key={tag} style={{
                   fontFamily:'var(--font-rubber)', fontSize:12, letterSpacing:'.1em',
                   textTransform:'uppercase', color:'var(--color-dim-1)',

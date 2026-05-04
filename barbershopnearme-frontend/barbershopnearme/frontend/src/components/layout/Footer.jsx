@@ -15,7 +15,7 @@ export default function Footer() {
               Barbershopnearme
             </div>
             <div style={{ fontFamily:"var(--font-body)", fontSize:13, letterSpacing:'.2em', textTransform:'uppercase', color:'var(--color-dim-1)', lineHeight:2 }}>
-              Est. 1931 · Hattiesburg, MS<br/>
+              Est. 2024 · Plano, TX<br/>
               The City's Sharpest Blade
             </div>
           </div>
@@ -47,9 +47,9 @@ export default function Footer() {
         <div className="footer-inner">
           <span className="footer-mark">✂ Barbershopnearme</span>
           <div className="footer-info">
-            123 Noir Alley · Hattiesburg, MS 39401<br/>
+            910 W Parker Rd Bld 300 · Plano, TX 75023<br/>
             Mon–Fri 9am–6pm · Sat 9am–4pm · Sun Closed<br/>
-            (601) 555-0199 · © {new Date().getFullYear()} All Rights Reserved
+            (601) 307-1023 · © {new Date().getFullYear()} All Rights Reserved
           </div>
         </div>
       </div>

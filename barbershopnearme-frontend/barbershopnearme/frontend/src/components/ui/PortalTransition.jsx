@@ -398,7 +398,7 @@ export default function PortalTransition({ onDone }){
               </div>
               <div className="pt-done" ref={doneRef}>
                 <div className="pt-done-title">The Chair<br/>Is Yours.</div>
-                <div className="pt-done-sub">Barbershopnearme · Est. 1931<br/>Hattiesburg, MS</div>
+                <div className="pt-done-sub">Barbershopnearme · Est. 2024<br/>Plano, TX</div>
                 <button className={`pt-enter${enterShow?' show':''}`} onClick={handleEnter}>
                   Enter the Portal
                 </button>

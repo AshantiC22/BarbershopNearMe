@@ -119,7 +119,7 @@ function ApptTicket({appt,onStatusChange,onReschedule,onCancel,onNotes,onStrike,
           </div>
           <div style={{display:"flex",gap:10,marginTop:3,flexWrap:"wrap"}}>
             {appt.barber_name&&<span style={{...mono,fontSize:13,color:T.amber}}>✂ {appt.barber_name}</span>}
-            <span style={{...mono,fontSize:13,color:"#71717a"}}>📍 123 Noir Alley, Hattiesburg, MS</span>
+            <span style={{...mono,fontSize:13,color:"#71717a"}}>📍 910 W Parker Rd Bld 300, Plano, TX 75023</span>
           </div>
         </div>
         <div style={{display:"flex",gap:6,alignItems:"center",flexShrink:0,flexWrap:"wrap"}}>
@@ -751,6 +751,8 @@ export default function BarberDashboardPage(){
   const [barber,       setBarber]       = useState(null);
   const [loading,      setLoading]      = useState(true);
   const [activeTab,    setActiveTab]    = useState("schedule");
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
   const [toast,        setToast]        = useState(null);
   const { confirm: showConfirm, ModalEl } = useConfirm();
   const [reschedModal, setReschedModal] = useState(null);
@@ -1005,6 +1007,12 @@ export default function BarberDashboardPage(){
     }catch{}
     finally{setReviewsLoading(false);}
   },[]);
+  useEffect(()=>{
+    if(activeTab==="gallery"){
+      setGalleryLoading(true);
+      api.get("gallery/").then(d=>setGalleryPhotos(Array.isArray(d)?d:[])).catch(()=>{}).finally(()=>setGalleryLoading(false));
+    }
+  },[activeTab]);
   useEffect(()=>{if(activeTab==="reviews")loadReviews();},[activeTab,loadReviews]);
 
   const loadReschedules=useCallback(async()=>{
@@ -1205,6 +1213,7 @@ export default function BarberDashboardPage(){
     {key:"waitlist",    label:"Waitlist",    icon:"⏳"},
     {key:"clients",     label:"Clients",     icon:"👤"},
     {key:"reports",     label:"Reports",     icon:"📊"},
+    {key:"gallery",     label:"Gallery",     icon:"🖼️"},
     {key:"newsletter",  label:"Newsletter",  icon:"📣"},
     {key:"pricing",     label:"Pricing",     icon:"💲"},
     {key:"availability",label:"My Hours",   icon:"⏰"},
@@ -2877,7 +2886,85 @@ export default function BarberDashboardPage(){
         )}
 
         {/* ══ NEWSLETTER TAB ══ */}
-        {activeTab==="newsletter"&&(
+        {activeTab==="gallery"&&(
+              <div style={{padding:'4px 0'}}>
+                <p style={{...mono,fontSize:13,color:'rgba(232,223,200,.82)',marginBottom:20,letterSpacing:'.08em'}}>
+                  Upload photos of your work — they show up in the "The Work Speaks" section on the home page.
+                </p>
+
+                {/* Upload button */}
+                <label style={{
+                  display:'flex',alignItems:'center',gap:12,cursor:'pointer',
+                  background:'rgba(139,26,26,.12)',border:'3px dashed rgba(139,26,26,.5)',
+                  borderRadius:'12px 8px 12px 8px',padding:'24px',marginBottom:24,
+                  transition:'border-color .2s',
+                }}
+                  onMouseEnter={e=>e.currentTarget.style.borderColor='#8B1A1A'}
+                  onMouseLeave={e=>e.currentTarget.style.borderColor='rgba(139,26,26,.5)'}
+                >
+                  <span style={{fontSize:32}}>📸</span>
+                  <div>
+                    <p style={{...sf,fontSize:18,color:'rgba(232,223,200,.9)',margin:'0 0 4px',textTransform:'uppercase',letterSpacing:'.08em'}}>Upload a Photo</p>
+                    <p style={{...mono,fontSize:11,color:'rgba(232,223,200,.55)',margin:0}}>JPG, PNG, WebP — max 5MB</p>
+                  </div>
+                  <input type="file" accept="image/*" style={{display:'none'}}
+                    onChange={async e=>{
+                      const file = e.target.files[0];
+                      if(!file) return;
+                      if(file.size > 5*1024*1024){ alert('Image too large — max 5MB'); return; }
+                      const reader = new FileReader();
+                      reader.onload = async ev=>{
+                        const caption = prompt('Add a caption (optional):') || '';
+                        const label   = prompt('Label for this photo (e.g. "Fade", "Beard Trim"):') || 'The Work';
+                        try{
+                          await api.post('gallery/',{photo_data:ev.target.result,label,caption,sub:caption});
+                          const d = await api.get('gallery/');
+                          setGalleryPhotos(Array.isArray(d)?d:[]);
+                          alert('Photo uploaded!');
+                        } catch(err){ alert('Upload failed: '+err.message); }
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
+
+                {/* Gallery grid */}
+                {galleryLoading ? (
+                  <p style={{...mono,fontSize:12,color:'rgba(232,223,200,.4)'}}>Loading...</p>
+                ) : galleryPhotos.length === 0 ? (
+                  <p style={{...mono,fontSize:12,color:'rgba(232,223,200,.4)'}}>No photos yet. Upload your first cut!</p>
+                ) : (
+                  <div style={{display:'grid',gridTemplateColumns:isMobile?'1fr 1fr':'repeat(3,1fr)',gap:12}}>
+                    {galleryPhotos.map(p=>(
+                      <div key={p.id} style={{position:'relative',borderRadius:'10px 6px 10px 6px',overflow:'hidden',border:'2px solid rgba(232,223,200,.18)',aspectRatio:'1'}}>
+                        <img src={p.photo_data} alt={p.label}
+                          style={{width:'100%',height:'100%',objectFit:'cover',objectPosition:'center top',display:'block'}}
+                        />
+                        <div style={{position:'absolute',inset:0,background:'linear-gradient(to top, rgba(7,5,4,.85) 0%, transparent 60%)'}}>
+                          <div style={{position:'absolute',bottom:8,left:10,right:32}}>
+                            <p style={{...sf,fontSize:13,color:'rgba(232,223,200,.9)',margin:0,textTransform:'uppercase'}}>{p.label}</p>
+                            {p.sub&&<p style={{...mono,fontSize:9,color:'rgba(232,223,200,.6)',margin:0,letterSpacing:'.15em'}}>{p.sub}</p>}
+                          </div>
+                        </div>
+                        <button onClick={async()=>{
+                          if(!window.confirm('Delete this photo?')) return;
+                          try{
+                            await api.delete('gallery/'+p.id+'/');
+                            setGalleryPhotos(prev=>prev.filter(x=>x.id!==p.id));
+                          } catch(e){ alert('Failed to delete'); }
+                        }} style={{
+                          position:'absolute',top:6,right:6,width:24,height:24,
+                          background:'rgba(139,26,26,.8)',border:'none',borderRadius:'50%',
+                          color:'#E8DFC8',fontSize:12,cursor:'pointer',
+                          display:'flex',alignItems:'center',justifyContent:'center',
+                        }}>×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab==="newsletter"&&(
           <div className="bd-enter">
             {/* Header */}
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24,flexWrap:"wrap",gap:12}}>

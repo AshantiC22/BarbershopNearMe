@@ -29,7 +29,7 @@ export default function Gallery() {
 
   /* Try to load gallery from backend — silent fail keeps static fallback */
   useEffect(() => {
-    api.get('/gallery/')
+    api.get('gallery/')
       .then(d => { const items = Array.isArray(d)?d:d.results||[]; if(items.length>0) setGalleryItems(items) })
       .catch(() => {})  // 500 / missing endpoint → use static GALLERY
   }, [])
@@ -78,7 +78,7 @@ export default function Gallery() {
             {/* fallback gradient placeholder */}
             <div style={{
               position:'absolute', inset:0,
-              background:`linear-gradient(135deg, ${T.ink2} 0%, ${T.ink3} 50%, rgba(139,26,26,.15) 100%)`,
+              background:`linear-gradient(135deg, ${T.ink2} 0%, ${T.ink2} 50%, rgba(139,26,26,.15) 100%)`,
               display:'flex', alignItems:'center', justifyContent:'center',
             }}>
               <span style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:80, color:'rgba(232,223,200,.06)', letterSpacing:'-.04em' }}>
@@ -119,7 +119,7 @@ export default function Gallery() {
                   filter: active===i ? 'none' : 'brightness(.55)',
                 }}
               >
-                <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg, ${T.ink2}, ${T.ink3})`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <div style={{ position:'absolute', inset:0, background:`linear-gradient(135deg, ${T.ink2}, ${T.ink2})`, display:'flex', alignItems:'center', justifyContent:'center' }}>
                   <span style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:28, color:'rgba(232,223,200,.08)' }}>{g.num}</span>
                 </div>
                 <img src={g.url} alt={g.label}

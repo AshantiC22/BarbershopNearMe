@@ -169,7 +169,7 @@ class Command(BaseCommand):
           <a href="{book_url}" style="display:inline-block;padding:16px 32px;background:#4ade80;color:black;font-family:'Courier New',monospace;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;text-decoration:none;">Book Now &rarr;</a>
         </td></tr>
         <tr><td style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-top:20px;">
-          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p>
+          <p style="font-size:11px;color:#3f3f46;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano, TX 75023</p>
         </td></tr>
       </table>
     </td></tr>
@@ -242,7 +242,7 @@ class Command(BaseCommand):
                             f"Need to cancel? Please do so at least 2 hours before your "
                             f"appointment to avoid a strike on your account.\n\n"
                             f"See you tomorrow!\n\n"
-                            f"— Barbershopnearme\n  123 Noir Alley, Hattiesburg, MS 39401"
+                            f"— Barbershopnearme\n  910 W Parker Rd Bld 300, Plano, TX 75023"
                         )
                         html = _build_client_html(
                             client_nm, svc_name, barber_nm, appt_date, appt_time,
@@ -254,7 +254,7 @@ class Command(BaseCommand):
                                 f"⏰ Barbershopnearme Reminder: Appointment tomorrow!\n"
                                 f"{svc_name} w/ {barber_nm}\n"
                                 f"{appt_date_short} at {appt_time}\n"
-                                f"123 Noir Alley, Hattiesburg MS\n"
+                                f"910 W Parker Rd Bld 300, Plano TX\n"
                                 f"Cancel 2hrs+ before to avoid a strike."
                             )
                         appt.reminder_sent = True
@@ -288,7 +288,7 @@ class Command(BaseCommand):
                             f"  Barber  : {barber_nm}\n"
                             f"  Time    : {appt_time} today\n\n"
                             f"Please be on time — your barber is ready for you.\n\n"
-                            f"— Barbershopnearme\n  123 Noir Alley, Hattiesburg, MS 39401"
+                            f"— Barbershopnearme\n  910 W Parker Rd Bld 300, Plano, TX 75023"
                         )
                         html = _build_client_html(
                             client_nm, svc_name, barber_nm, "Today", appt_time,
@@ -314,7 +314,7 @@ class Command(BaseCommand):
                             send_push_notification(
                                 user  = appt.user,
                                 title = "✂️ Your cut is soon!",
-                                body  = f"{svc_name} with {barber_nm} at {appt_time} — heading out soon? 📍 123 Noir Alley, Hattiesburg MS",
+                                body  = f"{svc_name} with {barber_nm} at {appt_time} — heading out soon? 📍 910 W Parker Rd Bld 300, Plano TX",
                                 data  = {"type": "reminder_1hr", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt.id}
                             )
                         except Exception: pass
@@ -446,7 +446,7 @@ def _build_client_html(client, service, barber, date, time, headline, color, ico
         ⚠ Cancellations within 2 hours of your appointment result in a strike and forfeit your deposit.
       </p>
     </div>
-    <p style="font-size:12px;color:#52525b;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p>
+    <p style="font-size:12px;color:#52525b;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano, TX 75023</p>
   </div>
   <div style="background:linear-gradient(to right,{color},{color}99);height:2px;"></div>
 </div>"""
@@ -483,7 +483,7 @@ def _build_barber_html(barber, client, service, date, time, notes, headline, col
         {notes_row}
       </table>
     </div>
-    <p style="font-size:12px;color:#52525b;margin:0;">Barbershopnearme · 123 Noir Alley, Hattiesburg, MS 39401</p>
+    <p style="font-size:12px;color:#52525b;margin:0;">Barbershopnearme · 910 W Parker Rd Bld 300, Plano, TX 75023</p>
   </div>
   <div style="background:linear-gradient(to right,{color},{color}99);height:2px;"></div>
 </div>"""
