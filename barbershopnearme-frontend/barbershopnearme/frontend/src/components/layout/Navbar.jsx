@@ -258,6 +258,10 @@ export default function Navbar({ onBookNow }) {
         ) : (
           <>
             <button className="drawer-item" onClick={()=>nav('/login')}>Sign In</button>
+            <button className="drawer-item" onClick={()=>nav('/barber-login')}
+              style={{color:'rgba(139,26,26,.9)',borderBottom:'1px solid rgba(139,26,26,.2)'}}>
+              ✂ Barber Login
+            </button>
             <button className="drawer-cta" onClick={()=>{setMenuOpen(false);onBookNow?.()}}>
               <ScissorsIcon/> Book Now
             </button>

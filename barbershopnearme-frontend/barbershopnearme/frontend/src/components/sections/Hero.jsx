@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import useReveal from '@/hooks/useReveal.js'
 import RubberHoseButton from '@/components/ui/RubberHoseButton.jsx'
+import { useNavigate } from 'react-router-dom'
 
 /* ── Inline rubber hose SVG decorations ── */
 
@@ -66,6 +67,7 @@ function InkSplatDeco({ size=60, rotate=0, opacity=0.06 }){
 }
 
 export default function Hero({ onBookNow }) {
+  const navigate = useNavigate()
   const ref = useRef()
   useReveal(ref)
   const go = (id) => document.getElementById(id)?.scrollIntoView({ behavior:'smooth' })
@@ -187,6 +189,12 @@ export default function Hero({ onBookNow }) {
             </RubberHoseButton>
             <RubberHoseButton variant="ghost" splat="NICE!" onClick={() => go('services')}>
               Services
+            </RubberHoseButton>
+            <RubberHoseButton variant="ghost" onClick={() => navigate('/barber-login')}
+              style={{ fontSize:13, padding:'11px 22px', letterSpacing:'.1em',
+                borderColor:'rgba(139,26,26,.55)', color:'rgba(232,223,200,.75)',
+                boxShadow:'3px 3px 0 rgba(139,26,26,.3)' }}>
+              ✂ Barber Login
             </RubberHoseButton>
           </div>
         </div>
