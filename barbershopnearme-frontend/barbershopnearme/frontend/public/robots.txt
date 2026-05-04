@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Block admin and API from indexing
+Disallow: /api/
+Disallow: /admin/
+Disallow: /push-test
+Disallow: /barber-dashboard
+Disallow: /barber-login
+Disallow: /portal
+Disallow: /dashboard
+
+Sitemap: https://barbersnearme.xyz/sitemap.xml
