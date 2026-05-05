@@ -114,7 +114,6 @@ urlpatterns = [
 
     # Newsletter / news feed
     # Public endpoints for home page sections
-    path("gallery/",                  GalleryView.as_view(),              name="gallery"),
     path("reviews/",                  PublicReviewsView.as_view(),         name="reviews_public"),
     path("newsletter/",             NewsletterPostListView.as_view(),   name="newsletter_list"),
     path("newsletter/manage/",      NewsletterPostManageView.as_view(), name="newsletter_manage"),
