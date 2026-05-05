@@ -407,6 +407,71 @@ class Command(BaseCommand):
             except Exception as e:
                 logger.error(f"BARBER NOW failed {appt.id}: {e}")
 
+            # ── 5. REVIEW NOTIFICATION ──────────────────────────────────────
+            # Fires ~30-40 min AFTER appointment time
+            # diff_hours is negative after appointment passes
+            # -0.7 = 42 min after, -0.5 = 30 min after
+            try:
+                review_notified = getattr(appt, 'review_notified', False)
+                if (not review_notified
+                        and appt.status not in ('cancelled', 'no_show')
+                        and -0.75 <= diff_hours <= -0.45):
+                    # Push notification
+                    try:
+                        from core.views import send_push_notification, FRONTEND_URL
+                        send_push_notification(
+                            user  = appt.user,
+                            title = "⭐ How was your cut?",
+                            body  = f"Did {barber_nm} just hook you up? Leave a quick review!",
+                            data  = {
+                                "type": "review_request",
+                                "url":  f"{FRONTEND_URL}/review?appt={appt.id}",
+                                "appointment_id": appt.id,
+                            }
+                        )
+                    except Exception: pass
+                    # Also send email
+                    if client_email:
+                        subj  = f"⭐ How was your cut with {barber_nm}?"
+                        plain = (
+                            f"Hey {client_nm},\n\n"
+                            f"Hope {barber_nm} took good care of you today!\n\n"
+                            f"Got 30 seconds? Leave a quick review — it means everything to us.\n\n"
+                            f"{FRONTEND_URL}/review?appt={appt.id}\n\n"
+                            f"— Barbershopnearme\n  910 W Parker Rd Bld 300, Plano TX 75023"
+                        )
+                        review_url = f"{FRONTEND_URL}/review?appt={appt.id}"
+                        html = f"""
+<div style="background:#000;color:#fff;font-family:'Helvetica Neue',Arial,sans-serif;max-width:520px;margin:0 auto;">
+  <div style="background:#8B1A1A;height:3px;"></div>
+  <div style="padding:32px 28px;">
+    <p style="font-size:11px;letter-spacing:0.5em;text-transform:uppercase;color:rgba(139,26,26,0.8);margin:0 0 8px;">Barbershopnearme</p>
+    <h1 style="font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;margin:0 0 20px;color:#fff;">
+      ⭐ How was your cut?
+    </h1>
+    <p style="font-size:16px;color:rgba(255,255,255,0.85);line-height:1.7;margin:0 0 24px;">
+      Hey {client_nm}, hope {barber_nm} took good care of you today!<br><br>
+      Got 30 seconds? Your review means everything to the shop.
+    </p>
+    <a href="{review_url}" style="display:inline-block;background:#8B1A1A;color:#fff;text-decoration:none;padding:14px 28px;border-radius:6px;font-weight:700;font-size:15px;letter-spacing:0.05em;text-transform:uppercase;">
+      Leave a Review →
+    </a>
+    <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:28px 0 0;">
+      Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023
+    </p>
+  </div>
+</div>
+"""
+                        _sendgrid_send(client_email, subj, plain, html)
+                    try:
+                        appt.review_notified = True
+                        appt.save(update_fields=["review_notified"])
+                    except Exception: pass
+                    sent += 1
+                    logger.info(f"REVIEW REQUEST → {client_email} ({appt_time})")
+            except Exception as e:
+                logger.error(f"REVIEW REQUEST failed {appt.id}: {e}")
+
         self.stdout.write(f"✓ Reminders checked at {now.strftime('%H:%M')} — sent: {sent}")
 
 
