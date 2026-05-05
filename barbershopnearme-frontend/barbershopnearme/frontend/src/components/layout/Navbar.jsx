@@ -177,9 +177,10 @@ export default function Navbar({ onBookNow }) {
             {user ? (
               <>
                 <li>
-                  <button className="navbar-link" onClick={()=>nav('/dashboard')}
+                  <button className="navbar-link"
+                    onClick={()=>nav(user?.is_staff ? '/barber-dashboard' : '/dashboard')}
                     style={{color:'var(--color-bone)'}}>
-                    My Bookings
+                    {user?.is_staff ? 'My Dashboard' : 'My Bookings'}
                   </button>
                 </li>
                 <li>
@@ -260,7 +261,10 @@ export default function Navbar({ onBookNow }) {
         </button>
         {user ? (
           <>
-            <button className="drawer-item" onClick={()=>nav('/dashboard')}>📅 My Bookings</button>
+            <button className="drawer-item"
+              onClick={()=>nav(user?.is_staff ? '/barber-dashboard' : '/dashboard')}>
+              {user?.is_staff ? '🪑 My Dashboard' : '📅 My Bookings'}
+            </button>
             <button className="drawer-item"
               style={{color:'rgba(248,113,113,.7)'}}
               onClick={()=>{logout();navigate('/');setMenuOpen(false)}}>

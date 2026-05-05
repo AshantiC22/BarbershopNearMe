@@ -311,9 +311,11 @@ export function LoginPage(){
     catch(err){ setError(err.message) }
   }
 
-  if(showTrans) return <PortalTransition onDone={() =>
-    navigate(returnTo, preBarber ? { state: { barber: preBarber } } : undefined)
-  }/>
+  if(showTrans) return <PortalTransition onDone={() => {
+    // Barbers go to barber dashboard, clients go to returnTo
+    const dest = user?.is_staff ? '/barber-dashboard' : returnTo
+    navigate(dest, preBarber && !user?.is_staff ? { state: { barber: preBarber } } : undefined)
+  }}/>
 
   return (
     <AuthLayout

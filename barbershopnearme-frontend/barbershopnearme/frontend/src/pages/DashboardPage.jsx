@@ -197,6 +197,13 @@ function EmptyState({ tab, onBook }){
 export default function DashboardPage(){
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
+  // If barber is somehow on client dashboard, redirect them to barber dashboard
+  useEffect(() => {
+    if (user?.is_staff) {
+      navigate('/barber-dashboard', { replace: true })
+    }
+  }, [user, navigate])
   const [appts,      setAppts]      = useState([])
   const [loading,    setLoading]    = useState(true)
   const [tab,        setTab]        = useState('upcoming')
