@@ -63,6 +63,7 @@ function StatusBadge({ status }){
 
 /* ─── ApptCard ────────────────────────────────────────────── */
 function ApptCard({ appt, onCancel, onRequestCancel, i }){
+  const navigate     = useNavigate()
   const [cancelling, setCancelling] = useState(false)
   const [hovering,   setHovering]   = useState(false)
 
@@ -145,18 +146,33 @@ function ApptCard({ appt, onCancel, onRequestCancel, i }){
           </div>
         )}
 
-        {/* cancel button */}
+        {/* action buttons */}
         {canCancel && !isPast && (
-          <button onClick={handleCancel} disabled={cancelling}
-            style={{marginTop:16,...rub,fontSize:13,letterSpacing:'.1em',textTransform:'uppercase',
-              background:'transparent', color:'rgba(248,113,113,.6)',
-              border:`2px solid rgba(248,113,113,.2)`, borderRadius:PILL,
-              padding:'7px 20px', cursor:cancelling?'not-allowed':'pointer',
-              opacity:cancelling?.5:1, transition:'all .2s',
-            }}
-            onMouseEnter={e=>{e.currentTarget.style.color=T.red;e.currentTarget.style.borderColor='rgba(248,113,113,.5)';e.currentTarget.style.background=T.redDim}}
-            onMouseLeave={e=>{e.currentTarget.style.color='rgba(248,113,113,.6)';e.currentTarget.style.borderColor='rgba(248,113,113,.2)';e.currentTarget.style.background='transparent'}}
-          >{cancelling ? 'Cancelling...' : '✕ Cancel Appointment'}</button>
+          <div style={{display:'flex',gap:10,marginTop:16,flexWrap:'wrap'}}>
+            {/* reschedule */}
+            <button onClick={()=>navigate(`/reschedule?appt=${appt.id}`)}
+              style={{flex:1,...rub,fontSize:13,letterSpacing:'.1em',textTransform:'uppercase',
+                background:'rgba(139,26,26,.1)', color:'rgba(232,223,200,.8)',
+                border:`2px solid rgba(139,26,26,.35)`, borderRadius:PILL,
+                padding:'8px 16px', cursor:'pointer', transition:'all .2s',
+                minWidth:120,
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.background='rgba(139,26,26,.25)';e.currentTarget.style.borderColor='rgba(139,26,26,.7)'}}
+              onMouseLeave={e=>{e.currentTarget.style.background='rgba(139,26,26,.1)';e.currentTarget.style.borderColor='rgba(139,26,26,.35)'}}
+            >↻ Reschedule</button>
+            {/* cancel */}
+            <button onClick={handleCancel} disabled={cancelling}
+              style={{flex:1,...rub,fontSize:13,letterSpacing:'.1em',textTransform:'uppercase',
+                background:'transparent', color:'rgba(248,113,113,.6)',
+                border:`2px solid rgba(248,113,113,.2)`, borderRadius:PILL,
+                padding:'8px 16px', cursor:cancelling?'not-allowed':'pointer',
+                opacity:cancelling?.5:1, transition:'all .2s',
+                minWidth:120,
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.color=T.red;e.currentTarget.style.borderColor='rgba(248,113,113,.5)';e.currentTarget.style.background=T.redDim}}
+              onMouseLeave={e=>{e.currentTarget.style.color='rgba(248,113,113,.6)';e.currentTarget.style.borderColor='rgba(248,113,113,.2)';e.currentTarget.style.background='transparent'}}
+            >{cancelling ? 'Cancelling...' : '✕ Cancel'}</button>
+          </div>
         )}
       </div>
     </div>
@@ -236,10 +252,12 @@ export default function DashboardPage(){
     api.get('/appointments/?my=true')
       .then(d=>setAppts(Array.isArray(d)?d:d.results||d.appointments||[]))
       .catch(()=>setAppts([]))
+  // Auto-refresh every 30s
+  useEffect(()=>{ const t=setInterval(()=>{api.get('appointments/').then(d=>setAppts(Array.isArray(d)?d:d.results||d.appointments||[])).catch(()=>{})},30000); return ()=>clearInterval(t) },[]) // eslint-disable-line
       .finally(()=>setLoading(false))
   },[user])
 
-  const onCancel = id => setAppts(a=>a.map(x=>x.id===id?{...x,status:'cancelled'}:x))
+  const onCancel = id => setAppts(a=>a.filter(x=>x.id!==id))  // remove immediately
 
   const now      = new Date()
   const upcoming = appts.filter(a=>['confirmed','pending_shop'].includes(a.status)&&new Date(a.date+'T'+a.time)>=now)
