@@ -233,12 +233,14 @@ export default function ClientReschedulePage() {
                   style={{
                     ...mono, fontSize:13,
                     background: selected ? T.blood : 'transparent',
-                    color: disabled ? 'rgba(232,223,200,.2)' : selected ? T.bone : T.dim1,
+                    color: disabled ? 'rgba(232,223,200,.18)' : selected ? T.bone : T.dim1,
                     border: selected ? `2px solid ${T.bone}` : '2px solid transparent',
                     borderRadius:'6px 4px 6px 4px',
                     padding:'7px 4px', cursor: disabled ? 'not-allowed' : 'pointer',
                     textAlign:'center', transition:'all .15s',
                     boxShadow: selected ? `2px 2px 0 ${T.bone}` : 'none',
+                    textDecoration: disabled ? 'line-through' : 'none',
+                    position: 'relative',
                   }}>
                   {day}
                 </button>

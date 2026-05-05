@@ -44,11 +44,25 @@ class AppointmentSerializer(serializers.ModelSerializer):
     barber_name      = serializers.CharField(source="barber.name",              read_only=True)
     barber_id        = serializers.IntegerField(source="barber.id",             read_only=True)
     service_id       = serializers.IntegerField(source="service.id",            read_only=True)
+    reschedule_pending  = serializers.SerializerMethodField()
+    reschedule_declined = serializers.SerializerMethodField()
+
+    def get_reschedule_pending(self, obj):
+        from .models import RescheduleRequest
+        rr = RescheduleRequest.objects.filter(appointment=obj, status="pending").first()
+        if not rr: return None
+        return {"new_date": str(rr.new_date), "new_time": str(rr.new_time)}
+
+    def get_reschedule_declined(self, obj):
+        from .models import RescheduleRequest
+        rr = RescheduleRequest.objects.filter(appointment=obj, status="rejected").order_by("-id").first()
+        if not rr: return None
+        return True
 
     class Meta:
         model  = Appointment
         fields = "__all__"
-        read_only_fields = ["user", "service_name", "service_price", "service_duration", "barber_name", "barber_id", "service_id"]
+        read_only_fields = ["user", "service_name", "service_price", "service_duration", "barber_name", "barber_id", "service_id", "reschedule_pending", "reschedule_declined"]
 
 
 class RegisterSerializer(serializers.Serializer):

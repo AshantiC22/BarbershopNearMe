@@ -131,6 +131,46 @@ function ApptCard({ appt, onCancel, onRequestCancel, onReschedule, i }){
           ))}
         </div>
 
+        {/* reschedule pending banner */}
+        {appt.reschedule_pending && (
+          <div style={{
+            marginTop:12, padding:'10px 14px',
+            background:'rgba(167,139,250,.08)',
+            border:'2px solid rgba(167,139,250,.3)',
+            borderRadius:'8px 5px 8px 5px',
+            display:'flex', alignItems:'center', gap:10,
+          }}>
+            <span style={{fontSize:16}}>↻</span>
+            <div>
+              <p style={{fontFamily:"'Courier Prime',monospace",fontSize:11,
+                color:'rgba(167,139,250,.9)',margin:'0 0 2px',letterSpacing:'.1em',
+                textTransform:'uppercase'}}>Reschedule Requested</p>
+              <p style={{fontFamily:"'Courier Prime',monospace",fontSize:11,
+                color:'rgba(232,223,200,.6)',margin:0}}>
+                Requested: {appt.reschedule_pending.new_date} at {appt.reschedule_pending.new_time?.slice(0,5)}
+                {' · '}Waiting for barber approval
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* reschedule declined banner */}
+        {appt.reschedule_declined && (
+          <div style={{
+            marginTop:12, padding:'10px 14px',
+            background:'rgba(248,113,113,.06)',
+            border:'2px solid rgba(248,113,113,.25)',
+            borderRadius:'8px 5px 8px 5px',
+            display:'flex', alignItems:'center', gap:10,
+          }}>
+            <span style={{fontSize:16}}>❌</span>
+            <p style={{fontFamily:"'Courier Prime',monospace",fontSize:11,
+              color:'rgba(248,113,113,.8)',margin:0}}>
+              Reschedule declined — your original appointment stands.
+            </p>
+          </div>
+        )}
+
         {/* payment badge */}
         {appt.payment_method && (
           <div style={{marginTop:12}}>
