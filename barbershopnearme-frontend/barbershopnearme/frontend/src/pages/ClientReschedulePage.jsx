@@ -33,7 +33,8 @@ export default function ClientReschedulePage() {
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedTime, setSelectedTime] = useState(null)
   const [note,       setNote]       = useState('')
-  const [workingDays, setWorkingDays] = useState([0,1,2,3,4,5]) // default Mon-Sat
+  const [workingDays,  setWorkingDays]  = useState(null)  // null=loading, array of Django day ints
+  const [timeOffDates, setTimeOffDates] = useState([])    // array of 'YYYY-MM-DD' strings
   const [submitting, setSubmitting] = useState(false)
   const [done,       setDone]       = useState(false)
   const [error,      setError]      = useState('')
@@ -50,11 +51,26 @@ export default function ClientReschedulePage() {
       .then(d => {
         setAppt(d)
         // Fetch barber's working days
-        const bid = d?.barber?.id || d?.barber_id
+        // barber_id is a flat field from the serializer
+        const bid = d?.barber_id || d?.barber?.id || d?.barber
+        console.log('[Reschedule] barber id:', bid, 'appt:', d)
         if (bid) {
           api.get(`barbers/${bid}/working-days/`)
-            .then(wd => setWorkingDays(wd.working_days || [0,1,2,3,4,5]))
-            .catch(() => {})
+            .then(wd => {
+              // Use all_days array to extract working day numbers
+              if (wd.all_days) {
+                const working = wd.all_days
+                  .filter(d => d.is_working)
+                  .map(d => d.day_of_week)
+                setWorkingDays(working)
+                setTimeOffDates(wd.time_off_dates || [])
+              } else if (wd.working_days) {
+                setWorkingDays(wd.working_days)
+              } else {
+                setWorkingDays([0,1,2,3,4,5])
+              }
+            })
+            .catch(() => setWorkingDays([0,1,2,3,4,5]))
         }
       })
       .catch(() => setError('Could not load appointment.'))
@@ -148,7 +164,8 @@ export default function ClientReschedulePage() {
     const jsDay = d.getDay()
     const djangoDay = jsDay === 0 ? 6 : jsDay - 1
     // Disable if barber doesn't work this day
-    if (!workingDays.includes(djangoDay)) return true
+    // If still loading working days, don't disable yet
+    if (workingDays !== null && !workingDays.includes(djangoDay)) return true
     return false
   }
 

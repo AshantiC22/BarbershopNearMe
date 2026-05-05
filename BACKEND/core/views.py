@@ -4074,22 +4074,6 @@ class NewsletterMarkSeenView(APIView):
         return Response({"status": "ok"})
 
 
-class BarberWorkingDaysView(APIView):
-    """GET barbers/<id>/working-days/ — returns which days of week the barber works (0=Mon, 6=Sun)"""
-    permission_classes = [AllowAny]
-
-    def get(self, request, pk):
-        try:
-            working = list(
-                BarberAvailability.objects.filter(barber_id=pk, is_working=True)
-                .values_list("day_of_week", flat=True)
-            )
-            return Response({"working_days": working})
-        except Exception:
-            # Default Mon-Sat if no availability set
-            return Response({"working_days": [0,1,2,3,4,5]})
-
-
 class GalleryView(APIView):
     """GET gallery/ — public list of active gallery photos
        POST gallery/ — barber uploads a photo (staff only)
