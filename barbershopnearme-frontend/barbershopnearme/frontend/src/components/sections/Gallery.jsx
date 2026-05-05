@@ -34,13 +34,7 @@ export default function Gallery() {
   useEffect(() => {
     // Use barbersnearme.xyz — Railway verified domain works on all devices
     const url = `https://barbersnearme.xyz/api/gallery/?_t=${Date.now()}`
-    fetch(url, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma':        'no-cache',
-      }
-    })
+    fetch(url, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => {
         const list = Array.isArray(d) ? d : d.results || []

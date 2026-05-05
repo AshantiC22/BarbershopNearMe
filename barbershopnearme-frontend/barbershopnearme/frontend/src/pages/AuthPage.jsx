@@ -312,9 +312,16 @@ export function LoginPage(){
   }
 
   if(showTrans) return <PortalTransition onDone={() => {
-    // Barbers go to barber dashboard, clients go to returnTo
-    const dest = user?.is_staff ? '/barber-dashboard' : returnTo
-    navigate(dest, preBarber && !user?.is_staff ? { state: { barber: preBarber } } : undefined)
+    // Read is_staff from JWT token directly since user context may not be updated yet
+    try {
+      const tok = localStorage.getItem('bsnm_token')
+      const payload = tok ? JSON.parse(atob(tok.split('.')[1])) : {}
+      const isBarber = !!payload.is_staff
+      const dest = isBarber ? '/barber-dashboard' : returnTo
+      navigate(dest, preBarber && !isBarber ? { state: { barber: preBarber } } : undefined)
+    } catch {
+      navigate(returnTo)
+    }
   }}/>
 
   return (
