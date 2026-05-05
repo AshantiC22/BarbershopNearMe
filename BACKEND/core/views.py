@@ -5561,23 +5561,6 @@ class TestEmailView(APIView):
         except Exception as e:
             return Response({"error": str(e), "sent_to": recipient}, status=500)
 
-class GalleryView(APIView):
-    """GET /api/gallery/ — public gallery images."""
-    permission_classes = [AllowAny]
-
-    def get(self, request):
-        # Return static gallery data since GalleryImage model may not have entries yet
-        from django.conf import settings as djsettings
-        images = GalleryImage.objects.filter(active=True).order_by('order')[:6] if hasattr(GalleryImage, 'objects') else []
-        if images:
-            return Response([{
-                'id': g.id, 'label': g.label, 'sub': g.sub,
-                'num': g.num, 'url': g.url,
-            } for g in images])
-        # Fallback — static list
-        return Response([])
-
-
 class PublicReviewsView(APIView):
     """GET /api/reviews/?approved=true — public reviews for home page."""
     permission_classes = [AllowAny]
@@ -5598,4 +5581,3 @@ class PublicReviewsView(APIView):
             } for r in qs])
         except Exception:
             return Response([])
-
