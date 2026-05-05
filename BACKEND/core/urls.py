@@ -29,6 +29,7 @@ from core.views import (
     # Newsletter
     NewsletterPostListView,
     GalleryView,
+    BarberWorkingDaysView,
     PublicReviewsView,
     NewsletterPostManageView,
     NewsletterUnreadCountView,
@@ -71,6 +72,7 @@ from core.views import (
     WelcomePushView,
     TestPushView,
     GalleryView,
+    BarberWorkingDaysView,
     TriggerReviewNotificationView,
     HaircutReviewView,
     BarberReviewsView,
@@ -81,6 +83,7 @@ from core.views import (
     TestSMSView,
     TestEmailView,
     GalleryView,
+    BarberWorkingDaysView,
     PublicReviewsView,
 )
 
@@ -181,6 +184,7 @@ urlpatterns = [
     path("push/welcome/",               WelcomePushView.as_view(),                  name="push_welcome"),
     path("push/test/",                  TestPushView.as_view(),                     name="push_test"),
     path("gallery/",                    GalleryView.as_view(),                      name="gallery_list"),
+    path("barbers/<int:pk>/working-days/", BarberWorkingDaysView.as_view(),             name="barber_working_days"),
     path("gallery/<int:pk>/",           GalleryView.as_view(),                      name="gallery_detail"),
     path("push/vapid-key/",              VapidPublicKeyView.as_view(),               name="vapid_key"),
     path("review/trigger/<int:pk>/",     TriggerReviewNotificationView.as_view(),    name="review_trigger"),

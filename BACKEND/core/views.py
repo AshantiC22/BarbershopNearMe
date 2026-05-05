@@ -4074,6 +4074,22 @@ class NewsletterMarkSeenView(APIView):
         return Response({"status": "ok"})
 
 
+class BarberWorkingDaysView(APIView):
+    """GET barbers/<id>/working-days/ — returns which days of week the barber works (0=Mon, 6=Sun)"""
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        try:
+            working = list(
+                BarberAvailability.objects.filter(barber_id=pk, is_working=True)
+                .values_list("day_of_week", flat=True)
+            )
+            return Response({"working_days": working})
+        except Exception:
+            # Default Mon-Sat if no availability set
+            return Response({"working_days": [0,1,2,3,4,5]})
+
+
 class GalleryView(APIView):
     """GET gallery/ — public list of active gallery photos
        POST gallery/ — barber uploads a photo (staff only)
@@ -5360,6 +5376,19 @@ class ClientRescheduleRequestView(APIView):
         logger.info(f"Reschedule request created id={rr.pk} for appt={appt.pk} by {request.user.username}")
         send_reschedule_request_email(rr_full)
         sms_reschedule_request(rr_full)
+
+        # Push notification to barber
+        try:
+            if appt.barber and appt.barber.user:
+                client_name = request.user.first_name or request.user.username
+                send_push_notification(
+                    user  = appt.barber.user,
+                    title = "↻ Reschedule Request",
+                    body  = f"{client_name} wants to reschedule their {appt.service.name} to {new_date} at {new_time[:5]}.",
+                    data  = {"type": "reschedule_request", "url": f"{FRONTEND_URL}/barber-dashboard"}
+                )
+        except Exception: pass
+
         return Response({"message": "Reschedule request sent to your barber.", "id": rr.id})
 
 
