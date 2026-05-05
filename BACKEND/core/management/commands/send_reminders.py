@@ -267,7 +267,7 @@ class Command(BaseCommand):
                             send_push_notification(
                                 user  = appt.user,
                                 title = "⏰ Appointment Tomorrow!",
-                                body  = f"{svc_name} with {barber_nm} — {appt_date} at {appt_time}. Don't forget!",
+                                body  = f"{svc_name} with {barber_nm} · {appt_date} at {appt_time} · 📍 910 W Parker Rd Bld 300, Plano TX",
                                 data  = {"type": "reminder_24hr", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt.id}
                             )
                         except Exception: pass
@@ -438,7 +438,7 @@ class Command(BaseCommand):
                             f"Hope {barber_nm} took good care of you today!\n\n"
                             f"Got 30 seconds? Leave a quick review — it means everything to us.\n\n"
                             f"{FRONTEND_URL}/review?appt={appt.id}\n\n"
-                            f"— Barbershopnearme\n  910 W Parker Rd Bld 300, Plano TX 75023"
+                            f"— Barbershopnearme\n  910 W Parker Rd Bld 300, Plano TX"
                         )
                         review_url = f"{FRONTEND_URL}/review?appt={appt.id}"
                         html = f"""
@@ -457,7 +457,7 @@ class Command(BaseCommand):
       Leave a Review →
     </a>
     <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:28px 0 0;">
-      Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX 75023
+      Barbershopnearme · 910 W Parker Rd Bld 300, Plano TX
     </p>
   </div>
 </div>

@@ -1797,7 +1797,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 send_push_notification(
                     user  = appt_full.user,
                     title = "✂️ Booking Confirmed!",
-                    body  = f"{appt_full.service.name} with {appt_full.barber.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')}",
+                    body  = f"{appt_full.service.name} with {appt_full.barber.name} on {str(appt_full.date)} at {appt_full.time.strftime('%I:%M %p')} · 910 W Parker Rd Bld 300, Plano TX",
                     data  = {"type": "booking_confirmed", "url": f"{FRONTEND_URL}/dashboard", "appointment_id": appt_full.id}
                 )
             except Exception: pass
@@ -5582,3 +5582,4 @@ class PublicReviewsView(APIView):
             } for r in qs])
         except Exception:
             return Response([])
+
