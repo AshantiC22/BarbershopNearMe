@@ -26,23 +26,28 @@ export default function Gallery() {
   const ref = useRef()
   useReveal(ref)
 
-  const [items,   setItems]   = useState(FALLBACK)
+  const [items,   setItems]   = useState([])
   const [active,  setActive]  = useState(0)
   const [hovered, setHovered] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Cache-bust so SW never serves stale gallery data
-    api.get(`gallery/?_t=${Date.now()}`)
+    // Always fetch fresh — never use SW cache for gallery
+    const controller = new AbortController()
+    fetch(`/api/gallery/?_t=${Date.now()}`, {
+      signal: controller.signal,
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+    })
+      .then(r => r.json())
       .then(d => {
         const list = Array.isArray(d) ? d : d.results || []
-        if (list.length > 0) {
-          setItems(list)
-          setActive(0)
-        }
+        setItems(list.length > 0 ? list : FALLBACK)
+        setActive(0)
       })
-      .catch(() => {}) // silent fail — show fallback
+      .catch(() => setItems(FALLBACK))
       .finally(() => setLoading(false))
+    return () => controller.abort()
   }, [])
 
   // Re-trigger reveals after loading

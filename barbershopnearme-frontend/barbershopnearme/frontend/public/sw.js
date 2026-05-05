@@ -4,7 +4,7 @@
    PWA users always get the latest version immediately.
    ============================================================ */
 
-const CACHE    = 'bsnm-v3'
+const CACHE    = 'bsnm-v4'
 const PRECACHE = ['/']
 
 /* ── Install: skip waiting immediately so new SW takes over right away ── */
@@ -35,13 +35,16 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = e.request.url
 
-  /* Always go to network for API, barber data, auth — never cache */
+  /* Always go to network — never cache dynamic data */
   if (url.includes('/api/') ||
       url.includes('barbers') ||
       url.includes('gallery') ||
       url.includes('newsletter') ||
       url.includes('push') ||
-      url.includes('token')) {
+      url.includes('token') ||
+      url.includes('review') ||
+      url.includes('appointments') ||
+      url.includes('services')) {
     return  // bypass SW completely — let browser handle
   }
 
