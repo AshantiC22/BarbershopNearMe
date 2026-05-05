@@ -12,13 +12,17 @@ export default defineConfig({
     target: 'esnext',
     minify: 'esbuild',
     cssMinify: true,
+    // Chunk splitting for faster loading on phones
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react','react-dom','react-router-dom'],
+          react:  ['react','react-dom','react-router-dom'],
+          vendor: ['axios'],
         }
       }
-    }
+    },
+    // Warn if chunks > 500kb
+    chunkSizeWarningLimit: 500,
   },
   resolve: {
     alias: {

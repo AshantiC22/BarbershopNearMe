@@ -245,7 +245,7 @@ function TimeSlotGrid({ slots, bookedSlots, selectedTime, onSelect, loading, tim
   )
 
   return (
-    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(90px,calc(25% - 6px)),1fr))',gap:8}}>
+    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(clamp(70px,12vw,90px),1fr))',gap:8}}>
       {slots.map((slot,si)=>{
         const display    = fmtTime(slot)
         const isSelected = selectedTime===slot

@@ -513,6 +513,19 @@ button{font-family:inherit;cursor:pointer;}
 }
 .reveal-left.in{opacity:1;transform:translate3d(0,0,0);}
 
+/* ─── ANIMATION PERFORMANCE ─── */
+/* Use transform3d to force GPU compositing on animated elements */
+.ticker-track, .hero-deco-pole-inner {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+/* Reduce motion for slower devices */
+@media(prefers-reduced-motion:reduce){
+  .ticker-track { animation: none !important; }
+  .hero-deco-pole-inner { animation: none !important; }
+}
+
 /* ─── KEYFRAMES ─── */
 @keyframes titleWobble{0%,100%{transform:rotate(-1.2deg) skewX(-.4deg);}50%{transform:rotate(1.2deg) skewX(.4deg);}}
 @keyframes floatBob{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-12px) rotate(3deg);}}
@@ -520,6 +533,7 @@ button{font-family:inherit;cursor:pointer;}
 @keyframes inkPulse{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}}
 @keyframes starSpin{to{transform:rotate(360deg);}}
 @keyframes wobble{0%,100%{transform:rotate(-2deg);}50%{transform:rotate(2deg);}}
+@keyframes rhFadeUp{from{opacity:0;transform:translate3d(0,16px,0);}to{opacity:1;transform:translate3d(0,0,0);}}
 @keyframes splat{0%{transform:scale(0) rotate(-8deg);opacity:0;}60%{transform:scale(1.1) rotate(4deg);opacity:1;}100%{transform:scale(1) rotate(0deg);opacity:1;}}
 
 /* ─── SCROLLBAR ─── */
@@ -531,6 +545,34 @@ button{font-family:inherit;cursor:pointer;}
 /* ─── PERFORMANCE CONTAIN ─── */
 .section{contain:layout style;}
 .svc-card,.barber-card{contain:layout style paint;}
+
+/* ─── TOUCH & PERFORMANCE ─── */
+/* Faster tap response on mobile */
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+/* Smooth scrolling on iOS */
+.container, main, section {
+  -webkit-overflow-scrolling: touch;
+}
+/* Prevent text selection on buttons */
+button { user-select: none; -webkit-user-select: none; }
+
+/* ─── TABLET (768px - 960px) ─── */
+@media(min-width:641px) and (max-width:960px){
+  .container{padding:0 28px;}
+  .section{padding:80px 0;}
+  .svc-grid{grid-template-columns:1fr 1fr!important;gap:18px!important;}
+  .barber-grid{grid-template-columns:1fr 1fr!important;gap:18px!important;}
+  .booking-grid{grid-template-columns:1fr!important;gap:48px!important;}
+  .hero-main{grid-template-columns:1fr!important;}
+  .hero-deco{display:none!important;}
+  .hero-inner{padding-top:52px;padding-bottom:52px;}
+  .hero-btns{gap:12px!important;}
+  .section-intro{gap:24px;}
+  .t-display{font-size:clamp(52px,10vw,100px)!important;}
+}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:960px){
