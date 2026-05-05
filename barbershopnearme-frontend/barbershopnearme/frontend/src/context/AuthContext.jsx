@@ -11,17 +11,18 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const { subscribe, unsubscribe } = usePushNotifications()
 
+  const [user,    setUser]    = useState(() => {
+    try { return JSON.parse(localStorage.getItem('bsnm_user')) } catch { return null }
+  })
+  const [loading, setLoading] = useState(false)
+  const [error,   setError]   = useState(null)
+
   // Listen for push subscribe request from notification banner
   useEffect(() => {
     const handler = () => subscribe().catch(() => {})
     window.addEventListener('request-push-subscribe', handler)
     return () => window.removeEventListener('request-push-subscribe', handler)
   }, [subscribe])
-  const [user,    setUser]    = useState(() => {
-    try { return JSON.parse(localStorage.getItem('bsnm_user')) } catch { return null }
-  })
-  const [loading, setLoading] = useState(false)
-  const [error,   setError]   = useState(null)
 
   // api.js interceptor reads bsnm_token on every request — no manual header needed here
 

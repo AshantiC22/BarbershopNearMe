@@ -62,8 +62,7 @@ function StatusBadge({ status }){
 }
 
 /* ─── ApptCard ────────────────────────────────────────────── */
-function ApptCard({ appt, onCancel, onRequestCancel, i }){
-  const navigate     = useNavigate()
+function ApptCard({ appt, onCancel, onRequestCancel, onReschedule, i }){
   const [cancelling, setCancelling] = useState(false)
   const [hovering,   setHovering]   = useState(false)
 
@@ -150,7 +149,7 @@ function ApptCard({ appt, onCancel, onRequestCancel, i }){
         {canCancel && !isPast && (
           <div style={{display:'flex',gap:10,marginTop:16,flexWrap:'wrap'}}>
             {/* reschedule */}
-            <button onClick={()=>navigate(`/reschedule?appt=${appt.id}`)}
+            <button onClick={()=>onReschedule(appt.id)}
               style={{flex:1,...rub,fontSize:13,letterSpacing:'.1em',textTransform:'uppercase',
                 background:'rgba(139,26,26,.1)', color:'rgba(232,223,200,.8)',
                 border:`2px solid rgba(139,26,26,.35)`, borderRadius:PILL,
@@ -213,6 +212,7 @@ function EmptyState({ tab, onBook }){
 export default function DashboardPage(){
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const handleReschedule = (id) => navigate(`/reschedule?appt=${id}`)
 
   // If barber is somehow on client dashboard, redirect them to barber dashboard
   useEffect(() => {
@@ -463,7 +463,7 @@ export default function DashboardPage(){
           <EmptyState tab={tab} onBook={()=>navigate('/portal')}/>
         ) : (
           <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(min(340px,100%),1fr))',gap:18,animation:'rhFadeUp .4s cubic-bezier(.16,1,.3,1) both'}}>
-            {shown.map((a,i)=><ApptCard key={a.id} appt={a} onCancel={onCancel} onRequestCancel={requestCancel} i={i}/>)}
+            {shown.map((a,i)=><ApptCard key={a.id} appt={a} onCancel={onCancel} onRequestCancel={requestCancel} onReschedule={handleReschedule} i={i}/>)}
           </div>
         )}
       </div>
