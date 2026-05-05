@@ -11,7 +11,8 @@ import BarberLoginPage    from '@/pages/BarberLoginPage.jsx'
 import BarberDashboardPage from '@/pages/BarberDashboardPage.jsx'
 import NewsletterPage     from '@/pages/NewsletterPage.jsx'
 import ReviewPage         from '@/pages/ReviewPage.jsx'
-import ReschedulePage     from '@/pages/ReschedulePage.jsx'
+import ReschedulePage           from '@/pages/ReschedulePage.jsx'
+import ClientReschedulePage    from '@/pages/ClientReschedulePage.jsx'
 import TermsPage          from '@/pages/TermsPage.jsx'
 import NotFound           from '@/pages/NotFound.jsx'
 import PushTestPage       from '@/pages/PushTestPage.jsx'
@@ -56,6 +57,7 @@ function AppInner() {
       <Route path="/newsletter"       element={<PageWrap><NewsletterPage /></PageWrap>} />
       <Route path="/review"           element={<PageWrap><ReviewPage /></PageWrap>} />
       <Route path="/reschedule"       element={<PageWrap><ReschedulePage /></PageWrap>} />
+      <Route path="/my-reschedule"    element={<PageWrap><ClientReschedulePage /></PageWrap>} />
       <Route path="/terms"            element={<PageWrap><TermsPage /></PageWrap>} />
       <Route path="/push-test"        element={<PageWrap><PushTestPage /></PageWrap>} />
       <Route path="*"                 element={<PageWrap><NotFound /></PageWrap>} />
