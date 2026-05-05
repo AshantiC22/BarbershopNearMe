@@ -1962,6 +1962,7 @@ export default function BarberDashboardPage() {
   const [barber, setBarber] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('schedule')
+  const [showPushBanner, setShowPushBanner] = useState(false)
   const [galleryPhotos, setGalleryPhotos] = useState([])
   const [galleryLoading, setGalleryLoading] = useState(false)
   const [galleryMsg, setGalleryMsg] = useState(null) // {text,type} rubber hose message
@@ -2202,15 +2203,16 @@ export default function BarberDashboardPage() {
     if (activeTab === 'availability') loadAvailability()
   }, [activeTab, loadAvailability])
 
-  // Auto-subscribe barber to push on dashboard load
+  // Auto-subscribe if already granted, else show banner after 2s
   useEffect(() => {
     if (!('Notification' in window) || !('serviceWorker' in navigator)) return
     if (Notification.permission === 'granted') {
       window.dispatchEvent(new CustomEvent('request-push-subscribe'))
     } else if (Notification.permission === 'default') {
-      Notification.requestPermission().then((p) => {
-        if (p === 'granted') window.dispatchEvent(new CustomEvent('request-push-subscribe'))
-      })
+      if (!localStorage.getItem('barber_push_dismissed')) {
+        const t = setTimeout(() => setShowPushBanner(true), 2000)
+        return () => clearTimeout(t)
+      }
     }
   }, [])
 
@@ -10267,6 +10269,125 @@ export default function BarberDashboardPage() {
           </div>
         )}
       </div>
+
+      {/* ── Push notification permission banner ── */}
+      {showPushBanner && (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 16,
+            left: 16,
+            right: 16,
+            zIndex: 9999,
+            background: '#0F0B09',
+            border: '3px solid #8B1A1A',
+            borderRadius: '12px 8px 12px 8px / 8px 12px 8px 12px',
+            padding: '16px',
+            boxShadow: '0 8px 40px rgba(0,0,0,.9)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12,
+            maxWidth: 420,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+            <span style={{ fontSize: 24, flexShrink: 0 }}>🔔</span>
+            <div style={{ flex: 1 }}>
+              <p
+                style={{
+                  fontFamily: "'Bebas Neue',sans-serif",
+                  fontSize: 16,
+                  color: '#E8DFC8',
+                  margin: '0 0 4px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '.06em',
+                }}
+              >
+                Enable Notifications
+              </p>
+              <p
+                style={{
+                  fontFamily: "'Courier Prime',monospace",
+                  fontSize: 12,
+                  color: 'rgba(232,223,200,.75)',
+                  margin: 0,
+                  lineHeight: 1.6,
+                }}
+              >
+                Get notified instantly when clients book, cancel, or reschedule — even when the app
+                is closed.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setShowPushBanner(false)
+                localStorage.setItem('barber_push_dismissed', '1')
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(232,223,200,.4)',
+                fontSize: 20,
+                cursor: 'pointer',
+                padding: 0,
+                flexShrink: 0,
+              }}
+            >
+              ×
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              onClick={async () => {
+                setShowPushBanner(false)
+                localStorage.setItem('barber_push_dismissed', '1')
+                try {
+                  const p = await Notification.requestPermission()
+                  if (p === 'granted')
+                    window.dispatchEvent(new CustomEvent('request-push-subscribe'))
+                } catch (e) {}
+              }}
+              style={{
+                flex: 1,
+                fontFamily: "'Boogaloo',cursive",
+                fontSize: 14,
+                letterSpacing: '.1em',
+                textTransform: 'uppercase',
+                background: '#8B1A1A',
+                color: '#E8DFC8',
+                border: '3px solid #E8DFC8',
+                borderRadius: '50px',
+                padding: '10px 16px',
+                cursor: 'pointer',
+                boxShadow: '3px 3px 0 #E8DFC8',
+                transition: 'all .2s',
+              }}
+            >
+              ✂ Allow Notifications
+            </button>
+            <button
+              onClick={() => {
+                setShowPushBanner(false)
+                localStorage.setItem('barber_push_dismissed', '1')
+              }}
+              style={{
+                fontFamily: "'Courier Prime',monospace",
+                fontSize: 11,
+                letterSpacing: '.15em',
+                textTransform: 'uppercase',
+                background: 'none',
+                color: 'rgba(232,223,200,.35)',
+                border: '2px solid rgba(232,223,200,.12)',
+                borderRadius: '50px',
+                padding: '10px 12px',
+                cursor: 'pointer',
+              }}
+            >
+              Not Now
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
