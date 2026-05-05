@@ -10,7 +10,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-zpte96z#tw3!kyh458p7b
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "barbersnearme.xyz", "www.barbersnearme.xyz", "barbershopnearme-production.up.railway.app", "89lif4qm.up.railway.app"]
 
 CSRF_TRUSTED_ORIGINS = [
     # Railway backend (all possible URL formats)
