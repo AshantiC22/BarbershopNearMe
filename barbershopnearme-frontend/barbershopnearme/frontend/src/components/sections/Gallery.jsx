@@ -32,9 +32,8 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Use relative /api/ so Vercel proxies to Railway on all devices
-    const API = import.meta.env.VITE_API_BASE_URL || "/api"
-    const url = `${API}/gallery/?_t=${Date.now()}`
+    // Use barbersnearme.xyz — Railway verified domain works on all devices
+    const url = `https://barbersnearme.xyz/api/gallery/?_t=${Date.now()}`
     fetch(url, {
       cache: 'no-store',
       headers: {
