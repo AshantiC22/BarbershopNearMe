@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { usePushNotifications } from '@/hooks/usePushNotifications.js'
 import Navbar    from '@/components/layout/Navbar.jsx'
 import Footer    from '@/components/layout/Footer.jsx'
 import Hero      from '@/components/sections/Hero.jsx'
@@ -10,6 +11,7 @@ import Reviews   from '@/components/sections/Reviews.jsx'
 import Location  from '@/components/sections/Location.jsx'
 
 function PushBanner() {
+  const { subscribe } = usePushNotifications()
   const [show, setShow] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
@@ -18,32 +20,25 @@ function PushBanner() {
     if (!('Notification' in window)) return
     if (Notification.permission === 'granted') return
     if (Notification.permission === 'denied') return
-    const wasDismissed = sessionStorage.getItem('push_banner_dismissed')
+    const wasDismissed = localStorage.getItem('push_banner_dismissed')
     if (wasDismissed) return
     // Show after 3 seconds
-    const t = setTimeout(() => setShow(true), 3000)
+    const t = setTimeout(() => setShow(true), 1500)
     return () => clearTimeout(t)
   }, [])
 
   const handleAllow = async () => {
     setShow(false)
-    sessionStorage.setItem('push_banner_dismissed', '1')
+    localStorage.setItem('push_banner_dismissed', '1')
     try {
-      const perm = await Notification.requestPermission()
-      if (perm === 'granted') {
-        // Subscribe via service worker
-        if ('serviceWorker' in navigator) {
-          const reg = await navigator.serviceWorker.ready
-          // trigger subscribe in usePushNotifications if SW ready
-          window.dispatchEvent(new Event('push-permission-granted'))
-        }
-      }
+      // This must happen from user gesture — button tap qualifies on iPhone
+      await subscribe()
     } catch(e) {}
   }
 
   const handleDismiss = () => {
     setShow(false)
-    sessionStorage.setItem('push_banner_dismissed', '1')
+    localStorage.setItem('push_banner_dismissed', '1')
   }
 
   if (!show || dismissed) return null

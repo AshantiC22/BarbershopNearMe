@@ -25,7 +25,13 @@ export function AuthProvider({ children }) {
     // token stored — api.js interceptor picks it up automatically
     setUser(userData)
     // subscribe to push notifications after login
-    setTimeout(() => subscribe().catch(() => {}), 2000)
+    // Only auto-subscribe if permission already granted
+    // If not, the PushBanner on home page will ask for permission
+    setTimeout(() => {
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        subscribe().catch(() => {})
+      }
+    }, 2000)
   }
 
   function clearSession() {

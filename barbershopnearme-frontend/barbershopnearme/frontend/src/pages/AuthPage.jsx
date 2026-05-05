@@ -381,9 +381,17 @@ export function SignupPage(){
   const location_s  = useLocation()
   const returnTo_s  = location_s.state?.returnTo || '/portal'
   const preBarber_s = location_s.state?.barber   || null
-  if(showTrans) return <PortalTransition onDone={() =>
-    navigate(returnTo_s, preBarber_s ? { state: { barber: preBarber_s } } : undefined)
-  }/>
+  if(showTrans) return <PortalTransition onDone={() => {
+    try {
+      const tok = localStorage.getItem('bsnm_token')
+      const payload = tok ? JSON.parse(atob(tok.split('.')[1])) : {}
+      const isBarber = !!payload.is_staff
+      const dest = isBarber ? '/barber-dashboard' : (returnTo_s || '/portal')
+      navigate(dest, preBarber_s && !isBarber ? { state: { barber: preBarber_s } } : undefined)
+    } catch {
+      navigate(returnTo_s || '/portal')
+    }
+  }}/>
 
   return (
     <AuthLayout
