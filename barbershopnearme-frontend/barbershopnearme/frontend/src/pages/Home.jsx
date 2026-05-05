@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { usePushNotifications } from '@/hooks/usePushNotifications.js'
 import Navbar    from '@/components/layout/Navbar.jsx'
 import Footer    from '@/components/layout/Footer.jsx'
 import Hero      from '@/components/sections/Hero.jsx'
@@ -11,7 +10,6 @@ import Reviews   from '@/components/sections/Reviews.jsx'
 import Location  from '@/components/sections/Location.jsx'
 
 function PushBanner() {
-  const { subscribe } = usePushNotifications()
   const [show, setShow] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
@@ -31,8 +29,11 @@ function PushBanner() {
     setShow(false)
     localStorage.setItem('push_banner_dismissed', '1')
     try {
-      // This must happen from user gesture — button tap qualifies on iPhone
-      await subscribe()
+      if (!('Notification' in window) || !('serviceWorker' in navigator)) return
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') return
+      // Just trigger it via a custom event
+      window.dispatchEvent(new CustomEvent('request-push-subscribe'))
     } catch(e) {}
   }
 

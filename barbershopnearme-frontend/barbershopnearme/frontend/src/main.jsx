@@ -9,7 +9,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .then(reg => {
         /* Check for updates every 60 seconds */
-        setInterval(() => reg.update(), 60 * 1000)
+        setInterval(() => reg.update(), 30 * 1000)  // check every 30s
       })
       .catch(err => console.warn('[SW] registration failed:', err))
 

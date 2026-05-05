@@ -4,7 +4,7 @@
    PWA users always get the latest version immediately.
    ============================================================ */
 
-const CACHE    = 'bsnm-v4'
+const CACHE    = 'bsnm-v5'
 const PRECACHE = ['/']
 
 /* ── Install: skip waiting immediately so new SW takes over right away ── */
