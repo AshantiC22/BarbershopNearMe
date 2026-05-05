@@ -32,12 +32,14 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Always fetch fresh — never use SW cache for gallery
-    const controller = new AbortController()
-    fetch(`/api/gallery/?_t=${Date.now()}`, {
-      signal: controller.signal,
+    // Use relative /api/ so Vercel proxies to Railway on all devices
+    const url = `/api/gallery/?_t=${Date.now()}`
+    fetch(url, {
       cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma':        'no-cache',
+      }
     })
       .then(r => r.json())
       .then(d => {
@@ -47,7 +49,6 @@ export default function Gallery() {
       })
       .catch(() => setItems(FALLBACK))
       .finally(() => setLoading(false))
-    return () => controller.abort()
   }, [])
 
   // Re-trigger reveals after loading
